@@ -2,26 +2,30 @@ package teammaize.android.com;
 
 public class dbEntry {
 
-	int level;
+	// private members
+	int id;
 	String qestion;
 	String ans1;
 	String ans2;
 	String ans3;
 	String ans4;
 	
+	
+	// public functions
+	// There are not "set" functions except for the constructor
+	// I do not think we need to modify an entry after it is made.
 	public dbEntry() {
 		
 	}
 	
 	public dbEntry(int lev, String quest, String a1, String a2, String a3, String a4) {
 		
-		this.level = lev;
+		this.id = lev;
 		this.qestion = quest;
 		this.ans1 = a1;
 		this.ans2 = a2;
 		this.ans3 = a3;
 		this.ans4 = a4;
-		
 	}
 	
 
@@ -46,7 +50,7 @@ public class dbEntry {
 		return this.ans4;
 	}
 	
-	public int getLev() {
-		return this.level;
+	public int getID() {
+		return this.id;
 	}
 }
