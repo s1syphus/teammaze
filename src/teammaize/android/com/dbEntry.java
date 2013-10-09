@@ -5,7 +5,7 @@ public class dbEntry {
 	// private members
 	int id;
 	String qestion;
-	String ans1;
+	String ansCorrect;
 	String ans2;
 	String ans3;
 	String ans4;
@@ -22,7 +22,7 @@ public class dbEntry {
 		
 		this.id = lev;
 		this.qestion = quest;
-		this.ans1 = a1;
+		this.ansCorrect = a1;
 		this.ans2 = a2;
 		this.ans3 = a3;
 		this.ans4 = a4;
@@ -34,8 +34,8 @@ public class dbEntry {
 		return this.qestion;
 	}
 	
-	public String getA1() {		
-		return this.ans1;
+	public String getACorrect() {		
+		return this.ansCorrect;
 	}
 
 	public String getA2() {
