@@ -3,12 +3,13 @@ package teammaize.android.com;
 public class dbEntry {
 
 	// private members
-	int id;
+	//int id;
 	String qestion;
 	String ansCorrect;
 	String ans2;
 	String ans3;
 	String ans4;
+	String subject;
 	
 	
 	// public functions
@@ -18,9 +19,9 @@ public class dbEntry {
 		
 	}
 	
-	public dbEntry(int lev, String quest, String a1, String a2, String a3, String a4) {
+	public dbEntry(String subject, String quest, String a1, String a2, String a3, String a4) {
 		
-		this.id = lev;
+		this.subject = subject;
 		this.qestion = quest;
 		this.ansCorrect = a1;
 		this.ans2 = a2;
@@ -50,7 +51,7 @@ public class dbEntry {
 		return this.ans4;
 	}
 	
-	public int getID() {
-		return this.id;
+	public String getSub() {
+		return this.subject;
 	}
 }
