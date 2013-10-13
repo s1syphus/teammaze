@@ -2,7 +2,9 @@ package teammaize.android.com;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.view.Menu;
+import android.view.View;
 
 public class MainActivity extends Activity {
 
@@ -19,5 +21,14 @@ public class MainActivity extends Activity {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
+    
+    public void mazeStart (View view) {
+    	//Initiating the maze
+    	Intent intent = new Intent(this, MazeGUI.class);
+    	//add extra to intent here
+    	startActivity(intent);
+    }
+    
+    
     
 }
