@@ -24,7 +24,8 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_settings=0x7f080000;
+        public static final int action_settings=0x7f080001;
+        public static final int question=0x7f080000;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
@@ -43,6 +44,7 @@ public final class R {
         public static final int choice_one=0x7f050004;
         public static final int choice_three=0x7f050006;
         public static final int choice_two=0x7f050005;
+        public static final int close=0x7f05000d;
         public static final int hello_world=0x7f050002;
         public static final int question_here=0x7f050008;
         public static final int roadblock_test=0x7f05000b;

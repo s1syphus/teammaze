@@ -4,7 +4,11 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.support.v4.app.NavUtils;
+import android.content.Intent;
+import android.widget.Button;
+import android.widget.TextView;
 
 public class RoadBlock extends Activity {
 
@@ -14,6 +18,21 @@ public class RoadBlock extends Activity {
 		setContentView(R.layout.activity_road_block);
 		// Show the Up button in the action bar.
 		setupActionBar();
+		
+		//get the passed in intent
+		Intent intent = getIntent();
+		
+		//get the question 
+		String q = intent.getStringExtra("question");	
+		
+		//instantiate textVIew variable to point to layout Question Text View
+		TextView textView = (TextView) findViewById(R.id.question);
+		textView.setText(q);
+		
+		
+		/*example code
+		View.findViewById() or Activity.findViewById(). [reference]
+		*/		
 	}
 
 	/**
@@ -48,5 +67,6 @@ public class RoadBlock extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	
 
 }
