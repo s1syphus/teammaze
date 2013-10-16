@@ -29,6 +29,7 @@ public class MazeGeneration {
 	private final char[][] maze;	//x by y maze
 	private final Vector<Pair<Integer, Integer>> maze_vector = new Vector<Pair<Integer, Integer>>();
 	
+	public final int[] user_coords = new int[2];
 	
 	public MazeGeneration(int x, int y){
 		this.x = x;
@@ -118,10 +119,7 @@ public class MazeGeneration {
 		
 	}
 	
-	
-	
-	
-	
+
 	public void output_to_file(){
 		//write array to file
 		
