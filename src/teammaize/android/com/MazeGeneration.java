@@ -1,6 +1,10 @@
 package teammaize.android.com;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Stack;
+import java.util.Vector;
 
 import android.util.Pair;
 
@@ -8,7 +12,6 @@ import android.util.Pair;
  * Maze Generation Algorithm
  * Robert Micatka
  * Uses recursive backtracking, outputs result to text file
- *
  */
 
 /*
@@ -24,6 +27,8 @@ public class MazeGeneration {
 	private final int x;	//rows
 	private final int y;	//columns
 	private final char[][] maze;	//x by y maze
+	private final Vector<Pair<Integer, Integer>> maze_vector = new Vector<Pair<Integer, Integer>>();
+	
 	
 	public MazeGeneration(int x, int y){
 		this.x = x;
@@ -45,17 +50,26 @@ public class MazeGeneration {
 		Stack<Pair<Integer, Integer>> maze_stack = new Stack<Pair<Integer, Integer>>();
 		Pair<Integer, Integer> cur_coords = null, neighbor = null;
 		maze_stack.push(Pair.create(cur_x, cur_y));
+		maze_vector.add(Pair.create(cur_x,cur_y));
+		List<Integer> dir_order = new ArrayList<Integer>();
+		dir_order.add(0); 
+		dir_order.add(1);
+		dir_order.add(2);
+		dir_order.add(3);
 		
 		//add in start soon
 		
 		while(!maze_stack.isEmpty()){
 			cur_coords = maze_stack.pop();
 			maze[cur_coords.first][cur_coords.second]  = '.';
-			//find neighbors
+			//examine neighbors
+			//randomize
+			Collections.shuffle(dir_order);
 			for(int i = 0; i < 4; i++){
-				neighbor = return_neighbor(cur_coords, i);
+				neighbor = return_neighbor(cur_coords, dir_order.get(i));
 				if(neighbor != null){
 					maze_stack.push(neighbor);
+					maze_vector.add(neighbor);
 				}
 			}
 		}
@@ -70,16 +84,46 @@ public class MazeGeneration {
 		
 		//check to make sure the potential neighbor hasn't been visited
 		//and is within the maze
+			
+		if(dir == 0){
+			//attempting to move north
+			if((cur_loc.second - 1) >= 0){
+				neighbor = Pair.create(cur_loc.first, cur_loc.second - 1);
+			}
+		}
+		if(dir == 1){
+			//attempting to move east
+			if((cur_loc.first + 1) < x){
+				neighbor = Pair.create(cur_loc.first + 1, cur_loc.second);
+			}
+		}
+		if(dir == 2){
+			//attempting to move south
+			if((cur_loc.second + 1) < y){
+				neighbor = Pair.create(cur_loc.first,  cur_loc.second + 1);
+			}
+		}
+		if(dir == 3){
+			//attempting to move west
+			if((cur_loc.first - 1) >= 0){
+				neighbor = Pair.create(cur_loc.first - 1,  cur_loc.second);
+			}
+		}
 		
+		if(!maze_vector.contains(neighbor)){
+			return neighbor;
+		}
 		
-		return neighbor;
+		return null;
 		
 	}
 	
 	
 	
+	
+	
 	public void output_to_file(){
-		
+		//write array to file
 		
 		
 	}

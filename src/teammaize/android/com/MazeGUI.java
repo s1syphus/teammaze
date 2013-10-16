@@ -4,11 +4,15 @@ import java.util.ArrayList;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View.OnClickListener;
 import android.support.v4.app.NavUtils;
 import android.content.Intent;
 import android.view.*;
+import android.widget.Button;
+import android.widget.GridLayout;
 
 
 public class MazeGUI extends Activity {
@@ -19,6 +23,24 @@ public class MazeGUI extends Activity {
 		setContentView(R.layout.activity_maze_gui);
 		// Show the Up button in the action bar.
 		setupActionBar();
+		
+		GridLayout directionGrid = (GridLayout)findViewById(R.id.movementGridLayout);
+		//button.Attributes.Add("OnClick", "button_Clicked");
+		
+		OnClickListener clickListener = new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Log.v("MazeActivity", "Button View");
+				Button buttonView = (Button)v;
+				System.out.println("Button " + buttonView.getText().toString() + " pressed");
+				//TODO: change logic to check the direction is valid
+				// update location in array 
+				// call method to update UI? (need to know which direction button was pressed)
+				//if (buttonView.getText().toString().isEmpty()) {
+					buttonView.setText("X");
+				//}
+			}
+		};
 	}
 
 	/**

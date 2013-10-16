@@ -13,12 +13,21 @@ public class QuestionParser {
 
 	ArrayList<dbEntry> QuestionList;
 	
+	public QuestionParser() {
+		QuestionList = new ArrayList<dbEntry>();
+	}
+	
 	// pass in a string with the location of the file to be uploaded
 	public void parseXML(String fileLocation) {
 		
 	    try {
 	    	 
 	    		File fXmlFile = new File(fileLocation);
+	    		
+	    		if (fXmlFile.exists() == false) {
+	    			throw new Exception();
+	    		}
+	    		
 	    		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 	    		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 	    		Document doc = dBuilder.parse(fXmlFile);
@@ -54,6 +63,7 @@ public class QuestionParser {
 	    		}
 	        } 
 	    	catch (Exception e) {
+	    	System.out.println("File Doesn't exsist in Underlying File system");
 	    	e.printStackTrace();
 	        }
 		

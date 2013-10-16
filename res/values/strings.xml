@@ -3,14 +3,25 @@
 
     <string name="app_name">TeamMaize</string>
     <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="start">Start</string>
+    
+    <string name="up">UP</string>
+    <string name="down">DOWN</string>
+    <string name="left">LEFT</string>
+    <string name="right">RIGHT</string>
+    <string name="up_button_des">Up Button</string>
+    <string name="down_button_des">Down Button</string>
+    <string name="left_button_des">Left Button</string>
+    <string name="right_button_des">Right Button</string>
+    
+    <string name="title_activity_maze">MazeActivity</string>
     <string name="title_activity_road_block">RoadBlock</string>
+    
     <string name="choice_one">Choice One</string>
     <string name="choice_two">Choice Two</string>
     <string name="choice_three">Choice Three</string>
     <string name="choice_four">Choice Four</string>
     <string name="question_here">Question Here</string>
-    <string name="test">Test</string>
     <string name="team_maize">Team Maize</string>
     <string name="roadblock_test">RB Test</string>
     <string name="title_activity_maze_gui">MazeGUI</string>

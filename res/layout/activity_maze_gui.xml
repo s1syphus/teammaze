@@ -9,19 +9,66 @@
     tools:context=".MazeGUI"
     android:orientation="vertical" >
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="roadBlockEnc"
+        android:text="@string/roadblock_test" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="closeActivity"
+        android:text="@string/close" />
+        
+    <GridLayout android:layout_height="fill_parent" 
+        android:layout_width="fill_parent" 
+        android:id="@+id/movementGridLayout" 
+        android:useDefaultMargins="false" 
+        android:rowCount="4" 
+        android:columnCount="3" 
+        android:clickable="false">
+        
+        <Button android:id="@+id/rightButton" 
+            android:text="@string/right" 
+            android:contentDescription="@string/right_button_des" 
+            android:layout_row="3" 
+            android:layout_gravity="right|top" 
+            android:layout_column="2"/>
+        
+        <Button android:id="@+id/upButton" 
+            android:text="@string/up" 
+            android:contentDescription="@string/up_button_des" 
+            android:layout_row="0" 
+            android:layout_gravity="center_horizontal|top" 
+            android:layout_column="2"/>
+        
+        <Button android:id="@+id/downButton" 
+            android:text="@string/down" 
+            android:contentDescription="@string/down_button_des" 
+            android:layout_row="3" 
+            android:layout_gravity="center" 
+            android:layout_column="2"/>
+        
+        <Button android:id="@+id/leftButton" 
+            android:text="@string/left" 
+            android:contentDescription="@string/left_button_des" 
+            android:layout_row="3" 
+            android:layout_gravity="left|top" 
+            android:layout_column="2"/>
+                
+    </GridLayout>
+    
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/team_maize" />
-    <Button
-        android:layout_width="wrap_content"
+
+    <GridView
+        android:id="@+id/mazeGridView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/roadblock_test"
-        android:onClick="roadBlockEnc" />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/close"
-        android:onClick="closeActivity" />
+        android:numColumns="3" >
+    </GridView>
     
 </LinearLayout>
