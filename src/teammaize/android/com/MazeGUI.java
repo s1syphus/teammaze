@@ -16,6 +16,11 @@ import android.widget.GridLayout;
 
 
 public class MazeGUI extends Activity {
+	
+	int m, n;
+	char[][] mazeTextArray;
+	
+	private MazeGeneration mazeObject;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +28,16 @@ public class MazeGUI extends Activity {
 		setContentView(R.layout.activity_maze_gui);
 		// Show the Up button in the action bar.
 		setupActionBar();
+		
+		mazeObject = new MazeGeneration(m, n);
+		
+		GridLayout mazeImage = (GridLayout)findViewById(R.id.mazeImage);
+		mazeImage.setColumnCount(m);
+		mazeImage.setRowCount(n);
+		//Preliminary parameter setting. To be done- cell creation methods in graphicsMapping,
+		//artwork for those cells, layering with Erika's movement UI. -Chris, 10/18/2013
+		
+		this.graphicsMapping(mazeTextArray);
 		
 		GridLayout directionGrid = (GridLayout)findViewById(R.id.movementGridLayout);
 		//button.Attributes.Add("OnClick", "button_Clicked");
@@ -76,8 +91,9 @@ public class MazeGUI extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 	
-	public void graphicsMapping()
+	public void graphicsMapping(char[][] textArray)
 	{
+		//Routine to be implemented -Chris
 	}
 	
 	public void roadBlockEnc (View view) {
