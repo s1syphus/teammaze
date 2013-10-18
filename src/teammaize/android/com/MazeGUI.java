@@ -76,6 +76,10 @@ public class MazeGUI extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 	
+	public void graphicsMapping()
+	{
+	}
+	
 	public void roadBlockEnc (View view) {
     	//Initiating the roadblock intent
     	Intent intent = new Intent(this, RoadBlock.class);
