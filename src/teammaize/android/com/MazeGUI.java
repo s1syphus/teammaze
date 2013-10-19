@@ -24,38 +24,113 @@ public class MazeGUI extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_maze_gui);
-		// Show the Up button in the action bar.
-		setupActionBar();
+		try {
+			super.onCreate(savedInstanceState);
+			setContentView(R.layout.activity_maze_gui);
+			// Show the Up button in the action bar.
+			setupActionBar();
 		
-		mazeObject = new MazeGeneration(m, n);
+			mazeObject = new MazeGeneration(m, n);
 		
-		GridLayout mazeImage = (GridLayout)findViewById(R.id.mazeImage);
-		mazeImage.setColumnCount(m);
-		mazeImage.setRowCount(n);
-		//Preliminary parameter setting. To be done- cell creation methods in graphicsMapping,
-		//artwork for those cells, layering with Erika's movement UI. -Chris, 10/18/2013
+			GridLayout mazeImage = (GridLayout)findViewById(R.id.mazeImage);
+			mazeImage.setColumnCount(m);
+			mazeImage.setRowCount(n);
+			//Preliminary parameter setting. To be done- cell creation methods in graphicsMapping,
+			//artwork for those cells, layering with Erika's movement UI. -Chris, 10/18/2013
 		
-		this.graphicsMapping(mazeTextArray);
+			this.graphicsMapping(mazeTextArray);
+		}
+		catch(Exception e) {
+			System.out.println("Exception thown in MazeActivity onCreate: " + e.toString());
+		}
 		
-		GridLayout directionGrid = (GridLayout)findViewById(R.id.movementGridLayout);
-		//button.Attributes.Add("OnClick", "button_Clicked");
+		try {
+			//GridLayout directionGrid = (GridLayout)findViewById(R.id.movementGridLayout);
+			Button upButton = (Button) findViewById(R.id.upButton);
+			Button downButton = (Button) findViewById(R.id.downButton);
+			Button leftButton = (Button) findViewById(R.id.leftButton);
+			Button rightButton = (Button) findViewById(R.id.rightButton);
+			//button.Attributes.Add("OnClick", "button_Clicked");
 		
-		OnClickListener clickListener = new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Log.v("MazeActivity", "Button View");
-				Button buttonView = (Button)v;
-				System.out.println("Button " + buttonView.getText().toString() + " pressed");
-				//TODO: change logic to check the direction is valid
-				// update location in array 
-				// call method to update UI? (need to know which direction button was pressed)
-				//if (buttonView.getText().toString().isEmpty()) {
-					buttonView.setText("X");
-				//}
-			}
-		};
+			//Initialize up button on click listener
+			upButton.setOnClickListener(new OnClickListener() {
+				public void onClick(View v) {
+					Log.v("MazeActivity", "Up Button View");
+					Button buttonView = (Button) v;
+					System.out.println(buttonView.getText().toString());
+					if(UserMovement.tryMoveUp(mazeObject)) {
+						System.out.println("Move succesful");
+					}
+					else {
+						System.out.println("Invalid move");
+					}
+					//TODO: change logic to check the direction is valid
+					// update location in array 
+					// call method to update UI?
+					buttonView.setText("U");
+				}
+			});
+			
+			// Initialize down button on click listener
+			downButton.setOnClickListener(new OnClickListener() {
+				public void onClick(View v) {
+					Log.v("MazeActivity", "Down Button View");
+					Button buttonView = (Button) v;
+					System.out.println(buttonView.getText().toString());
+					if(UserMovement.tryMoveDown(mazeObject)) {
+						System.out.println("Move succesful");
+					}
+					else {
+						System.out.println("Invalid move");
+					}
+					//TODO: change logic to check the direction is valid
+					// update location in array 
+					// call method to update UI?
+					buttonView.setText("D");				
+				}
+			});
+			
+			// Initialize left button on click listener
+			leftButton.setOnClickListener(new OnClickListener() {
+				public void onClick(View v) {
+					Log.v("MazeActivity", "Left Button View");
+					Button buttonView = (Button) v;
+					System.out.println(buttonView.getText().toString());
+					if(UserMovement.tryMoveLeft(mazeObject)) {
+						System.out.println("Move succesful");
+					}
+					else {
+						System.out.println("Invalid move");
+					}
+					//TODO: change logic to check the direction is valid
+					// update location in array 
+					// call method to update UI?
+					buttonView.setText("L");				
+				}
+			});
+			
+			// Initialize right button on click listener
+			rightButton.setOnClickListener(new OnClickListener() {
+				public void onClick(View v) {
+					Log.v("MazeActivity", "Right Button View");
+					Button buttonView = (Button) v;
+					System.out.println(buttonView.getText().toString());
+					if(UserMovement.tryMoveRight(mazeObject)) {
+						System.out.println("Move succesful");
+					}
+					else {
+						System.out.println("Invalid move");
+					}
+					//TODO: change logic to check the direction is valid
+					// update location in array 
+					// call method to update UI?
+					buttonView.setText("R");				
+				}
+			});
+		}
+		catch(Exception e) {
+			System.out.println("Exception thown in MazeActivity onCreate onClickListeners: " + e.toString());
+		}
 	}
 
 	/**

@@ -29,7 +29,8 @@ public class MazeGeneration {
 	private final char[][] maze;	//x by y maze
 	private final Vector<Pair<Integer, Integer>> maze_vector = new Vector<Pair<Integer, Integer>>();
 	
-	public final int[] user_coords = new int[2];
+	// current location of the player
+	public final Pair<Integer, Integer> user_coords = new Pair<Integer, Integer>(0, 0);
 	
 	public MazeGeneration(int x, int y){
 		this.x = x;
