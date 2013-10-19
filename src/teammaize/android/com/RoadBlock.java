@@ -68,5 +68,15 @@ public class RoadBlock extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 	
+	public void closeActivity(View view) {
+		//return to the previous activity with no results intent
+		Intent results = new Intent();
+		if(true) //if correct answer
+			results.putExtra("answer", "correct");
+		else
+			results.putExtra("answer", "incorrect");
+		setResult(Activity.RESULT_OK, results);		
+		finish();
+	}
 
 }
