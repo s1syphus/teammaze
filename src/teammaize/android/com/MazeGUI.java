@@ -1,7 +1,10 @@
 package teammaize.android.com;
 
+import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
@@ -10,6 +13,8 @@ import android.view.MenuItem;
 import android.view.View.OnClickListener;
 import android.support.v4.app.NavUtils;
 import android.content.Intent;
+import android.content.res.AssetManager;
+import android.content.res.XmlResourceParser;
 import android.view.*;
 import android.widget.Button;
 import android.widget.GridLayout;
@@ -29,7 +34,9 @@ public class MazeGUI extends Activity {
 		// Show the Up button in the action bar.
 		setupActionBar();
 		
-		mazeObject = new MazeGeneration(m, n);
+		
+		//mazeObject = new MazeGeneration(m, n);
+		
 		
 		GridLayout mazeImage = (GridLayout)findViewById(R.id.mazeImage);
 		mazeImage.setColumnCount(m);
@@ -56,6 +63,7 @@ public class MazeGUI extends Activity {
 				//}
 			}
 		};
+		
 	}
 
 	/**
@@ -99,10 +107,12 @@ public class MazeGUI extends Activity {
 	public void roadBlockEnc (View view) {
     	//Initiating the roadblock intent
     	Intent intent = new Intent(this, RoadBlock.class);
+    	String q = new String();
     	
+    	/* Not working, no way to get the path
     	//getting questions
     	String fileL = new String();
-    	fileL = "sample.xml";
+    	fileL = "android.resource://" + getPackageName() + "/"+R.raw.sample;
     	QuestionParser qParser = new QuestionParser();
     	qParser.parseXML(fileL);
     	
@@ -117,15 +127,103 @@ public class MazeGUI extends Activity {
     	q = dbE.getQ();    	
     	
     	//add questions class to intent here
+    	//intent.putExtra("question", q);
+    	 
+    	*/
+    	
+    	
+    	try { //This way works if we're using the assets folder
+    		
+    		String title = "Start Asset Method";
+    		String deco = "--------------------";    		
+    		System.out.println(deco + title + deco);
+    		
+    		//get the asset manager
+    		AssetManager assetM = getAssets();
+    		//String dirList[] = assetM.list(""); //files in list
+    		
+    		//open file
+    		InputStream inputStream = null;
+        	inputStream = assetM.open("sample.xml");
+        	
+        	//variable to store the contents of the file
+            byte[] reader = new byte[inputStream.available()];
+            
+            //reads the whole file
+            while (inputStream.read(reader) != -1) {}
+            
+            //stores the contents of the file into q
+    		String ex = new String(reader);
+    		System.out.println(ex);
+    		
+    		title = "End Assets Method";
+    		System.out.println(deco + title + deco);    		
+    		inputStream.close();
+    		
+    	} catch(Exception e) {
+    		System.out.println("ERMEGERD");
+    	}
+    	
+    	    	    	
+    	//Method if we use the resource raw method
+    	try {
+    		String title = "Start Resource Method";
+    		String deco = "--------------------";
+    		String decoLine = deco + title + deco;
+    		System.out.println(deco + title + deco);    		
+    		
+    		//opens the file into an input stream using the resource id
+    		InputStream inputStream = null;
+        	inputStream = getResources().openRawResource(R.raw.sample2);
+        	
+        	//variable to store the contents of the file
+            byte[] reader = new byte[inputStream.available()];
+            
+            //reads the whole file
+            while (inputStream.read(reader) != -1) {}
+            
+            //stores the contents of the file into q
+    		String ex = new String(reader);
+    		System.out.println(ex);
+    		
+    		title = "End Resource Method";
+    		System.out.println(deco + title + deco);
+    		inputStream.close();
+    		
+    	} catch(Exception e) {
+    		Log.e("Eerrrrrr.....", e.getMessage());
+    	}    	
+    	
+    	//Default
+    	q = "Question";
+    	
+    	//Adding q to the intent
     	intent.putExtra("question", q);
     	
     	//switch to the roadblock activity
-    	startActivity(intent);
+    	startActivityForResult(intent, 10); //10 is arbitrary, can be anything
     }
 	
-	public void closeActivity(View view){
+	//Closes activity
+	public void closeActivity(View view) {
 		//return to the previous activity with no results intent
 		finish();
 	}
 
+	//Handles the results from the roadblock
+	protected void onActivityResult(int requestCode, int resultCode,
+	          Intent data) {
+		//Request code 10 is arbitrary
+		if (requestCode == 10){
+			if (resultCode == RESULT_OK){
+				//Doing something with the value
+	            String ans = data.getStringExtra("answer"); 
+	            
+	            //Printing result to console
+	            System.out.println(ans);
+			}
+		}
+	}
 }
+
+

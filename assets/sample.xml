@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<AllQuestions>
+	<Entry subject="math">
+		<Question>What is the Capital of the USA?</Question>
+		<ansCorrect>Washington DC</ansCorrect>
+		<ans2>Alabama</ans2>
+		<ans3>California</ans3>
+		<ans4>Michigan</ans4>
+	</Entry>
+	<Entry subject="history">
+		<Question>5+4 = ?</Question>
+		<ansCorrect>9</ansCorrect>
+		<ans2>12</ans2>
+		<ans3>13</ans3>
+		<ans4>7</ans4>
+	</Entry>
+</AllQuestions>

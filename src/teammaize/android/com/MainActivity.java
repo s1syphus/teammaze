@@ -28,7 +28,7 @@ public class MainActivity extends Activity {
     		return true;
     	}
     	catch(Exception e) {
-    		System.out.println("Exception thown in MainActivity onCreateOptionsMenu: " + e.toString());
+    		System.out.println("Exception thrown in MainActivity onCreateOptionsMenu: " + e.toString());
     		return false;
     	}
     }
