@@ -17,6 +17,7 @@ public class MainActivity extends Activity {
     		super.onCreate(savedInstanceState);
     		setContentView(R.layout.activity_main);
     	
+    		Log.v("MainActivity", "Initialize start button click events");
     		Button startButton = (Button) findViewById(R.id.upButton);
     		startButton.setOnClickListener(new OnClickListener() {
     			public void onClick(View v) {
@@ -25,7 +26,7 @@ public class MainActivity extends Activity {
     		});
     	}
     	catch (Exception e) {
-    		System.out.println("Exception thown in MainActivity onCreate: " + e.toString());
+    		Log.v("MainActivity", "Exception thown in onCreate: " + e.toString());
     	}
     }
 
@@ -38,7 +39,7 @@ public class MainActivity extends Activity {
     		return true;
     	}
     	catch(Exception e) {
-    		System.out.println("Exception thrown in MainActivity onCreateOptionsMenu: " + e.toString());
+    		Log.v("MainActivity", "Exception thrown onCreateOptionsMenu: " + e.toString());
     		return false;
     	}
     }
@@ -51,7 +52,7 @@ public class MainActivity extends Activity {
     		startActivity(intent);
     	}
     	catch(Exception e) {
-    		System.out.println("Exception thown in MainActivity mazeStart: " + e.toString());
+    		Log.v("MainActivity", "Exception thown in mazeStart: " + e.toString());
     	}
     }
     

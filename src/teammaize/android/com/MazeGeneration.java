@@ -22,15 +22,17 @@ import android.util.Pair;
  * 3 - West
  */
 
-
 public class MazeGeneration {
+	//public final char start = '.';
+	
 	private final int x;	//rows
 	private final int y;	//columns
-	private final char[][] maze;	//x by y maze
 	private final Vector<Pair<Integer, Integer>> maze_vector = new Vector<Pair<Integer, Integer>>();
 	
+	public final char[][] maze;	//x by y maze
+	
 	// current location of the player
-	public final Pair<Integer, Integer> user_coords = new Pair<Integer, Integer>(0, 0);
+	public Pair<Integer, Integer> user_coords = new Pair<Integer, Integer>(0, 0);
 	
 	public MazeGeneration(int x, int y){
 		this.x = x;
