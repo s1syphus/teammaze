@@ -28,12 +28,15 @@ public class MazeGeneration {
 	private final int x;	//rows
 	private final int y;	//columns
 <<<<<<< HEAD
+<<<<<<< HEAD
 	private final Vector<Pair<Integer, Integer>> maze_vector = new Vector<Pair<Integer, Integer>>();
 =======
 	private final char[][] maze;	//x by y maze
 	
 >>>>>>> a25166f03651bd7702d566f6de8bd61c3dc23e98
 	
+=======
+>>>>>>> a81744f2422e6436b19d3ffbcae68a8e272f75d0
 	public final char[][] maze;	//x by y maze
 	
 	// current location of the player
@@ -56,6 +59,7 @@ public class MazeGeneration {
 	}
 	
 	public void generate(int cur_x, int cur_y){
+		
 		Stack<Pair<Integer, Integer>> maze_stack = new Stack<Pair<Integer, Integer>>();
 		Vector<Pair<Integer, Integer>> maze_vector = new Vector<Pair<Integer, Integer>>();
 		Pair<Integer, Integer> cur_coords = null, neighbor = null;
@@ -66,7 +70,6 @@ public class MazeGeneration {
 		dir_order.add(1);
 		dir_order.add(2);
 		dir_order.add(3);
-		
 		
 		while(!maze_stack.isEmpty()){
 			cur_coords = maze_stack.pop();
@@ -125,18 +128,48 @@ public class MazeGeneration {
 		
 	}
 	
-
-	public void output_to_file(){
+	public Pair<Integer, Integer> return_neighbor(Pair<Integer, Integer> cur_loc, int dir){
 		
+		Pair<Integer, Integer> neighbor = null;
 		
+		//check to make sure the potential neighbor hasn't been visited
+		//and is within the maze
+			
+		if(dir == 0){
+			//attempting to move north
+			if((cur_loc.second - 1) >= 0){
+				neighbor = Pair.create(cur_loc.first, cur_loc.second - 1);
+			}
+		}
+		if(dir == 1){
+			//attempting to move east
+			if((cur_loc.first + 1) < x){
+				neighbor = Pair.create(cur_loc.first + 1, cur_loc.second);
+			}
+		}
+		if(dir == 2){
+			//attempting to move south
+			if((cur_loc.second + 1) < y){
+				neighbor = Pair.create(cur_loc.first,  cur_loc.second + 1);
+			}
+		}
+		if(dir == 3){
+			//attempting to move west
+			if((cur_loc.first - 1) >= 0){
+				neighbor = Pair.create(cur_loc.first - 1,  cur_loc.second);
+			}
+		}
+		
+		return null;
 		
 	}
+	
 	
 	public void generate_roadblock(int start_x, int start_y){
 	
 		/*
 		 * Solve the maze
-		 * Use solved path and place roadblocks every 5 blocks (arbitrary)
+		 * Use solved path and place road blocks every 5 blocks (arbitrary)
 		 * Also add the start location in the array
 		 */
 		
@@ -156,6 +189,7 @@ public class MazeGeneration {
 	}
 	
 	public Stack<Pair<Integer, Integer>> solve_maze(int start_x, int start_y){
+		
 		/*
 		 * Solving the maze using DFS (potentially change to A* later if speed/efficiency is needed)
 		 */
@@ -163,10 +197,8 @@ public class MazeGeneration {
 		Stack<Pair<Integer, Integer>> sol_stack = new Stack<Pair<Integer, Integer>>();
 		Vector<Pair<Integer, Integer>> sol_vector = new Vector<Pair<Integer, Integer>>();
 		Pair<Integer, Integer> cur_coords = null, next_coords = null;
-		
 		sol_stack.push(Pair.create(start_x, start_y));
 		sol_vector.add(Pair.create(start_x, start_y));
-		
 		
 		while(!sol_stack.isEmpty()){
 			cur_coords = sol_stack.pop();
@@ -189,10 +221,7 @@ public class MazeGeneration {
 		
 		return null;
 		
-		
 	}
-	
-	
 	
 	
 }
