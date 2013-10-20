@@ -17,7 +17,7 @@
 
     <GridLayout
         android:id="@+id/mazeImage"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
     </GridLayout>
 
@@ -70,11 +70,5 @@
         android:layout_height="wrap_content"
         android:text="@string/team_maize" />
 
-    <GridView
-        android:id="@+id/mazeGridView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:numColumns="3" >
-    </GridView>
     
 </LinearLayout>

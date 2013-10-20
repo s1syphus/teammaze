@@ -23,9 +23,8 @@ import android.widget.ImageView;
 public class MazeGUI extends Activity {
 	
 	//These are only sample values.
-	int m = 20, n = 20;
+	int m = 10, n = 10;
 	
-	private char[][] mazeTextArray;
 	private MazeGeneration mazeObject;
 	private GridLayout mazeImage;
 
@@ -36,28 +35,21 @@ public class MazeGUI extends Activity {
 			setContentView(R.layout.activity_maze_gui);
 			// Show the Up button in the action bar.
 			setupActionBar();
-<<<<<<< HEAD
 
 			mazeObject = new MazeGeneration(m, n);
-		
-		//mazeObject = new MazeGeneration(m, n);
-		
-		
-			GridLayout mazeImage = (GridLayout)findViewById(R.id.mazeImage);
-=======
-		
-			mazeObject = new MazeGeneration(m, n);
+			//char[][] testArray = new char[5][];
+			
+			//testArray[0] = {'X', 'X', 'X', 'X', 'X'}; 
 		
 			mazeImage = (GridLayout)findViewById(R.id.mazeImage);
->>>>>>> a25166f03651bd7702d566f6de8bd61c3dc23e98
 			mazeImage.setColumnCount(m);
 			mazeImage.setRowCount(n);
 			mazeImage.setColumnOrderPreserved(true);
 			mazeImage.setRowOrderPreserved(true);
 			//Preliminary parameter setting. To be done- cell creation methods in graphicsMapping,
 			//artwork for those cells, layering with Erika's movement UI. -Chris, 10/18/2013
-		
-			//this.graphicsMapping(mazeTextArray);
+			 
+			this.graphicsMapping(mazeObject.maze);
 		}
 		catch(Exception e) {
 			Log.v("MazeGUI", "Exception thown in onCreate: " + e.toString());
@@ -146,8 +138,6 @@ public class MazeGUI extends Activity {
 		catch(Exception e) {
 			Log.v("MazeGUI", "Exception thown in onCreate onClickListeners: " + e.toString());
 		}
-<<<<<<< HEAD
-=======
 		
 		OnClickListener clickListener = new OnClickListener() {
 			@Override
@@ -163,7 +153,6 @@ public class MazeGUI extends Activity {
 				//}
 			}
 		};
->>>>>>> a25166f03651bd7702d566f6de8bd61c3dc23e98
 	}
 
 	/**
@@ -201,34 +190,39 @@ public class MazeGUI extends Activity {
 	
 	public void graphicsMapping(char[][] textArray)
 	{	
-		for (int i = 0; i < textArray.length; i++)
+		for (int i = 0; i < m; i++)
 		{
-			for(int j = 0; j < textArray[i].length; i++)
+			for(int j = 0; j < n; i++)
 			{
 				if(textArray[i][j] == 'X')
 				{
-					ImageView WallGraphic;
-					//mazeImage.addView(WallGraphic);
+					ImageView WallGraphic = new ImageView(this);
+					WallGraphic.setImageResource(R.drawable.wall_graphic);
+					mazeImage.addView(WallGraphic);
 				}
 				else if(textArray[i][j] == '.')
 				{
-					ImageView PathGraphic;
-					//mazeImage.addView(PathGraphic);
+					ImageView PathGraphic = new ImageView(this);
+					PathGraphic.setImageResource(R.drawable.path_graphic);
+					mazeImage.addView(PathGraphic);
 				}
 				else if(textArray[i][j] == 'R')
 				{
-					ImageView RoadblockGraphic;
-					//mazeImage.addView(RoadblockGraphic);
+					ImageView RoadblockGraphic = new ImageView(this);
+					RoadblockGraphic.setImageResource(R.drawable.roadblock_graphic);
+					mazeImage.addView(RoadblockGraphic);
 				}
 				else if(textArray[i][j] == 'S')
 				{
-					ImageView StartGraphic;
-					//mazeImage.addView(StartGraphic);
+					ImageView StartGraphic = new ImageView(this);
+					StartGraphic.setImageResource(R.drawable.start_graphic);
+					mazeImage.addView(StartGraphic);
 				}
 				else if(textArray[i][j] == 'G')
 				{
-					ImageView GoalGraphic;
-					//mazeImage.addView(GoalGraphic);
+					ImageView GoalGraphic = new ImageView(this);
+					GoalGraphic.setImageResource(R.drawable.goal_graphic);
+					mazeImage.addView(GoalGraphic);
 				}
 			}
 		}
