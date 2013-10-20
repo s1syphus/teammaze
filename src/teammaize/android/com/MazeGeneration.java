@@ -23,12 +23,10 @@ import android.util.Pair;
  */
 
 public class MazeGeneration {
-	//public final char start = '.';
 	
 	private final int x;	//rows
 	private final int y;	//columns
-	//private final Vector<Pair<Integer, Integer>> maze_vector = new Vector<Pair<Integer, Integer>>();
-	private final char[][] maze;	//x by y maze
+	public final char[][] maze;	//x by y maze
 	
 	// current location of the player
 	public Pair<Integer, Integer> user_coords = new Pair<Integer, Integer>(0, 0);
@@ -37,8 +35,8 @@ public class MazeGeneration {
 		this.x = x;
 		this.y = y;
 		maze = new char[this.x][this.y];	//create the maze array
-		initialize_maze();							//initial all locations to walls (X)
-		generate(0,0);						//start the generation at (0,0) or some other start location
+		initialize_maze();			//initial all locations to walls (X)
+		generate(0,0);				//start the generation at (0,0) or some other start location
 	}
 	
 	public void initialize_maze(){
@@ -118,7 +116,50 @@ public class MazeGeneration {
 		return null;
 		
 	}
+
+
+
+	public Pair<Integer, Integer> return_neighbor(Pair<Integer, Integer> cur_loc, int dir){
+
+		/*
+		 *	Overloaded return_neighbor function to check for valid moves
+		 */
+
+		Pair<Integer, Integer> neighbor = null;
+		
+		//check to make sure the potential neighbor hasn't been visited
+		//and is within the maze
+			
+		if(dir == 0){
+			//attempting to move north
+			if((cur_loc.second - 1) >= 0){
+				neighbor = Pair.create(cur_loc.first, cur_loc.second - 1);
+			}
+		}
+		if(dir == 1){
+			//attempting to move east
+			if((cur_loc.first + 1) < x){
+				neighbor = Pair.create(cur_loc.first + 1, cur_loc.second);
+			}
+		}
+		if(dir == 2){
+			//attempting to move south
+			if((cur_loc.second + 1) < y){
+				neighbor = Pair.create(cur_loc.first,  cur_loc.second + 1);
+			}
+		}
+		if(dir == 3){
+			//attempting to move west
+			if((cur_loc.first - 1) >= 0){
+				neighbor = Pair.create(cur_loc.first - 1,  cur_loc.second);
+			}
+		}
+		
+		return neighbor;
+	}
 	
+
+
 	public Pair<Integer, Integer> return_neighbor(Pair<Integer, Integer> cur_loc, int dir){
 		
 		Pair<Integer, Integer> neighbor = null;
@@ -152,30 +193,6 @@ public class MazeGeneration {
 		}
 		
 		return null;
-		
-	}
-	
-	
-	public void generate_roadblock(int start_x, int start_y){
-	
-		/*
-		 * Solve the maze
-		 * Use solved path and place road blocks every 5 blocks (arbitrary)
-		 * Also add the start location in the array
-		 */
-		
-		Stack<Pair<Integer, Integer>> solution = solve_maze(start_x,start_y);
-		Pair<Integer, Integer> cur_loc = null;
-		int counter = 0;
-		
-		while(!solution.isEmpty()){
-				counter++;
-				cur_loc = solution.pop();
-				if((counter % 5) == 0){
-					maze[cur_loc.first][cur_loc.second] = 'R';
-				}
-		}
-				
 		
 	}
 	
@@ -213,7 +230,29 @@ public class MazeGeneration {
 		return null;
 		
 	}
+
+	public void generate_roadblock(int start_x, int start_y){
 	
+		/*
+		 * Solve the maze
+		 * Use solved path and place road blocks every 5 blocks (arbitrary)
+		 * Also add the start location in the array
+		 */
+		
+		Stack<Pair<Integer, Integer>> solution = solve_maze(start_x,start_y);
+		Pair<Integer, Integer> cur_loc = null;
+		int counter = 0;
+		
+		while(!solution.isEmpty()){
+				counter++;
+				cur_loc = solution.pop();
+				if((counter % 5) == 0){
+					maze[cur_loc.first][cur_loc.second] = 'R';
+				}
+		}
+				
+		
+	}
 	
 }
 
