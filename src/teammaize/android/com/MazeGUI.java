@@ -37,9 +37,6 @@ public class MazeGUI extends Activity {
 			setupActionBar();
 
 			mazeObject = new MazeGeneration(m, n);
-			//char[][] testArray = new char[5][];
-			
-			//testArray[0] = {'X', 'X', 'X', 'X', 'X'}; 
 		
 			mazeImage = (GridLayout)findViewById(R.id.mazeImage);
 			mazeImage.setColumnCount(m);
@@ -192,7 +189,7 @@ public class MazeGUI extends Activity {
 	{	
 		for (int i = 0; i < m; i++)
 		{
-			for(int j = 0; j < n; i++)
+			for(int j = 0; j < n; j++)
 			{
 				if(textArray[i][j] == 'X')
 				{

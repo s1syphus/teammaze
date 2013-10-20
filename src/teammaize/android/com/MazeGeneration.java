@@ -26,11 +26,11 @@ public class MazeGeneration {
 	
 	private final int x;	//rows
 	private final int y;	//columns
-<<<<<<< HEAD
+//<<<<<<< HEAD
 	private final Vector<Pair<Integer, Integer>> maze_vector = new Vector<Pair<Integer, Integer>>();
 
-=======
->>>>>>> 00df3eaf1027103e2555315e4bfa3ed5eb8c5e73
+//=======
+//>>>>>>> 00df3eaf1027103e2555315e4bfa3ed5eb8c5e73
 	public final char[][] maze;	//x by y maze
 	
 	// current location of the player
@@ -40,7 +40,7 @@ public class MazeGeneration {
 		this.x = x;
 		this.y = y;
 		maze = new char[this.x][this.y];	//create the maze array
-	//	initialize_maze();			//initial all locations to walls (X)
+		initialize_maze();			//initial all locations to walls (X)
 	//	generate(0,0);				//start the generation at (0,0) or some other start location
 		
 		/*
