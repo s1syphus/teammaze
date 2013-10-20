@@ -18,13 +18,16 @@ import android.content.res.XmlResourceParser;
 import android.view.*;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.ImageView;
 
 public class MazeGUI extends Activity {
 	
-	int m, n;
-	char[][] mazeTextArray;
+	//These are only sample values.
+	int m = 20, n = 20;
 	
+	private char[][] mazeTextArray;
 	private MazeGeneration mazeObject;
+	private GridLayout mazeImage;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +36,7 @@ public class MazeGUI extends Activity {
 			setContentView(R.layout.activity_maze_gui);
 			// Show the Up button in the action bar.
 			setupActionBar();
+<<<<<<< HEAD
 
 			mazeObject = new MazeGeneration(m, n);
 		
@@ -40,12 +44,20 @@ public class MazeGUI extends Activity {
 		
 		
 			GridLayout mazeImage = (GridLayout)findViewById(R.id.mazeImage);
+=======
+		
+			mazeObject = new MazeGeneration(m, n);
+		
+			mazeImage = (GridLayout)findViewById(R.id.mazeImage);
+>>>>>>> a25166f03651bd7702d566f6de8bd61c3dc23e98
 			mazeImage.setColumnCount(m);
 			mazeImage.setRowCount(n);
+			mazeImage.setColumnOrderPreserved(true);
+			mazeImage.setRowOrderPreserved(true);
 			//Preliminary parameter setting. To be done- cell creation methods in graphicsMapping,
 			//artwork for those cells, layering with Erika's movement UI. -Chris, 10/18/2013
 		
-			this.graphicsMapping(mazeTextArray);
+			//this.graphicsMapping(mazeTextArray);
 		}
 		catch(Exception e) {
 			Log.v("MazeGUI", "Exception thown in onCreate: " + e.toString());
@@ -134,6 +146,24 @@ public class MazeGUI extends Activity {
 		catch(Exception e) {
 			Log.v("MazeGUI", "Exception thown in onCreate onClickListeners: " + e.toString());
 		}
+<<<<<<< HEAD
+=======
+		
+		OnClickListener clickListener = new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Log.v("MazeActivity", "Button View");
+				Button buttonView = (Button)v;
+				System.out.println("Button " + buttonView.getText().toString() + " pressed");
+				//TODO: change logic to check the direction is valid
+				// update location in array 
+				// call method to update UI? (need to know which direction button was pressed)
+				//if (buttonView.getText().toString().isEmpty()) {
+					buttonView.setText("X");
+				//}
+			}
+		};
+>>>>>>> a25166f03651bd7702d566f6de8bd61c3dc23e98
 	}
 
 	/**
@@ -170,8 +200,38 @@ public class MazeGUI extends Activity {
 	}
 	
 	public void graphicsMapping(char[][] textArray)
-	{
-		//Routine to be implemented -Chris
+	{	
+		for (int i = 0; i < textArray.length; i++)
+		{
+			for(int j = 0; j < textArray[i].length; i++)
+			{
+				if(textArray[i][j] == 'X')
+				{
+					ImageView WallGraphic;
+					//mazeImage.addView(WallGraphic);
+				}
+				else if(textArray[i][j] == '.')
+				{
+					ImageView PathGraphic;
+					//mazeImage.addView(PathGraphic);
+				}
+				else if(textArray[i][j] == 'R')
+				{
+					ImageView RoadblockGraphic;
+					//mazeImage.addView(RoadblockGraphic);
+				}
+				else if(textArray[i][j] == 'S')
+				{
+					ImageView StartGraphic;
+					//mazeImage.addView(StartGraphic);
+				}
+				else if(textArray[i][j] == 'G')
+				{
+					ImageView GoalGraphic;
+					//mazeImage.addView(GoalGraphic);
+				}
+			}
+		}
 	}
 	
 	public void roadBlockEnc (View view) {
