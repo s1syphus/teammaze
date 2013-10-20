@@ -1,0 +1,12 @@
+We should go through the code (after we restructure it according to the state diagram)
+and optimize it according to the android standards at:
+
+http://developer.android.com/training/articles/perf-tips.html
+
+Obviously this is not a top priority but I was having some performance issues with the
+maze solver. Part of this could be algorithmic (which I'm solving) but it would be
+a good idea to at least keep these tips in mind for the whole project
+
+
+-Mike
+
