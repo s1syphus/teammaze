@@ -7,6 +7,12 @@ import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 
+/**
+ * User movement through the maze
+ * Erika Jansen
+ * Uses MazeGeneration, MazeGUI, starts new intents when appropriate
+ */
+
 public class UserMovement {
 	
 	private static MazeGUI maze_gui;
@@ -82,65 +88,69 @@ public class UserMovement {
 		return validMove;
 	}
 	
-	public static void movePlayerNorth(MazeGeneration maze_obj, View v, MazeGUI mazeGui) {
+	public static MazeGeneration movePlayerNorth(MazeGeneration maze_obj, View v, MazeGUI mazeGui) {
 		mazeObj = maze_obj;
 		view = v;
 		maze_gui = mazeGui;
 		
 		try {
-			Pair<Integer, Integer> nextCoords = mazeObj.return_neighbor(mazeObj.user_coords, 0);
-			movePlayer(nextCoords);
+			Pair<Integer, Integer> nextCoords = mazeObj.return_neighbor(mazeObj.user_coords, Directions.NORTH.ordinal());
+			return movePlayer(nextCoords);
 		}
 		catch(Exception e) {
 			Log.v("UserMovement", "Exception caught in movePlayerNorth. " + e.toString());
+			return null;
 		}
 		
 	}
 	
-	public static void movePlayerEast(MazeGeneration maze_obj, View v, MazeGUI mazeGui) {
+	public static MazeGeneration movePlayerEast(MazeGeneration maze_obj, View v, MazeGUI mazeGui) {
 		mazeObj = maze_obj;
 		view = v;
 		maze_gui = mazeGui;
 		
 		try {
-			Pair<Integer, Integer> nextCoords = mazeObj.return_neighbor(mazeObj.user_coords, 1);
-			movePlayer(nextCoords);
+			Pair<Integer, Integer> nextCoords = mazeObj.return_neighbor(mazeObj.user_coords, Directions.EAST.ordinal());
+			return movePlayer(nextCoords);
 		}
 		catch(Exception e) {
 			Log.v("UserMovement", "Exception caught in movePlayerEast. " + e.toString());
+			return null;
 		}
 		
 	}
 	
-	public static void movePlayerSouth(MazeGeneration maze_obj, View v, MazeGUI mazeGui) {
+	public static MazeGeneration movePlayerSouth(MazeGeneration maze_obj, View v, MazeGUI mazeGui) {
 		mazeObj = maze_obj;
 		view = v;
 		maze_gui = mazeGui;
 		
 		try {
-			Pair<Integer, Integer> nextCoords = mazeObj.return_neighbor(mazeObj.user_coords, 2);
-			movePlayer(nextCoords);
+			Pair<Integer, Integer> nextCoords = mazeObj.return_neighbor(mazeObj.user_coords, Directions.SOUTH.ordinal());
+			return movePlayer(nextCoords);
 		}
 		catch(Exception e) {
 			Log.v("UserMovement", "Exception caught in movePlayerSouth. " + e.toString());
+			return null;
 		}
 	}
 	
-	public static void movePlayerWest(MazeGeneration maze_obj, View v, MazeGUI mazeGui) {
+	public static MazeGeneration movePlayerWest(MazeGeneration maze_obj, View v, MazeGUI mazeGui) {
 		mazeObj = maze_obj;
 		view = v;
 		maze_gui = mazeGui;
 		
 		try {
-			Pair<Integer, Integer> nextCoords = mazeObj.return_neighbor(mazeObj.user_coords, 3);
-			movePlayer(nextCoords);
+			Pair<Integer, Integer> nextCoords = mazeObj.return_neighbor(mazeObj.user_coords, Directions.WEST.ordinal());
+			return movePlayer(nextCoords);
 		}
 		catch(Exception e) {
 			Log.v("UserMovement", "Exception caught in movePlayerWest. " + e.toString());
+			return null;
 		}
 	}
 	
-	private static void movePlayer(Pair<Integer, Integer> nextCoords) {
+	private static MazeGeneration movePlayer(Pair<Integer, Integer> nextCoords) {
 		char nextSpace = mazeObj.maze[nextCoords.first][nextCoords.second];
 		if(nextSpace == MazeSpaces.PATH.SpaceChar()) {
 			//move user (update user_coords to nextCoords)
@@ -158,6 +168,7 @@ public class UserMovement {
 		else {
 			Log.v("UserMovement", "Unexpected character encountered in the next space to move to.");
 		}
+		return mazeObj;
 	}
 	
 }

@@ -1,5 +1,12 @@
 package teammaize.android.com;
 
+/**
+ * DataStructures Class to hold enums to make code more readable
+ * Erika Jansen
+ * MazeSpaces for the types of spaces in the char[][] maze
+ * Directions for the user movement (and in creating the maze)
+ */
+
 public class DataStructures { 
 	public enum Directions{
 		NORTH, EAST, SOUTH, WEST;

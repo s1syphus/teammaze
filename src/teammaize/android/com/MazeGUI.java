@@ -66,7 +66,7 @@ public class MazeGUI extends Activity {
 					Button buttonView = (Button) v;
 					System.out.println(buttonView.getText().toString());
 					if(UserMovement.tryMoveNorth(mazeObject)) {
-						UserMovement.movePlayerNorth(mazeObject, v, MazeGUI.this);
+						mazeObject = UserMovement.movePlayerNorth(mazeObject, v, MazeGUI.this);
 						System.out.println("Move succesful");
 					}
 					else {
@@ -84,7 +84,7 @@ public class MazeGUI extends Activity {
 					Button buttonView = (Button) v;
 					System.out.println(buttonView.getText().toString());
 					if(UserMovement.tryMoveSouth(mazeObject)) {
-						UserMovement.movePlayerSouth(mazeObject, v, MazeGUI.this);
+						mazeObject = UserMovement.movePlayerSouth(mazeObject, v, MazeGUI.this);
 						System.out.println("Move succesful");
 					}
 					else {
@@ -102,7 +102,7 @@ public class MazeGUI extends Activity {
 					Button buttonView = (Button) v;
 					System.out.println(buttonView.getText().toString());
 					if(UserMovement.tryMoveWest(mazeObject)) {
-						UserMovement.movePlayerWest(mazeObject, v, MazeGUI.this);
+						mazeObject = UserMovement.movePlayerWest(mazeObject, v, MazeGUI.this);
 						System.out.println("Move succesful");
 					}
 					else {
@@ -120,7 +120,7 @@ public class MazeGUI extends Activity {
 					Button buttonView = (Button) v;
 					System.out.println(buttonView.getText().toString());
 					if(UserMovement.tryMoveEast(mazeObject)) {
-						UserMovement.movePlayerEast(mazeObject, v, MazeGUI.this);
+						mazeObject = UserMovement.movePlayerEast(mazeObject, v, MazeGUI.this);
 						System.out.println("Move succesful");
 					}
 					else {
