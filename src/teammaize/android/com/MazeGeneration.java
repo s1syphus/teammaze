@@ -35,8 +35,37 @@ public class MazeGeneration {
 		this.x = x;
 		this.y = y;
 		maze = new char[this.x][this.y];	//create the maze array
-		initialize_maze();			//initial all locations to walls (X)
-		generate(0,0);				//start the generation at (0,0) or some other start location
+	//	initialize_maze();			//initial all locations to walls (X)
+	//	generate(0,0);				//start the generation at (0,0) or some other start location
+		
+		/*
+		 * Hard-coding the maze
+		 */
+		maze[0][0] = 'S';
+		maze[0][1] = '.';
+		maze[0][2] = '.';
+		maze[1][2] = '.';
+		maze[1][3] = '.';
+		maze[2][3] = '.';
+		maze[3][3] = '.';
+		maze[3][4] = '.';
+		maze[3][5] = '.';
+		maze[3][6] = '.';
+		maze[4][5] = '.';
+		maze[5][5] = '.';
+		maze[5][4] = '.';
+		maze[5][3] = '.';
+		maze[6][3] = '.';
+		maze[7][3] = 'G';
+		
+		
+		
+		
+		
+		
+		
+		
+		
 	}
 	
 	public void initialize_maze(){
