@@ -160,41 +160,6 @@ public class MazeGeneration {
 	
 
 
-	public Pair<Integer, Integer> return_neighbor(Pair<Integer, Integer> cur_loc, int dir){
-		
-		Pair<Integer, Integer> neighbor = null;
-		
-		//check to make sure the potential neighbor hasn't been visited
-		//and is within the maze
-			
-		if(dir == 0){
-			//attempting to move north
-			if((cur_loc.second - 1) >= 0){
-				neighbor = Pair.create(cur_loc.first, cur_loc.second - 1);
-			}
-		}
-		if(dir == 1){
-			//attempting to move east
-			if((cur_loc.first + 1) < x){
-				neighbor = Pair.create(cur_loc.first + 1, cur_loc.second);
-			}
-		}
-		if(dir == 2){
-			//attempting to move south
-			if((cur_loc.second + 1) < y){
-				neighbor = Pair.create(cur_loc.first,  cur_loc.second + 1);
-			}
-		}
-		if(dir == 3){
-			//attempting to move west
-			if((cur_loc.first - 1) >= 0){
-				neighbor = Pair.create(cur_loc.first - 1,  cur_loc.second);
-			}
-		}
-		
-		return null;
-		
-	}
 	
 	public Stack<Pair<Integer, Integer>> solve_maze(int start_x, int start_y){
 		
@@ -244,15 +209,12 @@ public class MazeGeneration {
 		int counter = 0;
 		
 		while(!solution.isEmpty()){
-				counter++;
-				cur_loc = solution.pop();
-				if((counter % 5) == 0){
-					maze[cur_loc.first][cur_loc.second] = 'R';
-				}
+			counter++;
+			cur_loc = solution.pop();
+			if((counter % 5) == 0){
+				maze[cur_loc.first][cur_loc.second] = 'R';
+			}
 		}
-				
-		
 	}
-	
 }
 
