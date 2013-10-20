@@ -18,14 +18,17 @@ import android.content.res.XmlResourceParser;
 import android.view.*;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.ImageView;
 
 
 public class MazeGUI extends Activity {
 	
-	int m, n;
-	char[][] mazeTextArray;
+	//These are only sample values.
+	int m = 20, n = 20;
 	
+	private char[][] mazeTextArray;
 	private MazeGeneration mazeObject;
+	private GridLayout mazeImage;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,21 +38,17 @@ public class MazeGUI extends Activity {
 			// Show the Up button in the action bar.
 			setupActionBar();
 		
-<<<<<<< HEAD
 			mazeObject = new MazeGeneration(m, n);
-=======
 		
-		//mazeObject = new MazeGeneration(m, n);
-		
->>>>>>> 61137003806dbb2ec20f48a113a5948b0aeb86a7
-		
-			GridLayout mazeImage = (GridLayout)findViewById(R.id.mazeImage);
+			mazeImage = (GridLayout)findViewById(R.id.mazeImage);
 			mazeImage.setColumnCount(m);
 			mazeImage.setRowCount(n);
+			mazeImage.setColumnOrderPreserved(true);
+			mazeImage.setRowOrderPreserved(true);
 			//Preliminary parameter setting. To be done- cell creation methods in graphicsMapping,
 			//artwork for those cells, layering with Erika's movement UI. -Chris, 10/18/2013
 		
-			this.graphicsMapping(mazeTextArray);
+			//this.graphicsMapping(mazeTextArray);
 		}
 		catch(Exception e) {
 			System.out.println("Exception thown in MazeActivity onCreate: " + e.toString());
@@ -63,7 +62,6 @@ public class MazeGUI extends Activity {
 			Button rightButton = (Button) findViewById(R.id.rightButton);
 			//button.Attributes.Add("OnClick", "button_Clicked");
 		
-<<<<<<< HEAD
 			//Initialize up button on click listener
 			upButton.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {
@@ -143,7 +141,7 @@ public class MazeGUI extends Activity {
 		catch(Exception e) {
 			System.out.println("Exception thown in MazeActivity onCreate onClickListeners: " + e.toString());
 		}
-=======
+		
 		OnClickListener clickListener = new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -158,8 +156,6 @@ public class MazeGUI extends Activity {
 				//}
 			}
 		};
-		
->>>>>>> 61137003806dbb2ec20f48a113a5948b0aeb86a7
 	}
 
 	/**
@@ -196,8 +192,38 @@ public class MazeGUI extends Activity {
 	}
 	
 	public void graphicsMapping(char[][] textArray)
-	{
-		//Routine to be implemented -Chris
+	{	
+		for (int i = 0; i < textArray.length; i++)
+		{
+			for(int j = 0; j < textArray[i].length; i++)
+			{
+				if(textArray[i][j] == 'X')
+				{
+					ImageView WallGraphic;
+					//mazeImage.addView(WallGraphic);
+				}
+				else if(textArray[i][j] == '.')
+				{
+					ImageView PathGraphic;
+					//mazeImage.addView(PathGraphic);
+				}
+				else if(textArray[i][j] == 'R')
+				{
+					ImageView RoadblockGraphic;
+					//mazeImage.addView(RoadblockGraphic);
+				}
+				else if(textArray[i][j] == 'S')
+				{
+					ImageView StartGraphic;
+					//mazeImage.addView(StartGraphic);
+				}
+				else if(textArray[i][j] == 'G')
+				{
+					ImageView GoalGraphic;
+					//mazeImage.addView(GoalGraphic);
+				}
+			}
+		}
 	}
 	
 	public void roadBlockEnc (View view) {
