@@ -27,7 +27,7 @@ public class MazeGeneration {
 	
 	private final int x;	//rows
 	private final int y;	//columns
-	private final Vector<Pair<Integer, Integer>> maze_vector = new Vector<Pair<Integer, Integer>>();
+	//private final Vector<Pair<Integer, Integer>> maze_vector = new Vector<Pair<Integer, Integer>>();
 	private final char[][] maze;	//x by y maze
 	
 	// current location of the player
