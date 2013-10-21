@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
-import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View.OnClickListener;
@@ -78,7 +77,7 @@ public class MazeGUI extends Activity {
 						System.out.println("Last Coords- First: " + (mazeObject.user_coords.first) + " Second: " + (mazeObject.user_coords.second + 1));
 						
 						ImageView lastCell = (ImageView) findViewById(idArray[mazeObject.user_coords.first][mazeObject.user_coords.second + 1]);
-						lastCell.setImageResource(R.drawable.path_graphic);
+						lastCell.setImageResource(0);
 						
 						ImageView currentCell = (ImageView) findViewById(idArray[mazeObject.user_coords.first][mazeObject.user_coords.second]);
 						currentCell.setImageResource(R.drawable.player_graphic);
@@ -110,7 +109,7 @@ public class MazeGUI extends Activity {
 						System.out.println("Last Coords- First: " + (mazeObject.user_coords.first) + " Second: " + (mazeObject.user_coords.second - 1));
 						
 						ImageView lastCell = (ImageView) findViewById(idArray[mazeObject.user_coords.first][mazeObject.user_coords.second - 1]);
-						lastCell.setImageResource(R.drawable.path_graphic);
+						lastCell.setImageResource(0);
 						
 						ImageView currentCell = (ImageView) findViewById(idArray[mazeObject.user_coords.first][mazeObject.user_coords.second]);
 						currentCell.setImageResource(R.drawable.player_graphic);
@@ -141,7 +140,7 @@ public class MazeGUI extends Activity {
 						System.out.println("Last Coords- First: " + (mazeObject.user_coords.first + 1) + " Second: " + (mazeObject.user_coords.second));
 						
 						ImageView lastCell = (ImageView) findViewById(idArray[mazeObject.user_coords.first + 1][mazeObject.user_coords.second]);
-						lastCell.setImageResource(R.drawable.path_graphic);
+						lastCell.setImageResource(0);
 						
 						ImageView currentCell = (ImageView) findViewById(idArray[mazeObject.user_coords.first][mazeObject.user_coords.second]);
 						currentCell.setImageResource(R.drawable.player_graphic);
@@ -172,7 +171,7 @@ public class MazeGUI extends Activity {
 						System.out.println("Last Coords- First: " + (mazeObject.user_coords.first - 1) + " Second: " + (mazeObject.user_coords.second));
 						
 						ImageView lastCell = (ImageView) findViewById(idArray[mazeObject.user_coords.first - 1][mazeObject.user_coords.second]);
-						lastCell.setImageResource(R.drawable.path_graphic);
+						lastCell.setImageResource(0);
 						
 						
 						ImageView currentCell = (ImageView) findViewById(idArray[mazeObject.user_coords.first][mazeObject.user_coords.second]);
@@ -251,7 +250,6 @@ public class MazeGUI extends Activity {
 		{
 			for(int j = 0; j < n; j++)
 			{
-				Pair<Integer, Integer> currentCoords = new Pair<Integer, Integer>(i, j);
 				idArray[i][j] = idCount;
 				
 				if(textArray[i][j] == 'X')
@@ -262,18 +260,10 @@ public class MazeGUI extends Activity {
 
 					mazeImage.addView(WallGraphic);
 				}
-				else if(mazeObject.user_coords.equals(currentCoords))
-				{
-					ImageView PlayerGraphic = new ImageView(this);
-					PlayerGraphic.setImageResource(R.drawable.player_graphic);
-					PlayerGraphic.setId(idCount);
-					
-					mazeImage.addView(PlayerGraphic);
-				}
 				else if(textArray[i][j] == '.')
 				{
 					ImageView PathGraphic = new ImageView(this);
-					PathGraphic.setImageResource(R.drawable.path_graphic);
+					PathGraphic.setBackgroundResource(R.drawable.path_graphic);
 					PathGraphic.setId(idCount);
 					
 					mazeImage.addView(PathGraphic);
@@ -281,7 +271,7 @@ public class MazeGUI extends Activity {
 				else if(textArray[i][j] == 'R')
 				{
 					ImageView RoadblockGraphic = new ImageView(this);
-					RoadblockGraphic.setImageResource(R.drawable.roadblock_graphic);
+					RoadblockGraphic.setBackgroundResource(R.drawable.roadblock_graphic);
 					RoadblockGraphic.setId(idCount);
 					
 					mazeImage.addView(RoadblockGraphic);
@@ -289,7 +279,8 @@ public class MazeGUI extends Activity {
 				else if(textArray[i][j] == 'S')
 				{
 					ImageView StartGraphic = new ImageView(this);
-					StartGraphic.setImageResource(R.drawable.start_graphic);
+					StartGraphic.setBackgroundResource(R.drawable.start_graphic);
+					StartGraphic.setImageResource(R.drawable.player_graphic);
 					StartGraphic.setId(idCount);
 					
 					mazeImage.addView(StartGraphic);
@@ -297,7 +288,7 @@ public class MazeGUI extends Activity {
 				else if(textArray[i][j] == 'G')
 				{
 					ImageView GoalGraphic = new ImageView(this);
-					GoalGraphic.setImageResource(R.drawable.goal_graphic);
+					GoalGraphic.setBackgroundResource(R.drawable.goal_graphic);
 					GoalGraphic.setId(idCount);
 					
 					mazeImage.addView(GoalGraphic);

@@ -49,7 +49,7 @@ public class MazeGeneration {
 		maze[0][0] = 'S';
 		maze[0][1] = '.';
 		maze[0][2] = '.';
-		maze[1][2] = '.';
+		maze[1][2] = 'R';
 		maze[1][3] = '.';
 		maze[2][3] = '.';
 		maze[3][3] = '.';
