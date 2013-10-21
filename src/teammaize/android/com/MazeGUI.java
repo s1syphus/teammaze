@@ -56,6 +56,7 @@ public class MazeGUI extends Activity {
 		}
 		
 		try {
+			//Here is where  I altered the Button bindings. -Chris, 10/20/2013
 			//GridLayout directionGrid = (GridLayout)findViewById(R.id.movementGridLayout);
 			Button upButton = (Button) findViewById(R.id.leftButton);
 			Button downButton = (Button) findViewById(R.id.rightButton);
@@ -104,7 +105,7 @@ public class MazeGUI extends Activity {
 					if(UserMovement.tryMoveSouth(mazeObject)) {
 						mazeObject = UserMovement.movePlayerSouth(mazeObject, v, MazeGUI.this);
 						
-						//
+						//Added block -Chris
 						System.out.println("Cur Coords- First: " + (mazeObject.user_coords.first) + " Second: " + mazeObject.user_coords.second);
 						System.out.println("Last Coords- First: " + (mazeObject.user_coords.first) + " Second: " + (mazeObject.user_coords.second - 1));
 						
@@ -135,7 +136,7 @@ public class MazeGUI extends Activity {
 					if(UserMovement.tryMoveWest(mazeObject)) {
 						mazeObject = UserMovement.movePlayerWest(mazeObject, v, MazeGUI.this);
 						
-						//
+						//Added block -Chris
 						System.out.println("Cur Coords- First: " + (mazeObject.user_coords.first) + " Second: " + mazeObject.user_coords.second);
 						System.out.println("Last Coords- First: " + (mazeObject.user_coords.first + 1) + " Second: " + (mazeObject.user_coords.second));
 						
@@ -166,12 +167,13 @@ public class MazeGUI extends Activity {
 					if(UserMovement.tryMoveEast(mazeObject)) {
 						mazeObject = UserMovement.movePlayerEast(mazeObject, v, MazeGUI.this);
 						
-						//
+						//Added block -Chris
 						System.out.println("Cur Coords- First: " + (mazeObject.user_coords.first) + " Second: " + mazeObject.user_coords.second);
 						System.out.println("Last Coords- First: " + (mazeObject.user_coords.first - 1) + " Second: " + (mazeObject.user_coords.second));
 						
 						ImageView lastCell = (ImageView) findViewById(idArray[mazeObject.user_coords.first - 1][mazeObject.user_coords.second]);
 						lastCell.setImageResource(R.drawable.path_graphic);
+						
 						
 						ImageView currentCell = (ImageView) findViewById(idArray[mazeObject.user_coords.first][mazeObject.user_coords.second]);
 						currentCell.setImageResource(R.drawable.player_graphic);

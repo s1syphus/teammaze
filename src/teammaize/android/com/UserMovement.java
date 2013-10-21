@@ -159,11 +159,19 @@ public class UserMovement {
 		else if(nextSpace == MazeSpaces.ROADBLOCK.SpaceChar()) {
 			//update user_coords and start roadblock intent
 			mazeObj.user_coords = nextCoords;
+			
+			//Added to match graphics update. -Chris
+			mazeObj.maze[nextCoords.first][nextCoords.second] = '.';
+			
 			maze_gui.roadBlockEnc(view);
 		}
 		else if(nextSpace == MazeSpaces.FINISH.SpaceChar()) {
 			//update user_coords and congratulate player (offer to return to start menu or start new maze
+			
 			mazeObj.user_coords = nextCoords;
+			
+			//Added to match graphics update. -Chris
+			mazeObj.maze[nextCoords.first][nextCoords.second] = '.';
 		}
 		else {
 			Log.v("UserMovement", "Unexpected character encountered in the next space to move to.");
