@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View.OnClickListener;
@@ -26,6 +27,7 @@ public class MazeGUI extends Activity {
 	int m = 10, n = 10;
 	
 	private MazeGeneration mazeObject;
+	private int[][] idArray;
 	private GridLayout mazeImage;
 
 	@Override
@@ -37,6 +39,7 @@ public class MazeGUI extends Activity {
 			setupActionBar();
 
 			mazeObject = new MazeGeneration(m, n);
+			idArray = new int[m][n];
 		
 			mazeImage = (GridLayout)findViewById(R.id.mazeImage);
 			mazeImage.setColumnCount(m);
@@ -54,10 +57,10 @@ public class MazeGUI extends Activity {
 		
 		try {
 			//GridLayout directionGrid = (GridLayout)findViewById(R.id.movementGridLayout);
-			Button upButton = (Button) findViewById(R.id.upButton);
-			Button downButton = (Button) findViewById(R.id.downButton);
-			Button leftButton = (Button) findViewById(R.id.leftButton);
-			Button rightButton = (Button) findViewById(R.id.rightButton);
+			Button upButton = (Button) findViewById(R.id.leftButton);
+			Button downButton = (Button) findViewById(R.id.rightButton);
+			Button leftButton = (Button) findViewById(R.id.upButton);
+			Button rightButton = (Button) findViewById(R.id.downButton);
 			//button.Attributes.Add("OnClick", "button_Clicked");
 		
 			//Initialize up button on click listener
@@ -68,13 +71,27 @@ public class MazeGUI extends Activity {
 					System.out.println(buttonView.getText().toString());
 					if(UserMovement.tryMoveNorth(mazeObject)) {
 						mazeObject = UserMovement.movePlayerNorth(mazeObject, v, MazeGUI.this);
+						
+						//Testing Cell Updates - Chris
+						System.out.println("Cur Coords- First: " + (mazeObject.user_coords.first) + " Second: " + mazeObject.user_coords.second);
+						System.out.println("Last Coords- First: " + (mazeObject.user_coords.first) + " Second: " + (mazeObject.user_coords.second + 1));
+						
+						ImageView lastCell = (ImageView) findViewById(idArray[mazeObject.user_coords.first][mazeObject.user_coords.second + 1]);
+						lastCell.setImageResource(R.drawable.path_graphic);
+						
+						ImageView currentCell = (ImageView) findViewById(idArray[mazeObject.user_coords.first][mazeObject.user_coords.second]);
+						currentCell.setImageResource(R.drawable.player_graphic);
+						//Testing End
+						
+
 						System.out.println("Move succesful");
 					}
 					else {
 						System.out.println("Invalid move");
 					}
+					
 					//TODO: call method to update UI?
-					buttonView.setText("U");
+					//buttonView.setText("U");
 				}
 			});
 			
@@ -86,13 +103,26 @@ public class MazeGUI extends Activity {
 					System.out.println(buttonView.getText().toString());
 					if(UserMovement.tryMoveSouth(mazeObject)) {
 						mazeObject = UserMovement.movePlayerSouth(mazeObject, v, MazeGUI.this);
+						
+						//
+						System.out.println("Cur Coords- First: " + (mazeObject.user_coords.first) + " Second: " + mazeObject.user_coords.second);
+						System.out.println("Last Coords- First: " + (mazeObject.user_coords.first) + " Second: " + (mazeObject.user_coords.second - 1));
+						
+						ImageView lastCell = (ImageView) findViewById(idArray[mazeObject.user_coords.first][mazeObject.user_coords.second - 1]);
+						lastCell.setImageResource(R.drawable.path_graphic);
+						
+						ImageView currentCell = (ImageView) findViewById(idArray[mazeObject.user_coords.first][mazeObject.user_coords.second]);
+						currentCell.setImageResource(R.drawable.player_graphic);
+						//
+						
 						System.out.println("Move succesful");
 					}
 					else {
 						System.out.println("Invalid move");
 					}
+					
 					//TODO: call method to update UI?
-					buttonView.setText("D");				
+					//buttonView.setText("D");				
 				}
 			});
 			
@@ -104,13 +134,26 @@ public class MazeGUI extends Activity {
 					System.out.println(buttonView.getText().toString());
 					if(UserMovement.tryMoveWest(mazeObject)) {
 						mazeObject = UserMovement.movePlayerWest(mazeObject, v, MazeGUI.this);
+						
+						//
+						System.out.println("Cur Coords- First: " + (mazeObject.user_coords.first) + " Second: " + mazeObject.user_coords.second);
+						System.out.println("Last Coords- First: " + (mazeObject.user_coords.first + 1) + " Second: " + (mazeObject.user_coords.second));
+						
+						ImageView lastCell = (ImageView) findViewById(idArray[mazeObject.user_coords.first + 1][mazeObject.user_coords.second]);
+						lastCell.setImageResource(R.drawable.path_graphic);
+						
+						ImageView currentCell = (ImageView) findViewById(idArray[mazeObject.user_coords.first][mazeObject.user_coords.second]);
+						currentCell.setImageResource(R.drawable.player_graphic);
+						//
+						
 						System.out.println("Move succesful");
 					}
 					else {
 						System.out.println("Invalid move");
 					}
+					
 					//TODO: call method to update UI?
-					buttonView.setText("L");				
+					//buttonView.setText("L");				
 				}
 			});
 			
@@ -122,13 +165,26 @@ public class MazeGUI extends Activity {
 					System.out.println(buttonView.getText().toString());
 					if(UserMovement.tryMoveEast(mazeObject)) {
 						mazeObject = UserMovement.movePlayerEast(mazeObject, v, MazeGUI.this);
+						
+						//
+						System.out.println("Cur Coords- First: " + (mazeObject.user_coords.first) + " Second: " + mazeObject.user_coords.second);
+						System.out.println("Last Coords- First: " + (mazeObject.user_coords.first - 1) + " Second: " + (mazeObject.user_coords.second));
+						
+						ImageView lastCell = (ImageView) findViewById(idArray[mazeObject.user_coords.first - 1][mazeObject.user_coords.second]);
+						lastCell.setImageResource(R.drawable.path_graphic);
+						
+						ImageView currentCell = (ImageView) findViewById(idArray[mazeObject.user_coords.first][mazeObject.user_coords.second]);
+						currentCell.setImageResource(R.drawable.player_graphic);
+						//
+						
 						System.out.println("Move succesful");
 					}
 					else {
 						System.out.println("Invalid move");
 					}
+					
 					//TODO: call method to update UI?
-					buttonView.setText("R");				
+					//buttonView.setText("R");				
 				}
 			});
 		}
@@ -187,40 +243,65 @@ public class MazeGUI extends Activity {
 	
 	public void graphicsMapping(char[][] textArray)
 	{	
+		int idCount = 0;
+		
 		for (int i = 0; i < m; i++)
 		{
 			for(int j = 0; j < n; j++)
 			{
+				Pair<Integer, Integer> currentCoords = new Pair<Integer, Integer>(i, j);
+				idArray[i][j] = idCount;
+				
 				if(textArray[i][j] == 'X')
 				{
 					ImageView WallGraphic = new ImageView(this);
 					WallGraphic.setImageResource(R.drawable.wall_graphic);
+					WallGraphic.setId(idCount);
+
 					mazeImage.addView(WallGraphic);
+				}
+				else if(mazeObject.user_coords.equals(currentCoords))
+				{
+					ImageView PlayerGraphic = new ImageView(this);
+					PlayerGraphic.setImageResource(R.drawable.player_graphic);
+					PlayerGraphic.setId(idCount);
+					
+					mazeImage.addView(PlayerGraphic);
 				}
 				else if(textArray[i][j] == '.')
 				{
 					ImageView PathGraphic = new ImageView(this);
 					PathGraphic.setImageResource(R.drawable.path_graphic);
+					PathGraphic.setId(idCount);
+					
 					mazeImage.addView(PathGraphic);
 				}
 				else if(textArray[i][j] == 'R')
 				{
 					ImageView RoadblockGraphic = new ImageView(this);
 					RoadblockGraphic.setImageResource(R.drawable.roadblock_graphic);
+					RoadblockGraphic.setId(idCount);
+					
 					mazeImage.addView(RoadblockGraphic);
 				}
 				else if(textArray[i][j] == 'S')
 				{
 					ImageView StartGraphic = new ImageView(this);
 					StartGraphic.setImageResource(R.drawable.start_graphic);
+					StartGraphic.setId(idCount);
+					
 					mazeImage.addView(StartGraphic);
 				}
 				else if(textArray[i][j] == 'G')
 				{
 					ImageView GoalGraphic = new ImageView(this);
 					GoalGraphic.setImageResource(R.drawable.goal_graphic);
+					GoalGraphic.setId(idCount);
+					
 					mazeImage.addView(GoalGraphic);
 				}
+				
+				idCount++;
 			}
 		}
 	}

@@ -13,7 +13,7 @@ public class DataStructures {
 	}
 	
 	public enum MazeSpaces{
-		START ('S'), PATH ('.'), WALL ('X'), ROADBLOCK ('R'), FINISH ('F');
+		START ('S'), PATH ('.'), WALL ('X'), ROADBLOCK ('R'), FINISH ('G');
 		
 		private final char spaceChar;
 		
