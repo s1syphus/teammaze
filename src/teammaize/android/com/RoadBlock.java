@@ -23,12 +23,28 @@ public class RoadBlock extends Activity {
 		Intent intent = getIntent();
 		
 		//get the question 
-		String q = intent.getStringExtra("question");	
+		String q = intent.getStringExtra("question");
+		String ans1 = intent.getStringExtra("wAns1");
+		String ans2 = intent.getStringExtra("cAns");
+		String ans3 = intent.getStringExtra("wAns2");
+		String ans4 = intent.getStringExtra("wAns3");
 		
 		//instantiate textVIew variable to point to layout Question Text View
 		TextView textView = (TextView) findViewById(R.id.question);
 		textView.setText(q);
+		Button button1 = (Button) findViewById(R.id.ans1);
+		button1.setText(ans1);
 		
+		Button button2 = (Button) findViewById(R.id.ans2);
+		button2.setText(ans2);
+		
+		Button button3 = (Button) findViewById(R.id.ans3);
+		button3.setText(ans3);
+		
+		Button button4 = (Button) findViewById(R.id.ans4);
+		button4.setText(ans4);
+		
+		//android:id="@+id/ans1"
 		
 		/*example code
 		View.findViewById() or Activity.findViewById(). [reference]

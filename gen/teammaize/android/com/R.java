@@ -30,7 +30,11 @@ public final class R {
         public static final int wall_graphic=0x7f020006;
     }
     public static final class id {
-        public static final int action_settings=0x7f090008;
+        public static final int action_settings=0x7f09000c;
+        public static final int ans1=0x7f090008;
+        public static final int ans2=0x7f090009;
+        public static final int ans3=0x7f09000a;
+        public static final int ans4=0x7f09000b;
         public static final int downButton=0x7f090005;
         public static final int leftButton=0x7f090006;
         public static final int mazeImage=0x7f090001;

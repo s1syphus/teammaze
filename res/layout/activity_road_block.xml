@@ -17,19 +17,23 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/choice_one" />
+        android:text="@string/choice_one"
+        android:id="@+id/ans1" />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/choice_two" />
+        android:text="@string/choice_two"
+        android:id="@+id/ans2" />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/choice_three" />
+        android:text="@string/choice_three"
+        android:id="@+id/ans3" />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/choice_four" />
+        android:text="@string/choice_four"
+        android:id="@+id/ans4" />
     
     <Button
         android:layout_width="wrap_content"

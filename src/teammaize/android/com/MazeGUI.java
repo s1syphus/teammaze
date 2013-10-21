@@ -399,10 +399,19 @@ public class MazeGUI extends Activity {
     	}    	
     	
     	//Default
-    	q = "Question";
+    	q = "What is the Capital of the USA?";
+    	String cAns = "Washington DC";
+    	String wAns1 = "Alabama";
+    	String wAns2 = "California";
+    	String wAns3 = "Michigan";
+    			
     	
     	//Adding q to the intent
     	intent.putExtra("question", q);
+    	intent.putExtra("cAns", cAns);
+    	intent.putExtra("wAns1", wAns1);
+    	intent.putExtra("wAns2", wAns2);
+    	intent.putExtra("wAns3",wAns3);
     	
     	//switch to the roadblock activity
     	startActivityForResult(intent, 10); //10 is arbitrary, can be anything
