@@ -395,14 +395,15 @@ public class MazeGUI extends Activity {
     	String wAns1 = "Alabama";
     	String wAns2 = "California";
     	String wAns3 = "Michigan";
-    			
+    	String qId = "11111";
     	
     	//Adding q to the intent
     	intent.putExtra("question", q);
     	intent.putExtra("cAns", cAns);
     	intent.putExtra("wAns1", wAns1);
     	intent.putExtra("wAns2", wAns2);
-    	intent.putExtra("wAns3",wAns3);
+    	intent.putExtra("wAns3", wAns3);
+    	intent.putExtra("qId", qId);
     	
     	//switch to the roadblock activity
     	startActivityForResult(intent, 10); //10 is arbitrary, can be anything
@@ -419,15 +420,18 @@ public class MazeGUI extends Activity {
 	          Intent data) {
 		//Request code 10 is arbitrary
 		if (requestCode == 10){
+			//Question Id and Ans will be processed regardless
+			String qId = data.getStringExtra("qId");
+			String ans = data.getStringExtra("answer");
+			System.out.println(ans);
+			System.out.println(qId);
+			
+			//if correct, resultCode = RESULT_OK
 			if (resultCode == RESULT_OK){
-				//Doing something with the value
-	            String ans = data.getStringExtra("answer"); 
-	            
-	            //Printing result to console
-	            System.out.println(ans);
+				//Put in stuff to do when correct	            
+			} else {
+				//Put in stuff to do when incorrect
 			}
 		}
 	}
 }
-
-

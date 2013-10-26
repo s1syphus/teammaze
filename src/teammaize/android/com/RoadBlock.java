@@ -91,6 +91,8 @@ public class RoadBlock extends Activity {
 			results.putExtra("answer", "correct");
 		else
 			results.putExtra("answer", "incorrect");
+		String qId = "11111";
+		results.putExtra("qId", qId);
 		setResult(Activity.RESULT_OK, results);		
 		finish();
 	}
