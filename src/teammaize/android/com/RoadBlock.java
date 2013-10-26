@@ -1,5 +1,11 @@
 package teammaize.android.com;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
@@ -12,6 +18,10 @@ import android.widget.TextView;
 
 public class RoadBlock extends Activity {
 
+	String[] randomKeyArray;
+	String[] ansArray;
+	boolean ansResult;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -24,25 +34,48 @@ public class RoadBlock extends Activity {
 		
 		//get the question 
 		String q = intent.getStringExtra("question");
-		String ans1 = intent.getStringExtra("wAns1");
-		String ans2 = intent.getStringExtra("cAns");
-		String ans3 = intent.getStringExtra("wAns2");
-		String ans4 = intent.getStringExtra("wAns3");
+		String cAns = intent.getStringExtra("cAns");
+		String wAns1 = intent.getStringExtra("wAns1");		
+		String wAns2 = intent.getStringExtra("wAns2");
+		String wAns3 = intent.getStringExtra("wAns3");
+		
+		//randomize
+		String[] temp = {"cAns", "wAns1", "wAns2", "wAns3"};
+		randomKeyArray = temp; 
+		List<String> randomList = Arrays.asList(randomKeyArray);
+		Collections.shuffle(randomList);
+		
+		//ans array instantiation
+		ansArray = new String[4];
+		
+		//should add for true/false questions later
+		for(int x = 0; x < 4; x++){
+			if(randomKeyArray[x] == "cAns")
+				ansArray[x] = cAns;
+			else if (randomKeyArray[x] == "wAns1")
+				ansArray[x] = wAns1;
+			else if (randomKeyArray[x] == "wAns2")
+				ansArray[x] = wAns2;
+			else if (randomKeyArray[x] == "wAns3")
+				ansArray[x] = wAns3;			
+		}						
 		
 		//instantiate textVIew variable to point to layout Question Text View
 		TextView textView = (TextView) findViewById(R.id.question);
 		textView.setText(q);
 		Button button1 = (Button) findViewById(R.id.ans1);
-		button1.setText(ans1);
+		button1.setText(ansArray[0]);
 		
 		Button button2 = (Button) findViewById(R.id.ans2);
-		button2.setText(ans2);
+		button2.setText(ansArray[1]);
 		
 		Button button3 = (Button) findViewById(R.id.ans3);
-		button3.setText(ans3);
+		button3.setText(ansArray[2]);
 		
 		Button button4 = (Button) findViewById(R.id.ans4);
-		button4.setText(ans4);
+		button4.setText(ansArray[3]);
+		
+		ansResult = false;
 		
 		//android:id="@+id/ans1"
 		
@@ -66,6 +99,8 @@ public class RoadBlock extends Activity {
 		getMenuInflater().inflate(R.menu.road_block, menu);
 		return true;
 	}
+	
+	
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -87,7 +122,7 @@ public class RoadBlock extends Activity {
 	public void closeActivity(View view) {
 		//return to the previous activity with no results intent
 		Intent results = new Intent();
-		if(true) //if correct answer
+		if(ansResult) //if correct answer
 			results.putExtra("answer", "correct");
 		else
 			results.putExtra("answer", "incorrect");
@@ -97,4 +132,25 @@ public class RoadBlock extends Activity {
 		finish();
 	}
 
+	public void checkAnsSelection(int ansSel){		
+		if(randomKeyArray[ansSel] == "cAns")
+			ansResult = true;		
+	}
+	
+	public void checkButton1(){
+		checkAnsSelection(1);
+	}
+	
+	public void checkButton2(){
+		checkAnsSelection(2);
+	}
+	
+	public void checkButton3(){
+		checkAnsSelection(3);
+	}
+	
+	public void checkButton4(){
+		checkAnsSelection(4);
+	}
+	
 }
