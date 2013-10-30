@@ -440,11 +440,11 @@ public class MazeGeneration {
 	}
 */
 
-	private double man_dist(){
+	private int man_dist(Pair<Integer, Integer> cur, Pair<Integer, Integer> next){
 
 		//heuristic function - Manhattan Distance (|x_2 - x_1| + |y_2 - y_1|)
 
-
+		return (abs(next.first - cur.first) + abs(next.second - cur.second));
 
 
 	}	
