@@ -11,7 +11,6 @@ import android.util.Pair;
 /**
  * Maze Generation Algorithm
  * Robert Micatka
- * Uses recursive backtracking, outputs result to text file
  */
 
 /*
@@ -21,6 +20,12 @@ import android.util.Pair;
  * 2 - South
  * 3 - West
  */
+
+/*
+ *	Extensions: Hint of correct path (using the A* used to create the roadblocks)
+ */
+
+
 
 public class MazeGeneration {
 	
@@ -44,7 +49,8 @@ public class MazeGeneration {
 		
 		
 		
-		
+	//Generate works but is commented out atm to test roadblock generation
+	
 	//	generate(0,0);				//start the generation at (0,0) or some other start location
 		
 		//output
@@ -222,7 +228,6 @@ public class MazeGeneration {
 			return neighbor;
 		}
 	
-		
 		return null;
 		
 	}
@@ -234,8 +239,10 @@ public class MazeGeneration {
 		//	check if any neighbors of to_be_examined are currently in the visited vector
 		//	we require walls between blocks
 		
-		Pair<Integer, Integer> temp_exam = null;	//this will take on the location of the potential N, E, S, W blocks
-														// can easily be modified to prevent NE, SE, SW, NW locations as well (corners)
+		Pair<Integer, Integer> temp_exam = null;	
+		
+		//this will take on the location of the potential N, E, S, W blocks
+		// can easily be modified to prevent NE, SE, SW, NW locations as well (corners)
 		
 		/*
 		 * Directions correspond as follows: (use enum soon)
@@ -284,9 +291,7 @@ public class MazeGeneration {
 			}
 		}		
 			
-		
 		return true;
-		
 	}
 	
 	
@@ -332,8 +337,6 @@ public class MazeGeneration {
 	
 	private Pair<Integer, Integer> return_next_move(Pair<Integer, Integer> cur_loc, int dir, Vector<Pair<Integer, Integer>> visited){
 		
-		
-
 		/*
 		 * Directions correspond as follows:
 		 * 0 - North
@@ -342,8 +345,6 @@ public class MazeGeneration {
 		 * 3 - West
 		 */
 				
-		
-		
 		Pair<Integer, Integer> next = null;
 			
 		if(dir == 0){
@@ -385,12 +386,10 @@ public class MazeGeneration {
 		
 	}
 
-
+/*
 //private Stack<Pair<Integer, Integer>> solve_maze(int start_x, int start_y){
 	private Vector<Pair<Integer, Integer>> solve_maze(int start_x, int start_y){
-		/*
-		 * Solving the maze using DFS (potentially change to A* later if speed/efficiency is needed)
-		 */
+	//	  Solving the maze using DFS (potentially change to A* later if speed/efficiency is needed)
 		
 		Stack<Pair<Integer, Integer>> sol_stack = new Stack<Pair<Integer, Integer>>();
 		Vector<Pair<Integer, Integer>> sol_vector = new Vector<Pair<Integer, Integer>>();
@@ -439,6 +438,39 @@ public class MazeGeneration {
 		return null;
 		
 	}
+*/
+
+	private double man_dist(){
+
+		//heuristic function - Manhattan Distance (|x_2 - x_1| + |y_2 - y_1|)
+
+
+
+
+	}	
+
+	private void reconstruct_path(){
+		//return solution vector, void atm
+	}
+
+
+
+	private void a_star_solver(){
+
+		//change from void to return either stack or vector of solution
+
+		/*
+		 *	Find goal location by scanning over maze
+		 *	Find start location by scanning over maze
+		 *	Create open and closed set
+		 *	Find valid neighbor moves (use above function that includes walls)
+		 *	Use heuristic stuff
+		 */
+
+
+	}
+
+
 
 	private void generate_roadblock(int start_x, int start_y){
 	
