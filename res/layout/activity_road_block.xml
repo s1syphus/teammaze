@@ -18,21 +18,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/choice_one"
+        android:onClick="checkButton1"
         android:id="@+id/ans1" />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/choice_two"
+        android:onClick="checkButton2"
         android:id="@+id/ans2" />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/choice_three"
+        android:onClick="checkButton3"
         android:id="@+id/ans3" />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/choice_four"
+        android:onClick="checkButton4"
         android:id="@+id/ans4" />
     
     <Button
