@@ -2,8 +2,11 @@ package teammaize.android.com;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Stack;
+import java.util.TreeMap;
 import java.util.Vector;
 
 import android.util.Pair;
@@ -84,10 +87,10 @@ public class MazeGeneration {
 		
 		
 	//	display_maze();
-		
-	//	generate_roadblock(0,0);
-		
 		maze[0][0] = 'S';
+		generate_roadblock();
+		
+		
 		
 	}
 	
@@ -99,10 +102,7 @@ public class MazeGeneration {
 				System.out.println();
 		}
 	}
-	
-	
-	
-	
+		
 	private void initialize_maze(){
 		for(int i = 0; i < x; i++){
 			for(int j = 0; j < y; j++){
@@ -185,54 +185,10 @@ public class MazeGeneration {
 			return neighbor;
 		}
 	
-		
 		return null;
 		
 	}
 
-	private Pair<Integer, Integer> return_neighbor(Pair<Integer, Integer> cur_loc, int dir, Vector<Pair<Integer, Integer>> visited){
-		
-		Pair<Integer, Integer> neighbor = null;
-		
-		//check to make sure the potential neighbor hasn't been visited, or is one "block" away from a visited neighbor
-		//and is within the maze
-			
-		
-		if(dir == 0){
-			//attempting to move north
-			if((cur_loc.second - 1) >= 0){
-				neighbor = Pair.create(cur_loc.first, cur_loc.second - 1);
-			}
-		}
-		if(dir == 1){
-			//attempting to move east
-			if((cur_loc.first + 1) < x){
-				neighbor = Pair.create(cur_loc.first + 1, cur_loc.second);
-			}
-		}
-		if(dir == 2){
-			//attempting to move south
-			if((cur_loc.second + 1) < y){
-				neighbor = Pair.create(cur_loc.first,  cur_loc.second + 1);
-			}
-		}
-		if(dir == 3){
-			//attempting to move west
-			if((cur_loc.first - 1) >= 0){
-				neighbor = Pair.create(cur_loc.first - 1,  cur_loc.second);
-			}
-		}
-		
-		
-		if(!visited.contains(neighbor)){
-			return neighbor;
-		}
-	
-		return null;
-		
-	}
-	
-	
 	
 	private boolean available(Pair<Integer, Integer> to_be_examined, Vector<Pair<Integer, Integer>> visited, int coming_from){
 		
@@ -294,7 +250,6 @@ public class MazeGeneration {
 		return true;
 	}
 	
-	
 	public Pair<Integer, Integer> return_neighbor(Pair<Integer, Integer> cur_loc, int dir){
 
 		/*
@@ -335,17 +290,18 @@ public class MazeGeneration {
 		return neighbor;
 	}
 	
-	private Pair<Integer, Integer> return_next_move(Pair<Integer, Integer> cur_loc, int dir, Vector<Pair<Integer, Integer>> visited){
-		
+	
+	
+	private Pair<Integer, Integer> return_next(Pair<Integer, Integer> cur_loc, int dir){
 		/*
-		 * Directions correspond as follows:
-		 * 0 - North
-		 * 1 - East
-		 * 2 - South
-		 * 3 - West
+		 *	return_neighbor function to check for valid moves, used for movement stuff (not overloaded anymore, changed above)
+		 *	check to make sure the potential neighbor hasn't been visited
+		 *	and is within the maze
+		 *
 		 */
-				
+
 		Pair<Integer, Integer> next = null;
+		
 			
 		if(dir == 0){
 			//attempting to move north
@@ -367,148 +323,137 @@ public class MazeGeneration {
 		}
 		if(dir == 3){
 			//attempting to move west
-			if((cur_loc.first - 1) >= 0){
+			if((cur_loc.first - 1) >= 0){				
 				next = Pair.create(cur_loc.first - 1,  cur_loc.second);
 			}
 		}
 		
-		if(next == null){
+		if((maze[next.first][next.second] == '.') || (maze[next.first][next.second] == 'G')){
 			return next;
 		}
-		
-		if(((maze[next.first][next.second] == '.') || (maze[next.first][next.second] == 'G')) && (!visited.contains(next))){
-			return next;
-		}
-			
 		
 		return null;
-		
-		
 	}
-
-/*
-//private Stack<Pair<Integer, Integer>> solve_maze(int start_x, int start_y){
-	private Vector<Pair<Integer, Integer>> solve_maze(int start_x, int start_y){
-	//	  Solving the maze using DFS (potentially change to A* later if speed/efficiency is needed)
+	
+	private Integer man_dist(Pair<Integer, Integer> start, Pair<Integer, Integer> goal){
+		return (Math.abs(goal.first - start.first) + Math.abs(goal.second - start.second));
+	}
+	
+	private Vector<Pair<Integer, Integer>> reconstruct_path(HashMap<Pair<Integer, Integer>, Pair<Integer, Integer>> came_from, Pair<Integer, Integer> start, Pair<Integer, Integer> goal){
 		
-		Stack<Pair<Integer, Integer>> sol_stack = new Stack<Pair<Integer, Integer>>();
-		Vector<Pair<Integer, Integer>> sol_vector = new Vector<Pair<Integer, Integer>>();
-		Pair<Integer, Integer> cur_coords = null, next_coords = null;
-		sol_stack.push(Pair.create(start_x, start_y));
-		sol_vector.add(Pair.create(start_x, start_y));
+		Vector<Pair<Integer, Integer>> sol = new Vector<Pair<Integer, Integer>>();
+		Pair<Integer, Integer> cur, prev;
+		boolean found = false;
+		cur = goal;
 		
+		System.out.println("reconstruct path");
 		
-		while(!sol_stack.isEmpty()){
-			
-			System.out.println("size of stack: " + sol_stack.size());
-			
-			//cur_coords = sol_stack.pop();
-						
-			cur_coords = sol_stack.peek();
-			if(maze[cur_coords.first][cur_coords.second] == 'G'){
-					//found goal, solution is the remainder of the stack
-				
-					System.out.println("Goal was found and there was much rejoicing");
-					
-					
-					//System.out.println("size of stack: " + sol_stack.size());
-					
-					return sol_vector;
-					
-//					return sol_stack;
+		while(!found){
+			if(cur.equals(start)){
+				found = true;
 			}
-			
-			for(int i = 0; i < 4; i++){
-				next_coords = return_next_move(cur_coords,i, sol_vector);
-				if(next_coords != null){
-					sol_stack.push(next_coords);
-					
-			//		sol_vector.add(next_coords);
+			prev = came_from.get(cur);
+			sol.add(cur);
+			cur = prev;
+		}
+		return sol;
+	}
+	
+	
+	public Vector<Pair<Integer, Integer>> solve_maze(){
+
+		//openset is a set of nodes that going to be visited
+		//closedset is a set of nodes that have been visited
+		//F_Score is a sorted treemap, sorted by f_score (key), value is the pair of ints
+		//G_score is just a map, key is the pair, value is the g_score (distance from start)
+		
+		HashSet<Pair<Integer, Integer>> openset = new HashSet<Pair<Integer, Integer>>();
+		HashSet<Pair<Integer, Integer>> closedset = new HashSet<Pair<Integer, Integer>>();
+		TreeMap<Integer, Pair<Integer, Integer>> f_score = new TreeMap<Integer, Pair<Integer, Integer>>();
+		HashMap<Pair<Integer, Integer>, Integer> g_score = new HashMap<Pair<Integer, Integer>, Integer>();
+		HashMap<Pair<Integer, Integer>, Pair<Integer, Integer>> came_from = new HashMap<Pair<Integer, Integer>, Pair<Integer, Integer>>();	//key = cur, value = came_from
+		
+		Pair<Integer, Integer> start = null, goal = null, cur = null, next = null;
+		
+		int tent_g, tent_f;
+		
+		for(int i = 0; i < x; i++){
+			for(int j = 0; j < y; j++){
+				if(maze[i][j] == 'S'){
+					start = Pair.create(i,j);
+				}
+				if(maze[i][j] == 'G'){
+					goal = Pair.create(i,j);
 				}
 			}
-			
-			sol_vector.add(cur_coords);
-			sol_stack.pop();
 		}
 		
-		//solution not found...this is a problem
 		
-	
+		System.out.println("start = <" + start.first+", "+start.second+">");
+		System.out.println("goal = <" + goal.first+", "+goal.second+">");
+		
+		//Initialize g_score and f_score
+		g_score.put(start, 0);
+		f_score.put(g_score.get(start) + man_dist(start, goal), start);
+		openset.add(start);
+		
+
+		
+		while(!openset.isEmpty()){
+			cur = f_score.get(f_score.firstKey());
+			System.out.println("cur = "+cur.first+", "+cur.second+">");
+			
+			if(cur.equals(goal)){
+				return reconstruct_path(came_from, start, goal);
+			}
+			
+			openset.remove(cur);
+			closedset.add(cur);
+			
+			for(int i = 0; i < 4; i++){
+				
+				next = return_next(cur, i);
+				System.out.println("looking at "+next.first+", "+next.second+">");
+				if(next != null){
+					tent_g = g_score.get(cur) + 1;
+					tent_f = tent_g + man_dist(cur, goal);
+					if(!(closedset.contains(next) && (tent_f >= (g_score.get(next) + man_dist(next, goal))))){
+						if((!openset.contains(next)) || (tent_f < (g_score.get(next) + man_dist(next, goal)))){
+							came_from.put(next, cur);
+							g_score.put(next, tent_g);
+							f_score.put(tent_f, next);
+							if(!openset.contains(next)){
+								openset.add(next);
+							}
+						}	
+					}
+				}
+						
+			}
+			
+		}
+		
+		System.out.println("solution not found");
+
+		//not found
 		
 		return null;
 		
 	}
-*/
+	
 
-	private int man_dist(Pair<Integer, Integer> cur, Pair<Integer, Integer> next){
+	private void generate_roadblock(){
 
-		//heuristic function - Manhattan Distance (|x_2 - x_1| + |y_2 - y_1|)
-
-		return (abs(next.first - cur.first) + abs(next.second - cur.second));
-
-
-	}	
-
-	private void reconstruct_path(){
-		//return solution vector, void atm
-	}
-
-
-
-	private void a_star_solver(){
-
-		//change from void to return either stack or vector of solution
-
-		/*
-		 *	Find goal location by scanning over maze
-		 *	Find start location by scanning over maze
-		 *	Create open and closed set
-		 *	Find valid neighbor moves (use above function that includes walls)
-		 *	Use heuristic stuff
-		 */
-
-
-	}
-
-
-
-	private void generate_roadblock(int start_x, int start_y){
+		
+		Vector<Pair<Integer, Integer>> solution = solve_maze();	
+		Pair<Integer, Integer> cur_loc = null;
 	
 		/*
-		 * Solve the maze
-		 * Use solved path and place road blocks every 5 blocks (arbitrary)
-		 * Also add the start location in the array
-		 */
-		
-		/*
-		
-		Stack<Pair<Integer, Integer>> solution = solve_maze(start_x,start_y);
-		
-		System.out.println("path found, size: "+solution.size());
-		
-		Pair<Integer, Integer> cur_loc = null;
-		int counter = 0;
-		
-		while(!solution.isEmpty()){
-			counter++;
-			cur_loc = solution.pop();
-		//	if((counter % 5) == 0){
-			//make whole solution path road-blocks for testing
-				maze[cur_loc.first][cur_loc.second] = 'R';
-		//	}
-		}
-	*/
-		
-		Vector<Pair<Integer, Integer>> solution = solve_maze(start_x,start_y);
-		
-		Pair<Integer, Integer> cur_loc = null;
-		
 		for(int i = 0; i < solution.size(); i++){
 			cur_loc = solution.get(i);
-			
 			maze[cur_loc.first][cur_loc.second] = 'R';
 		}
-		
+		*/
 	}
 		
 
