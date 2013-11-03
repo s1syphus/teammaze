@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
-import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View.OnClickListener;
@@ -78,7 +77,7 @@ public class MazeGUI extends Activity {
 						System.out.println("Last Coords- First: " + (mazeObject.user_coords.first) + " Second: " + (mazeObject.user_coords.second + 1));
 						
 						ImageView lastCell = (ImageView) findViewById(idArray[mazeObject.user_coords.first][mazeObject.user_coords.second + 1]);
-						lastCell.setImageResource(R.drawable.path_graphic);
+						lastCell.setImageResource(0);
 						
 						ImageView currentCell = (ImageView) findViewById(idArray[mazeObject.user_coords.first][mazeObject.user_coords.second]);
 						currentCell.setImageResource(R.drawable.player_graphic);
@@ -110,7 +109,7 @@ public class MazeGUI extends Activity {
 						System.out.println("Last Coords- First: " + (mazeObject.user_coords.first) + " Second: " + (mazeObject.user_coords.second - 1));
 						
 						ImageView lastCell = (ImageView) findViewById(idArray[mazeObject.user_coords.first][mazeObject.user_coords.second - 1]);
-						lastCell.setImageResource(R.drawable.path_graphic);
+						lastCell.setImageResource(0);
 						
 						ImageView currentCell = (ImageView) findViewById(idArray[mazeObject.user_coords.first][mazeObject.user_coords.second]);
 						currentCell.setImageResource(R.drawable.player_graphic);
@@ -141,7 +140,7 @@ public class MazeGUI extends Activity {
 						System.out.println("Last Coords- First: " + (mazeObject.user_coords.first + 1) + " Second: " + (mazeObject.user_coords.second));
 						
 						ImageView lastCell = (ImageView) findViewById(idArray[mazeObject.user_coords.first + 1][mazeObject.user_coords.second]);
-						lastCell.setImageResource(R.drawable.path_graphic);
+						lastCell.setImageResource(0);
 						
 						ImageView currentCell = (ImageView) findViewById(idArray[mazeObject.user_coords.first][mazeObject.user_coords.second]);
 						currentCell.setImageResource(R.drawable.player_graphic);
@@ -172,7 +171,7 @@ public class MazeGUI extends Activity {
 						System.out.println("Last Coords- First: " + (mazeObject.user_coords.first - 1) + " Second: " + (mazeObject.user_coords.second));
 						
 						ImageView lastCell = (ImageView) findViewById(idArray[mazeObject.user_coords.first - 1][mazeObject.user_coords.second]);
-						lastCell.setImageResource(R.drawable.path_graphic);
+						lastCell.setImageResource(0);
 						
 						
 						ImageView currentCell = (ImageView) findViewById(idArray[mazeObject.user_coords.first][mazeObject.user_coords.second]);
@@ -251,7 +250,6 @@ public class MazeGUI extends Activity {
 		{
 			for(int j = 0; j < n; j++)
 			{
-				Pair<Integer, Integer> currentCoords = new Pair<Integer, Integer>(i, j);
 				idArray[i][j] = idCount;
 				
 				if(textArray[i][j] == 'X')
@@ -262,18 +260,10 @@ public class MazeGUI extends Activity {
 
 					mazeImage.addView(WallGraphic);
 				}
-				else if(mazeObject.user_coords.equals(currentCoords))
-				{
-					ImageView PlayerGraphic = new ImageView(this);
-					PlayerGraphic.setImageResource(R.drawable.player_graphic);
-					PlayerGraphic.setId(idCount);
-					
-					mazeImage.addView(PlayerGraphic);
-				}
 				else if(textArray[i][j] == '.')
 				{
 					ImageView PathGraphic = new ImageView(this);
-					PathGraphic.setImageResource(R.drawable.path_graphic);
+					PathGraphic.setBackgroundResource(R.drawable.path_graphic);
 					PathGraphic.setId(idCount);
 					
 					mazeImage.addView(PathGraphic);
@@ -281,7 +271,7 @@ public class MazeGUI extends Activity {
 				else if(textArray[i][j] == 'R')
 				{
 					ImageView RoadblockGraphic = new ImageView(this);
-					RoadblockGraphic.setImageResource(R.drawable.roadblock_graphic);
+					RoadblockGraphic.setBackgroundResource(R.drawable.roadblock_graphic);
 					RoadblockGraphic.setId(idCount);
 					
 					mazeImage.addView(RoadblockGraphic);
@@ -289,7 +279,8 @@ public class MazeGUI extends Activity {
 				else if(textArray[i][j] == 'S')
 				{
 					ImageView StartGraphic = new ImageView(this);
-					StartGraphic.setImageResource(R.drawable.start_graphic);
+					StartGraphic.setBackgroundResource(R.drawable.start_graphic);
+					StartGraphic.setImageResource(R.drawable.player_graphic);
 					StartGraphic.setId(idCount);
 					
 					mazeImage.addView(StartGraphic);
@@ -297,7 +288,7 @@ public class MazeGUI extends Activity {
 				else if(textArray[i][j] == 'G')
 				{
 					ImageView GoalGraphic = new ImageView(this);
-					GoalGraphic.setImageResource(R.drawable.goal_graphic);
+					GoalGraphic.setBackgroundResource(R.drawable.goal_graphic);
 					GoalGraphic.setId(idCount);
 					
 					mazeImage.addView(GoalGraphic);
@@ -404,14 +395,15 @@ public class MazeGUI extends Activity {
     	String wAns1 = "Alabama";
     	String wAns2 = "California";
     	String wAns3 = "Michigan";
-    			
+    	String qId = "11111";
     	
     	//Adding q to the intent
     	intent.putExtra("question", q);
     	intent.putExtra("cAns", cAns);
     	intent.putExtra("wAns1", wAns1);
     	intent.putExtra("wAns2", wAns2);
-    	intent.putExtra("wAns3",wAns3);
+    	intent.putExtra("wAns3", wAns3);
+    	intent.putExtra("qId", qId);
     	
     	//switch to the roadblock activity
     	startActivityForResult(intent, 10); //10 is arbitrary, can be anything
@@ -428,15 +420,18 @@ public class MazeGUI extends Activity {
 	          Intent data) {
 		//Request code 10 is arbitrary
 		if (requestCode == 10){
+			//Question Id and Ans will be processed regardless
+			String qId = data.getStringExtra("qId");
+			String ans = data.getStringExtra("answer");
+			System.out.println(ans);
+			System.out.println(qId);
+			
+			//if correct, resultCode = RESULT_OK
 			if (resultCode == RESULT_OK){
-				//Doing something with the value
-	            String ans = data.getStringExtra("answer"); 
-	            
-	            //Printing result to console
-	            System.out.println(ans);
+				//Put in stuff to do when correct	            
+			} else {
+				//Put in stuff to do when incorrect
 			}
 		}
 	}
 }
-
-
