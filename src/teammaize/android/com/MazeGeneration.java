@@ -88,7 +88,7 @@ public class MazeGeneration {
 		
 	//	display_maze();
 		maze[0][0] = 'S';
-		generate_roadblock();
+//		generate_roadblock();
 		
 		
 		
