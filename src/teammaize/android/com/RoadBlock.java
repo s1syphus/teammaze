@@ -83,7 +83,7 @@ public class RoadBlock extends Activity {
 		View.findViewById() or Activity.findViewById(). [reference]
 		*/		
 	}
-
+	
 	/**
 	 * Set up the {@link android.app.ActionBar}.
 	 */
@@ -119,6 +119,7 @@ public class RoadBlock extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 	
+	//manages the closing of the activity
 	public void closeActivity(View view) {
 		//return to the previous activity with no results intent
 		Intent results = new Intent();
@@ -131,26 +132,26 @@ public class RoadBlock extends Activity {
 		setResult(Activity.RESULT_OK, results);		
 		finish();
 	}
-
-	public void checkAnsSelection(int ansSel){		
+	
+	//checks ans
+	public void checkAnsSelection(int ansSel){
 		if(randomKeyArray[ansSel] == "cAns")
 			ansResult = true;		
 	}
 	
-	public void checkButton1(){
-		checkAnsSelection(1);
-	}
+	//checks which button was clicked
+	public void checkButton(View view){
+		if(view.getId() == R.id.ans1)
+			checkAnsSelection(0);
+		else if(view.getId() == R.id.ans2)
+			checkAnsSelection(1);
+		else if(view.getId() == R.id.ans3)
+			checkAnsSelection(2);
+		else if(view.getId() == R.id.ans4)
+			checkAnsSelection(3);
+		
+		closeActivity(view);
 	
-	public void checkButton2(){
-		checkAnsSelection(2);
-	}
-	
-	public void checkButton3(){
-		checkAnsSelection(3);
-	}
-	
-	public void checkButton4(){
-		checkAnsSelection(4);
 	}
 	
 }
