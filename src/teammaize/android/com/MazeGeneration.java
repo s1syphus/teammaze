@@ -25,10 +25,17 @@ import android.util.Pair;
  */
 
 /*
- *	Extensions: Hint of correct path (using the A* used to create the roadblocks)
+ *	To do in this class:
+ *
+ *	1. Change names of functions/variables to fit naming scheme
+ *	2. Use ENUM for directions
+ *	3. Rewrite/minimize "returnNeighbor" functions
+ *	4. Remove functions that are only used for debugging
+ *	5. Comment "completely"/clean up code in general
+ *	6. Optimize loops etc. (optional, if performance is fine, no need to change)
+ *
+ *
  */
-
-
 
 public class MazeGeneration {
 	
@@ -48,26 +55,16 @@ public class MazeGeneration {
 		
 		System.out.println("After initialization");
 		
-	//	display_maze();
-		
-		
+	
 		
 	//Generate works but is commented out atm to test roadblock generation
 	
 	//	generate(0,0);				//start the generation at (0,0) or some other start location
 		
-		//output
-		
-		
-	//	System.out.println("After generation");
-		
-		//display_maze();
-		
 		
 		/*
-		 * Hard-coding the maze
+		 * Hard-coding the maze, this is only for roadblock debugging atm, delete soon
 		 */
-		
 		maze[0][0] = '.';
 		maze[0][1] = '.';
 		maze[0][2] = '.';
@@ -85,15 +82,15 @@ public class MazeGeneration {
 		maze[6][3] = '.';
 		maze[7][3] = 'G';
 		
-		
-	//	display_maze();
 		maze[0][0] = 'S';
 //		generate_roadblock();
 		
 		
 		
 	}
-	
+
+	//this function is only for debugging purposes, delete soon
+
 	private void display_maze(){
 		for(int i = 0; i < x; i++){
 			for(int j = 0; j < y; j++){
@@ -111,15 +108,15 @@ public class MazeGeneration {
 		}
 	}
 	
-	private void generate(int cur_x, int cur_y){
+	private void generate(int startX, int startY){
 		
 		System.out.println("during generation");
 		
 		Stack<Pair<Integer, Integer>> maze_stack = new Stack<Pair<Integer, Integer>>();
 		Vector<Pair<Integer, Integer>> maze_vector = new Vector<Pair<Integer, Integer>>();
 		Pair<Integer, Integer> cur_coords = null, neighbor = null;
-		maze_stack.push(Pair.create(cur_x, cur_y));
-		maze_vector.add(Pair.create(cur_x,cur_y));
+		maze_stack.push(Pair.create(startX, startY));
+		maze_vector.add(Pair.create(startX, startY));
 		List<Integer> dir_order = new ArrayList<Integer>();
 		dir_order.add(0); 
 		dir_order.add(1);
@@ -128,13 +125,10 @@ public class MazeGeneration {
 		while(!maze_stack.isEmpty()){
 			cur_coords = maze_stack.pop();
 			maze[cur_coords.first][cur_coords.second]  = '.';
-		//	display_maze();	//for debug
-			
 			//examine neighbors
 			//randomize
 			Collections.shuffle(dir_order);
 			for(int i = 0; i < 4; i++){
-	//			System.out.println("direction: " + dir_order.get(i));
 				neighbor = return_next_block(cur_coords, dir_order.get(i), maze_vector);
 				if(neighbor != null){
 					maze_stack.push(neighbor);
@@ -142,7 +136,8 @@ public class MazeGeneration {
 				}
 			}
 		}
-		//maze[cur_coords.first][cur_coords.second] = 'G';
+		//add the start and goal
+		maze[startX][startY] = 'S';
 		maze[maze_vector.lastElement().first][maze_vector.lastElement().second] = 'G';
 		
 	}	
@@ -181,7 +176,6 @@ public class MazeGeneration {
 		}
 		
 		if((neighbor != null) && available(neighbor, visited, dir)){
-			System.out.println("about to add an available neighbor");
 			return neighbor;
 		}
 	
@@ -397,7 +391,6 @@ public class MazeGeneration {
 		f_score.put(g_score.get(start) + man_dist(start, goal), start);
 		openset.add(start);
 		
-
 		
 		while(!openset.isEmpty()){
 			cur = f_score.get(f_score.firstKey());
