@@ -2,11 +2,12 @@ package teammaize.android.com;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.Stack;
-import java.util.TreeMap;
 import java.util.Vector;
 
 import android.util.Pair;
@@ -46,6 +47,20 @@ public class MazeGeneration {
 	// current location of the player
 	public Pair<Integer, Integer> user_coords = new Pair<Integer, Integer>(0, 0);
 	
+	private class myComparator implements Comparator<Pair<Integer, Pair<Integer, Integer>>>{
+		public int compare(Pair<Integer, Pair<Integer, Integer>> a, Pair<Integer, Pair<Integer, Integer>> b){
+			if(a.first == b.first){
+				return 0;
+			}
+			if(a.first > b.first){
+				return 1;
+			}
+			return -1;
+		}
+	}
+	
+	
+	
 	public MazeGeneration(int x, int y){
 		this.x = x;
 		this.y = y;
@@ -59,7 +74,7 @@ public class MazeGeneration {
 		
 	//Generate works but is commented out atm to test roadblock generation
 	
-	//	generate(0,0);				//start the generation at (0,0) or some other start location
+		generate(0,0);				//start the generation at (0,0) or some other start location
 		
 		
 		//display_maze();
@@ -68,7 +83,7 @@ public class MazeGeneration {
 		 * Hard-coding the maze, this is only for roadblock debugging atm, delete soon
 		 */
 		
-		
+		/*
 		maze[0][0] = '.';
 		maze[0][1] = '.';
 		maze[0][2] = '.';
@@ -87,7 +102,7 @@ public class MazeGeneration {
 		maze[7][3] = 'G';
 		
 		maze[0][0] = 'S';
-		
+		*/
 		
 		
 		/*
@@ -114,12 +129,9 @@ public class MazeGeneration {
 		maze[4][5] = '.';
 
 		display_maze();
-		
 		*/
 		
-		
-		
-		generate_roadblock();
+		generateRoadblock();
 		
 		
 		
@@ -322,7 +334,7 @@ public class MazeGeneration {
 	
 	
 	
-	private Pair<Integer, Integer> return_next(Pair<Integer, Integer> cur_loc, int dir){
+	private Pair<Integer, Integer> returnNext(Pair<Integer, Integer> cur_loc, int dir){
 		/*
 		 *	return_neighbor function to check for valid moves, used for movement stuff (not overloaded anymore, changed above)
 		 *	check to make sure the potential neighbor hasn't been visited
@@ -367,31 +379,29 @@ public class MazeGeneration {
 		return null;
 	}
 	
-	private Integer man_dist(Pair<Integer, Integer> start, Pair<Integer, Integer> goal){
+	private Integer manDist(Pair<Integer, Integer> start, Pair<Integer, Integer> goal){
 		
 		return (Math.abs(goal.first - start.first) + Math.abs(goal.second - start.second));
 	}
 	
-	private Vector<Pair<Integer, Integer>> reconstruct_path(HashMap<Pair<Integer, Integer>, Pair<Integer, Integer>> came_from, Pair<Integer, Integer> start, Pair<Integer, Integer> goal){
-		
+	private Vector<Pair<Integer, Integer>> reconstructPath(HashMap<Pair<Integer, Integer>, Pair<Integer, Integer>> cameFrom, Pair<Integer, Integer> start, Pair<Integer, Integer> goal){
+
 		Vector<Pair<Integer, Integer>> sol = new Vector<Pair<Integer, Integer>>();
 		Pair<Integer, Integer> cur, prev;
 		boolean found = false;
 		cur = goal;
-		
-		System.out.println("reconstruct path");
-		
 		while(!found){
 			if(cur.equals(start)){
 				found = true;
 			}
-			prev = came_from.get(cur);
+			prev = cameFrom.get(cur);
 			sol.add(cur);
 			cur = prev;
 		}
 		return sol;
 	}
 	
+	/*
 	
 	public Vector<Pair<Integer, Integer>> solve_maze(){
 
@@ -487,20 +497,227 @@ public class MazeGeneration {
 		return null;
 		
 	}
+	*/
+	
+	/*
+	public Vector<Pair<Integer, Integer>> solve_maze(){
+
+		//openset is a set of nodes that going to be visited
+		//closedset is a set of nodes that have been visited
+		//F_Score is a sorted treemap, sorted by f_score (key), value is the pair of ints
+		//G_score is just a map, key is the pair, value is the g_score (distance from start)
+		
+		//HashSet<Pair<Integer, Integer>> openset = new HashSet<Pair<Integer, Integer>>();
+		
+		
+		
+		//	TreeMap<Integer, Pair<Integer, Integer>> openset = new TreeMap<Integer, Pair<Integer, Integer>>();
+		//TreeMap<Pair<Integer, Integer>, Integer> openset = new TreeMap<Pair<Integer, Integer>, Integer>(myComparator);
+		
+		
+		
+		SortedSet<Pair<Integer, Pair<Integer, Integer>>> openset = new TreeSet<Pair<Integer, Pair<Integer, Integer>>>(new myComparator());
+		HashSet<Pair<Integer, Integer>> closedset = new HashSet<Pair<Integer, Integer>>();
+		TreeMap<Integer, Pair<Integer, Integer>> f_score = new TreeMap<Integer, Pair<Integer, Integer>>();
+		HashMap<Pair<Integer, Integer>, Integer> g_score = new HashMap<Pair<Integer, Integer>, Integer>();
+		HashMap<Pair<Integer, Integer>, Pair<Integer, Integer>> came_from = new HashMap<Pair<Integer, Integer>, Pair<Integer, Integer>>();	//key = cur, value = came_from
+		
+		Pair<Integer, Integer> start = null, goal = null, cur = null, next = null;
+		
+		int tent_g, tent_f;
+		
+		for(int i = 0; i < x; i++){
+			for(int j = 0; j < y; j++){
+				if(maze[i][j] == 'S'){
+					start = Pair.create(i,j);
+				}
+				if(maze[i][j] == 'G'){
+					goal = Pair.create(i,j);
+				}
+			}
+		}
+		
+		
+		System.out.println("start = <" + start.first+", "+start.second+">");
+		System.out.println("goal = <" + goal.first+", "+goal.second+">");
+		
+		//Initialize g_score and f_score
+		g_score.put(start, 0);
+		f_score.put(g_score.get(start) + man_dist(start, goal), start);
+		//openset.put(g_score.get(start) + man_dist(start, goal), start);
+		openset.add(Pair.create((g_score.get(start) + man_dist(start, goal)), start));
+		
+		System.out.println("start f_score = "+ (g_score.get(start) + man_dist(start, goal)));
+		
+		while(!openset.isEmpty()){
+		//for(int j = 0; j < 20; j++){
+//		cur = f_score.get(f_score.firstKey());
+		//	cur = openset.get(openset.firstKey());
+		//	cur = openset.pollFirstEntry().getKey();
+			cur = openset.first().second;
+			if(cur.equals(goal)){
+				System.out.println("goal found");
+				return reconstruct_path(came_from, start, goal);
+			}
+			
+			System.out.println("cur = <"+cur.first+", "+cur.second+">");
+			
+			openset.remove(openset.first());
+			
+			
+			closedset.add(cur);
+			
+			for(int i = 0; i < 4; i++){
+				next = return_next(cur, i);
+				if(next != null){
+					tent_g = g_score.get(cur) + 1;
+					tent_f = tent_g + man_dist(next, goal);
+					System.out.println("next = <"+next.first+", "+next.second+">, tent_g = "+tent_g+" tent_f = "+tent_f);
+				//	System.out.println("man_dist = "+man_dist(next,goal));
+					if(closedset.contains(next) && (tent_f >= (g_score.get(next) + man_dist(next, goal)))){
+					}
+					else{
+						System.out.println("blah");
+						if((!openset.contains(next)) || (tent_f < (g_score.get(next) + man_dist(next, goal)))){
+							System.out.println("potential openset addition");
+							came_from.put(next, cur);
+							g_score.put(next, tent_g);
+							f_score.put(tent_f, next);
+							if(!openset.contains(next)){
+								System.out.println("adding <"+next.first+", "+next.second+"> to openset");
+								openset.add(Pair.create(tent_f, next));
+							}
+						}	
+					}
+				}
+						
+			}
+			
+		}
+		System.out.println("size of openset = "+openset.size());
+		
+		System.out.println("solution not found");
+
+		//not found
+		
+		return null;
+		
+	}
+	*/
+	
+	private Pair<Integer, Integer> minimumValue(HashMap<Pair<Integer, Integer>, Integer> map){
+		
+		System.out.println("finding minimumValue");
+		
+		List<Pair<Integer, Integer>> minKeyList = new ArrayList<Pair<Integer, Integer>>();
+		Entry<Pair<Integer, Integer>, Integer> min = null;
+		for(Entry<Pair<Integer, Integer>, Integer> entry: map.entrySet()){
+			if((min == null) || (min.getValue() >= entry.getValue())){
+				if((min == null) || (min.getValue() > entry.getValue())){
+					min = entry;
+					minKeyList.clear();
+				}
+				minKeyList.add(entry.getKey());
+			}
+		}
+		if(minKeyList.isEmpty()){
+			System.out.println("did not find minimumValue, problem");
+			return null;
+		}
+		
+		System.out.println("found minimumValue");
+		
+		return minKeyList.get(0);
+	}
+	
+	
+	
+	public Vector<Pair<Integer, Integer>> solveMaze(){
+
+		HashMap<Pair<Integer, Integer>, Integer> fScore = new HashMap<Pair<Integer, Integer>, Integer>();
+		HashMap<Pair<Integer, Integer>, Integer> gScore = new HashMap<Pair<Integer, Integer>, Integer>();
+		HashMap<Pair<Integer, Integer>, Integer> fScoreOpenSet = new HashMap<Pair<Integer, Integer>, Integer>();
+		List<Pair<Integer, Integer>> openSet = new ArrayList<Pair<Integer, Integer>>();
+		List<Pair<Integer, Integer>> closedSet = new ArrayList<Pair<Integer, Integer>>();
+		HashMap<Pair<Integer, Integer>, Pair<Integer, Integer>> cameFrom = new HashMap<Pair<Integer, Integer>, Pair<Integer, Integer>>();	//key = cur, value = came_from
+		Pair<Integer, Integer> start = null, goal = null, cur = null, next = null;
+		int tentG, tentF;
+		
+		for(int i = 0; i < x; i++){
+			for(int j = 0; j < y; j++){
+				if(maze[i][j] == 'S'){
+					start = Pair.create(i,j);
+				}
+				if(maze[i][j] == 'G'){
+					goal = Pair.create(i,j);
+				}
+			}
+		}
+		
+		openSet.add(start);
+		gScore.put(start, 0);
+		fScore.put(start, manDist(start, goal));
+		fScoreOpenSet.put(start, manDist(start, goal));
+		
+		while(!openSet.isEmpty()){
+	//	for(int j = 0; j < 10; j++){
+			cur = minimumValue(fScoreOpenSet);
+			System.out.println("cur = <"+cur.first+", "+cur.second+">");
+			
+			
+			if(cur.equals(goal)){
+				System.out.println("goal found");
+				return reconstructPath(cameFrom, start, goal);
+			}
+			openSet.remove(cur);
+			fScoreOpenSet.remove(cur);
+			closedSet.add(cur);
+			for(int i = 0; i < 4; i++){
+				next = returnNext(cur, i);
+				if(next != null){
+					tentG = gScore.get(cur) + 1;
+					tentF = tentG + manDist(next, goal);
+		//			System.out.println("next = <"+next.first+", "+next.second+">, tent_g = "+tentG+" tent_f = "+tentF);
+					if(closedSet.contains(next) && (tentF >= fScore.get(next))){
+						//change logic, this is a continue, I didn't want to mess it up
+					}
+					else{
+						if((!openSet.contains(next)) || (tentF < fScore.get(next))){
+							System.out.println("potential openset addition");
+							cameFrom.put(next, cur);
+							gScore.put(next, tentG);
+							fScore.put(next, tentF);
+							fScoreOpenSet.put(next, tentF);
+							if(!openSet.contains(next)){
+								System.out.println("adding <"+next.first+", "+next.second+"> to openset");
+								openSet.add(next);
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		
+		System.out.println("goal not found");
+		
+		
+		return null;
+	}
 	
 	
 
-	private void generate_roadblock(){
+	private void generateRoadblock(){
 
 		
-		Vector<Pair<Integer, Integer>> solution = solve_maze();	
-		Pair<Integer, Integer> cur_loc = null;
+		Vector<Pair<Integer, Integer>> solution = solveMaze();	
+		Pair<Integer, Integer> curLoc = null;
 	
 		//Change this to every 5 or something
 		
 		for(int i = 0; i < solution.size(); i++){
-			cur_loc = solution.get(i);
-			maze[cur_loc.first][cur_loc.second] = 'R';
+			curLoc = solution.get(i);
+			maze[curLoc.first][curLoc.second] = 'R';
 		}
 		
 		
