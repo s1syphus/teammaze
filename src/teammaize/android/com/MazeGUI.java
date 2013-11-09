@@ -73,13 +73,13 @@ public class MazeGUI extends Activity {
 						mazeObject = UserMovement.movePlayerNorth(mazeObject, v, MazeGUI.this);
 						
 						//Testing Cell Updates - Chris
-						System.out.println("Cur Coords- First: " + (mazeObject.user_coords.first) + " Second: " + mazeObject.user_coords.second);
-						System.out.println("Last Coords- First: " + (mazeObject.user_coords.first) + " Second: " + (mazeObject.user_coords.second + 1));
+						System.out.println("Cur Coords- First: " + (mazeObject.userCoords.first) + " Second: " + mazeObject.userCoords.second);
+						System.out.println("Last Coords- First: " + (mazeObject.userCoords.first) + " Second: " + (mazeObject.userCoords.second + 1));
 						
-						ImageView lastCell = (ImageView) findViewById(idArray[mazeObject.user_coords.first][mazeObject.user_coords.second + 1]);
+						ImageView lastCell = (ImageView) findViewById(idArray[mazeObject.userCoords.first][mazeObject.userCoords.second + 1]);
 						lastCell.setImageResource(0);
 						
-						ImageView currentCell = (ImageView) findViewById(idArray[mazeObject.user_coords.first][mazeObject.user_coords.second]);
+						ImageView currentCell = (ImageView) findViewById(idArray[mazeObject.userCoords.first][mazeObject.userCoords.second]);
 						currentCell.setImageResource(R.drawable.player_graphic);
 						//Testing End
 						
@@ -105,13 +105,13 @@ public class MazeGUI extends Activity {
 						mazeObject = UserMovement.movePlayerSouth(mazeObject, v, MazeGUI.this);
 						
 						//Added block -Chris
-						System.out.println("Cur Coords- First: " + (mazeObject.user_coords.first) + " Second: " + mazeObject.user_coords.second);
-						System.out.println("Last Coords- First: " + (mazeObject.user_coords.first) + " Second: " + (mazeObject.user_coords.second - 1));
+						System.out.println("Cur Coords- First: " + (mazeObject.userCoords.first) + " Second: " + mazeObject.userCoords.second);
+						System.out.println("Last Coords- First: " + (mazeObject.userCoords.first) + " Second: " + (mazeObject.userCoords.second - 1));
 						
-						ImageView lastCell = (ImageView) findViewById(idArray[mazeObject.user_coords.first][mazeObject.user_coords.second - 1]);
+						ImageView lastCell = (ImageView) findViewById(idArray[mazeObject.userCoords.first][mazeObject.userCoords.second - 1]);
 						lastCell.setImageResource(0);
 						
-						ImageView currentCell = (ImageView) findViewById(idArray[mazeObject.user_coords.first][mazeObject.user_coords.second]);
+						ImageView currentCell = (ImageView) findViewById(idArray[mazeObject.userCoords.first][mazeObject.userCoords.second]);
 						currentCell.setImageResource(R.drawable.player_graphic);
 						//
 						
@@ -136,13 +136,13 @@ public class MazeGUI extends Activity {
 						mazeObject = UserMovement.movePlayerWest(mazeObject, v, MazeGUI.this);
 						
 						//Added block -Chris
-						System.out.println("Cur Coords- First: " + (mazeObject.user_coords.first) + " Second: " + mazeObject.user_coords.second);
-						System.out.println("Last Coords- First: " + (mazeObject.user_coords.first + 1) + " Second: " + (mazeObject.user_coords.second));
+						System.out.println("Cur Coords- First: " + (mazeObject.userCoords.first) + " Second: " + mazeObject.userCoords.second);
+						System.out.println("Last Coords- First: " + (mazeObject.userCoords.first + 1) + " Second: " + (mazeObject.userCoords.second));
 						
-						ImageView lastCell = (ImageView) findViewById(idArray[mazeObject.user_coords.first + 1][mazeObject.user_coords.second]);
+						ImageView lastCell = (ImageView) findViewById(idArray[mazeObject.userCoords.first + 1][mazeObject.userCoords.second]);
 						lastCell.setImageResource(0);
 						
-						ImageView currentCell = (ImageView) findViewById(idArray[mazeObject.user_coords.first][mazeObject.user_coords.second]);
+						ImageView currentCell = (ImageView) findViewById(idArray[mazeObject.userCoords.first][mazeObject.userCoords.second]);
 						currentCell.setImageResource(R.drawable.player_graphic);
 						//
 						
@@ -167,14 +167,14 @@ public class MazeGUI extends Activity {
 						mazeObject = UserMovement.movePlayerEast(mazeObject, v, MazeGUI.this);
 						
 						//Added block -Chris
-						System.out.println("Cur Coords- First: " + (mazeObject.user_coords.first) + " Second: " + mazeObject.user_coords.second);
-						System.out.println("Last Coords- First: " + (mazeObject.user_coords.first - 1) + " Second: " + (mazeObject.user_coords.second));
+						System.out.println("Cur Coords- First: " + (mazeObject.userCoords.first) + " Second: " + mazeObject.userCoords.second);
+						System.out.println("Last Coords- First: " + (mazeObject.userCoords.first - 1) + " Second: " + (mazeObject.userCoords.second));
 						
-						ImageView lastCell = (ImageView) findViewById(idArray[mazeObject.user_coords.first - 1][mazeObject.user_coords.second]);
+						ImageView lastCell = (ImageView) findViewById(idArray[mazeObject.userCoords.first - 1][mazeObject.userCoords.second]);
 						lastCell.setImageResource(0);
 						
 						
-						ImageView currentCell = (ImageView) findViewById(idArray[mazeObject.user_coords.first][mazeObject.user_coords.second]);
+						ImageView currentCell = (ImageView) findViewById(idArray[mazeObject.userCoords.first][mazeObject.userCoords.second]);
 						currentCell.setImageResource(R.drawable.player_graphic);
 						//
 						

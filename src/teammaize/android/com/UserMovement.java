@@ -23,7 +23,7 @@ public class UserMovement {
 	{
 		boolean validMove = true;
 		try {
-			Pair<Integer, Integer> nextCoords = mazeObj.return_neighbor(mazeObj.user_coords, 0);
+			Pair<Integer, Integer> nextCoords = mazeObj.returnNeighbor(mazeObj.userCoords, 0);
 			char nextSpace = mazeObj.maze[nextCoords.first][nextCoords.second];
 			if (nextCoords == null || nextSpace == MazeSpaces.WALL.SpaceChar()) {
 				validMove = false;
@@ -40,7 +40,7 @@ public class UserMovement {
 	{
 		boolean validMove = true;
 		try {
-			Pair<Integer, Integer> nextCoords = mazeObj.return_neighbor(mazeObj.user_coords, 2);
+			Pair<Integer, Integer> nextCoords = mazeObj.returnNeighbor(mazeObj.userCoords, 2);
 			char nextSpace = mazeObj.maze[nextCoords.first][nextCoords.second];
 			if(nextCoords == null || nextSpace == MazeSpaces.WALL.SpaceChar()) {
 				validMove = false;
@@ -57,7 +57,7 @@ public class UserMovement {
 	{
 		boolean validMove = true;
 		try {
-			Pair<Integer, Integer> nextCoords = mazeObj.return_neighbor(mazeObj.user_coords, 1);
+			Pair<Integer, Integer> nextCoords = mazeObj.returnNeighbor(mazeObj.userCoords, 1);
 			char nextSpace = mazeObj.maze[nextCoords.first][nextCoords.second];
 			if(nextCoords == null || nextSpace == MazeSpaces.WALL.SpaceChar()) {
 				validMove = false;
@@ -74,7 +74,7 @@ public class UserMovement {
 	{
 		boolean validMove = true;
 		try {
-			Pair<Integer, Integer> nextCoords = mazeObj.return_neighbor(mazeObj.user_coords, 3);
+			Pair<Integer, Integer> nextCoords = mazeObj.returnNeighbor(mazeObj.userCoords, 3);
 			char nextSpace = mazeObj.maze[nextCoords.first][nextCoords.second];
 			if(nextCoords == null || nextSpace == MazeSpaces.WALL.SpaceChar()) {
 				validMove = false;
@@ -94,7 +94,7 @@ public class UserMovement {
 		maze_gui = mazeGui;
 		
 		try {
-			Pair<Integer, Integer> nextCoords = mazeObj.return_neighbor(mazeObj.user_coords, Directions.NORTH.ordinal());
+			Pair<Integer, Integer> nextCoords = mazeObj.returnNeighbor(mazeObj.userCoords, Directions.NORTH.ordinal());
 			return movePlayer(nextCoords);
 		}
 		catch(Exception e) {
@@ -110,7 +110,7 @@ public class UserMovement {
 		maze_gui = mazeGui;
 		
 		try {
-			Pair<Integer, Integer> nextCoords = mazeObj.return_neighbor(mazeObj.user_coords, Directions.EAST.ordinal());
+			Pair<Integer, Integer> nextCoords = mazeObj.returnNeighbor(mazeObj.userCoords, Directions.EAST.ordinal());
 			return movePlayer(nextCoords);
 		}
 		catch(Exception e) {
@@ -126,7 +126,7 @@ public class UserMovement {
 		maze_gui = mazeGui;
 		
 		try {
-			Pair<Integer, Integer> nextCoords = mazeObj.return_neighbor(mazeObj.user_coords, Directions.SOUTH.ordinal());
+			Pair<Integer, Integer> nextCoords = mazeObj.returnNeighbor(mazeObj.userCoords, Directions.SOUTH.ordinal());
 			return movePlayer(nextCoords);
 		}
 		catch(Exception e) {
@@ -141,7 +141,7 @@ public class UserMovement {
 		maze_gui = mazeGui;
 		
 		try {
-			Pair<Integer, Integer> nextCoords = mazeObj.return_neighbor(mazeObj.user_coords, Directions.WEST.ordinal());
+			Pair<Integer, Integer> nextCoords = mazeObj.returnNeighbor(mazeObj.userCoords, Directions.WEST.ordinal());
 			return movePlayer(nextCoords);
 		}
 		catch(Exception e) {
@@ -153,19 +153,19 @@ public class UserMovement {
 	private static MazeGeneration movePlayer(Pair<Integer, Integer> nextCoords) {
 		char nextSpace = mazeObj.maze[nextCoords.first][nextCoords.second];
 		if(nextSpace == MazeSpaces.PATH.SpaceChar()) {
-			//move user (update user_coords to nextCoords)
-			mazeObj.user_coords = nextCoords;
+			//move user (update userCoords to nextCoords)
+			mazeObj.userCoords = nextCoords;
 		}
 		else if(nextSpace == MazeSpaces.ROADBLOCK.SpaceChar()) {
-			//update user_coords and start roadblock intent
-			mazeObj.user_coords = nextCoords;
+			//update userCoords and start roadblock intent
+			mazeObj.userCoords = nextCoords;
 			
 			maze_gui.roadBlockEnc(view);
 		}
-		else if(nextSpace == MazeSpaces.FINISH.SpaceChar()) {
-			//update user_coords and congratulate player (offer to return to start menu or start new maze
+		else if(nextSpace == MazeSpaces.GOAL.SpaceChar()) {
+			//update userCoords and congratulate player (offer to return to start menu or start new maze
 			
-			mazeObj.user_coords = nextCoords;
+			mazeObj.userCoords = nextCoords;
 		}
 		else {
 			Log.v("UserMovement", "Unexpected character encountered in the next space to move to.");
