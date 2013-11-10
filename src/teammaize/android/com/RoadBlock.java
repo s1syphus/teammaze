@@ -12,9 +12,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.support.v4.app.NavUtils;
+import android.content.Context;
 import android.content.Intent;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class RoadBlock extends Activity {
 
@@ -121,6 +123,20 @@ public class RoadBlock extends Activity {
 	
 	//manages the closing of the activity
 	public void closeActivity(View view) {
+		//show toast
+		Context context = getApplicationContext();
+		int duration = Toast.LENGTH_SHORT;
+		
+		CharSequence text;
+		
+		if(ansResult){
+			text = "Correct Answer!";
+		} else {
+			text = "Incorrect Answer.";
+		}
+		Toast toast = Toast.makeText(context, text, duration);
+		toast.show();
+		
 		//return to the previous activity with no results intent
 		Intent results = new Intent();
 		if(ansResult) //if correct answer
@@ -136,7 +152,7 @@ public class RoadBlock extends Activity {
 	//checks ans
 	public void checkAnsSelection(int ansSel){
 		if(randomKeyArray[ansSel] == "cAns")
-			ansResult = true;		
+			ansResult = true;	
 	}
 	
 	//checks which button was clicked
