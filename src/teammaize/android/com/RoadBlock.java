@@ -17,8 +17,9 @@ import android.content.Intent;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import ask.scanninglibrary.ASKActivity;
 
-public class RoadBlock extends Activity {
+public class RoadBlock extends ASKActivity {
 
 	String[] randomKeyArray;
 	String[] ansArray;

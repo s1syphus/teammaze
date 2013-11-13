@@ -19,8 +19,9 @@ import android.view.*;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageView;
+import ask.scanninglibrary.ASKActivity;
 
-public class MazeGUI extends Activity {
+public class MazeGUI extends ASKActivity {
 	
 	//These are only sample values.
 	int m = 10, n = 10;
