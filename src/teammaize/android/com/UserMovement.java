@@ -6,6 +6,7 @@ import teammaize.android.com.DataStructures.MazeSpaces;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
+import android.widget.Toast;
 
 /**
  * User movement through the maze
@@ -15,144 +16,47 @@ import android.view.View;
 
 public class UserMovement {
 	
-	private static MazeGUI maze_gui;
+	private static MazeGUI mazeGui;
 	private static View view;
 	private static MazeGeneration mazeObj;
 	
-	public static boolean tryMoveNorth(MazeGeneration mazeObj)
+	public static boolean tryMove(MazeGeneration mazeObj, Directions dir)
 	{
 		boolean validMove = true;
 		try {
-			Pair<Integer, Integer> nextCoords = mazeObj.returnNeighbor(mazeObj.userCoords, 0);
-			char nextSpace = mazeObj.maze[nextCoords.first][nextCoords.second];
-			if (nextCoords == null || nextSpace == MazeSpaces.WALL.SpaceChar()) {
-				validMove = false;
-			}
-		}
-		catch(Exception e) {
-			Log.v("UserMovement", "Exception caught in tryMoveNorth. " + e.toString());
-			validMove = false;
-		}
-		return validMove;
-	}
-	
-	public static boolean tryMoveSouth(MazeGeneration mazeObj)
-	{
-		boolean validMove = true;
-		try {
-			Pair<Integer, Integer> nextCoords = mazeObj.returnNeighbor(mazeObj.userCoords, 2);
+			Pair<Integer, Integer> nextCoords = mazeObj.returnNeighbor(mazeObj.userCoords, dir.ordinal());
 			char nextSpace = mazeObj.maze[nextCoords.first][nextCoords.second];
 			if(nextCoords == null || nextSpace == MazeSpaces.WALL.SpaceChar()) {
 				validMove = false;
 			}
 		}
 		catch(Exception e) {
-			Log.v("UserMovement", "Exception caught in tryMoveSouth. " + e.toString());
-			validMove = false;
-		}
-		return validMove;
-	}
-	
-	public static boolean tryMoveEast(MazeGeneration mazeObj)
-	{
-		boolean validMove = true;
-		try {
-			Pair<Integer, Integer> nextCoords = mazeObj.returnNeighbor(mazeObj.userCoords, 1);
-			char nextSpace = mazeObj.maze[nextCoords.first][nextCoords.second];
-			if(nextCoords == null || nextSpace == MazeSpaces.WALL.SpaceChar()) {
-				validMove = false;
-			}
-		}
-		catch(Exception e) {
-			Log.v("UserMovement", "Exception caught in tryMoveEast. " + e.toString());
-			validMove = false;
-		}
-		return validMove;
-	}
-	
-	public static boolean tryMoveWest(MazeGeneration mazeObj)
-	{
-		boolean validMove = true;
-		try {
-			Pair<Integer, Integer> nextCoords = mazeObj.returnNeighbor(mazeObj.userCoords, 3);
-			char nextSpace = mazeObj.maze[nextCoords.first][nextCoords.second];
-			if(nextCoords == null || nextSpace == MazeSpaces.WALL.SpaceChar()) {
-				validMove = false;
-			}
-		}
-		catch(Exception e) {
-			Log.v("UserMovement", "Exception caught in tryMoveWest. " + e.toString());
+			Log.v("UserMovement", "Exception caught in tryMove: " + dir.ordinal() + " "+ e.toString());
 			validMove = false;
 		}
 		
 		return validMove;
 	}
 	
-	public static MazeGeneration movePlayerNorth(MazeGeneration maze_obj, View v, MazeGUI mazeGui) {
+	public static MazeGeneration movePlayer(MazeGeneration maze_obj, View v, MazeGUI maze_gui, Directions dir) {
 		mazeObj = maze_obj;
 		view = v;
-		maze_gui = mazeGui;
+		mazeGui = maze_gui;
 		
 		try {
-			Pair<Integer, Integer> nextCoords = mazeObj.returnNeighbor(mazeObj.userCoords, Directions.NORTH.ordinal());
+			Pair<Integer, Integer> nextCoords = mazeObj.returnNeighbor(mazeObj.userCoords, dir.ordinal());
 			return movePlayer(nextCoords);
 		}
 		catch(Exception e) {
-			Log.v("UserMovement", "Exception caught in movePlayerNorth. " + e.toString());
+			Log.v("UserMovement", "Exception caught in movePlayer: " + dir + " " + e.toString());
 			return null;
 		}
 		
-	}
-	
-	public static MazeGeneration movePlayerEast(MazeGeneration maze_obj, View v, MazeGUI mazeGui) {
-		mazeObj = maze_obj;
-		view = v;
-		maze_gui = mazeGui;
-		
-		try {
-			Pair<Integer, Integer> nextCoords = mazeObj.returnNeighbor(mazeObj.userCoords, Directions.EAST.ordinal());
-			return movePlayer(nextCoords);
-		}
-		catch(Exception e) {
-			Log.v("UserMovement", "Exception caught in movePlayerEast. " + e.toString());
-			return null;
-		}
-		
-	}
-	
-	public static MazeGeneration movePlayerSouth(MazeGeneration maze_obj, View v, MazeGUI mazeGui) {
-		mazeObj = maze_obj;
-		view = v;
-		maze_gui = mazeGui;
-		
-		try {
-			Pair<Integer, Integer> nextCoords = mazeObj.returnNeighbor(mazeObj.userCoords, Directions.SOUTH.ordinal());
-			return movePlayer(nextCoords);
-		}
-		catch(Exception e) {
-			Log.v("UserMovement", "Exception caught in movePlayerSouth. " + e.toString());
-			return null;
-		}
-	}
-	
-	public static MazeGeneration movePlayerWest(MazeGeneration maze_obj, View v, MazeGUI mazeGui) {
-		mazeObj = maze_obj;
-		view = v;
-		maze_gui = mazeGui;
-		
-		try {
-			Pair<Integer, Integer> nextCoords = mazeObj.returnNeighbor(mazeObj.userCoords, Directions.WEST.ordinal());
-			return movePlayer(nextCoords);
-		}
-		catch(Exception e) {
-			Log.v("UserMovement", "Exception caught in movePlayerWest. " + e.toString());
-			return null;
-		}
 	}
 	
 	private static MazeGeneration movePlayer(Pair<Integer, Integer> nextCoords) {
 		char nextSpace = mazeObj.maze[nextCoords.first][nextCoords.second];
-		if(nextSpace == MazeSpaces.PATH.SpaceChar()) {
+		if(nextSpace == MazeSpaces.PATH.SpaceChar() || nextSpace == MazeSpaces.START.SpaceChar()) {
 			//move user (update userCoords to nextCoords)
 			mazeObj.userCoords = nextCoords;
 		}
@@ -160,11 +64,11 @@ public class UserMovement {
 			//update userCoords and start roadblock intent
 			mazeObj.userCoords = nextCoords;
 			
-			maze_gui.roadBlockEnc(view);
+			mazeGui.roadBlockEnc(view);
 		}
 		else if(nextSpace == MazeSpaces.GOAL.SpaceChar()) {
 			//update userCoords and congratulate player (offer to return to start menu or start new maze
-			
+			Toast toast = Toast.makeText(mazeGui, "Congratulations!", Toast.LENGTH_LONG);
 			mazeObj.userCoords = nextCoords;
 		}
 		else {

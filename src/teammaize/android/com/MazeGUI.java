@@ -69,9 +69,9 @@ public class MazeGUI extends ASKActivity {
 				public void onClick(View v) {
 					Log.v("MazeActivity", "North Button View");
 					Button buttonView = (Button) v;
-					System.out.println(buttonView.getText().toString());
-					if(UserMovement.tryMoveNorth(mazeObject)) {
-						mazeObject = UserMovement.movePlayerNorth(mazeObject, v, MazeGUI.this);
+					
+					if(UserMovement.tryMove(mazeObject, DataStructures.Directions.NORTH)) {
+						mazeObject = UserMovement.movePlayer(mazeObject, v, MazeGUI.this, DataStructures.Directions.NORTH);
 						
 						//Testing Cell Updates - Chris
 						System.out.println("Cur Coords- First: " + (mazeObject.userCoords.first) + " Second: " + mazeObject.userCoords.second);
@@ -91,8 +91,6 @@ public class MazeGUI extends ASKActivity {
 						System.out.println("Invalid move");
 					}
 					
-					//TODO: call method to update UI?
-					//buttonView.setText("U");
 				}
 			});
 			
@@ -101,9 +99,9 @@ public class MazeGUI extends ASKActivity {
 				public void onClick(View v) {
 					Log.v("MazeActivity", "South Button View");
 					Button buttonView = (Button) v;
-					System.out.println(buttonView.getText().toString());
-					if(UserMovement.tryMoveSouth(mazeObject)) {
-						mazeObject = UserMovement.movePlayerSouth(mazeObject, v, MazeGUI.this);
+					
+					if(UserMovement.tryMove(mazeObject, DataStructures.Directions.SOUTH)) {
+						mazeObject = UserMovement.movePlayer(mazeObject, v, MazeGUI.this, DataStructures.Directions.SOUTH);
 						
 						//Added block -Chris
 						System.out.println("Cur Coords- First: " + (mazeObject.userCoords.first) + " Second: " + mazeObject.userCoords.second);
@@ -121,9 +119,7 @@ public class MazeGUI extends ASKActivity {
 					else {
 						System.out.println("Invalid move");
 					}
-					
-					//TODO: call method to update UI?
-					//buttonView.setText("D");				
+								
 				}
 			});
 			
@@ -132,9 +128,9 @@ public class MazeGUI extends ASKActivity {
 				public void onClick(View v) {
 					Log.v("MazeActivity", "West Button View");
 					Button buttonView = (Button) v;
-					System.out.println(buttonView.getText().toString());
-					if(UserMovement.tryMoveWest(mazeObject)) {
-						mazeObject = UserMovement.movePlayerWest(mazeObject, v, MazeGUI.this);
+					
+					if(UserMovement.tryMove(mazeObject, DataStructures.Directions.WEST)) {
+						mazeObject = UserMovement.movePlayer(mazeObject, v, MazeGUI.this, DataStructures.Directions.WEST);
 						
 						//Added block -Chris
 						System.out.println("Cur Coords- First: " + (mazeObject.userCoords.first) + " Second: " + mazeObject.userCoords.second);
@@ -152,9 +148,7 @@ public class MazeGUI extends ASKActivity {
 					else {
 						System.out.println("Invalid move");
 					}
-					
-					//TODO: call method to update UI?
-					//buttonView.setText("L");				
+									
 				}
 			});
 			
@@ -163,9 +157,9 @@ public class MazeGUI extends ASKActivity {
 				public void onClick(View v) {
 					Log.v("MazeActivity", "East Button View");
 					Button buttonView = (Button) v;
-					System.out.println(buttonView.getText().toString());
-					if(UserMovement.tryMoveEast(mazeObject)) {
-						mazeObject = UserMovement.movePlayerEast(mazeObject, v, MazeGUI.this);
+					
+					if(UserMovement.tryMove(mazeObject, DataStructures.Directions.EAST)) {
+						mazeObject = UserMovement.movePlayer(mazeObject, v, MazeGUI.this, DataStructures.Directions.EAST);
 						
 						//Added block -Chris
 						System.out.println("Cur Coords- First: " + (mazeObject.userCoords.first) + " Second: " + mazeObject.userCoords.second);
