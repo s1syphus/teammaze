@@ -31,7 +31,7 @@ public class QuestionsDataSource {
     dbHelper.close();
   }
 
-  public dbEntry createComment(dbEntry entry) {
+  public dbEntry createEntry(dbEntry entry) {
     ContentValues values = new ContentValues();
     values.put(MySQLiteHelper.COLUMN_QUESTION, entry.getQ());
     values.put(MySQLiteHelper.COLUMN_ANSCORRECT, entry.getACorrect());
