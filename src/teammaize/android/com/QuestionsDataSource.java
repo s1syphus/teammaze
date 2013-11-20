@@ -17,7 +17,8 @@ public class QuestionsDataSource {
   private String[] allColumns = { MySQLiteHelper.COLUMN_ID,
       MySQLiteHelper.COLUMN_QUESTION, MySQLiteHelper.COLUMN_ANSCORRECT, 
       MySQLiteHelper.COLUMN_ANS2, MySQLiteHelper.COLUMN_ANS3, MySQLiteHelper.COLUMN_ANS4,
-      MySQLiteHelper.COLUMN_SUBJECT, MySQLiteHelper.COLUMN_LEVEL};
+      MySQLiteHelper.COLUMN_SUBJECT, MySQLiteHelper.COLUMN_LEVEL, 
+      MySQLiteHelper.COLUMN_CORATTEMPTS, MySQLiteHelper.COLUMN_ATTEMPTS};
 
   public QuestionsDataSource(Context context) {
     dbHelper = new MySQLiteHelper(context);
