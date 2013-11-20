@@ -41,7 +41,7 @@ public class QuestionsDataSource {
     values.put(MySQLiteHelper.COLUMN_SUBJECT, entry.getSub());
     values.put(MySQLiteHelper.COLUMN_LEVEL, entry.getLevel());
     values.put(MySQLiteHelper.COLUMN_CORATTEMPTS, entry.getCorAttempts());
-    values.put(MySQLiteHelper.COLUMN_LEVEL, entry.getAttempts());
+    values.put(MySQLiteHelper.COLUMN_ATTEMPTS, entry.getAttempts());
     
     long insertId = database.insert(MySQLiteHelper.TABLE_DATA, null,
         values);
@@ -61,8 +61,8 @@ public class QuestionsDataSource {
         + " = " + id, null);
   }
 
-  public List<dbEntry> getAllComments() {
-    List<dbEntry> comments = new ArrayList<dbEntry>();
+  public List<dbEntry> getAllEntries() {
+    List<dbEntry> entries = new ArrayList<dbEntry>();
 
     Cursor cursor = database.query(MySQLiteHelper.TABLE_DATA,
         allColumns, null, null, null, null, null);
@@ -70,12 +70,12 @@ public class QuestionsDataSource {
     cursor.moveToFirst();
     while (!cursor.isAfterLast()) {
       dbEntry entry = cursorToEntry(cursor);
-      comments.add(entry);
+      entries.add(entry);
       cursor.moveToNext();
     }
     // make sure to close the cursor
     cursor.close();
-    return comments;
+    return entries;
   }
 
   private dbEntry cursorToEntry(Cursor cursor) {
