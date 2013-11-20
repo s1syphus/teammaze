@@ -39,7 +39,9 @@ public class QuestionsDataSource {
     values.put(MySQLiteHelper.COLUMN_ANS3, entry.getA3());
     values.put(MySQLiteHelper.COLUMN_ANS4, entry.getA4());
     values.put(MySQLiteHelper.COLUMN_SUBJECT, entry.getSub());
-    values.put(MySQLiteHelper.COLUMN_LEVEL, entry.getLevel() + "");
+    values.put(MySQLiteHelper.COLUMN_LEVEL, entry.getLevel());
+    values.put(MySQLiteHelper.COLUMN_CORATTEMPTS, entry.getCorAttempts());
+    values.put(MySQLiteHelper.COLUMN_LEVEL, entry.getAttempts());
     
     long insertId = database.insert(MySQLiteHelper.TABLE_DATA, null,
         values);
@@ -86,6 +88,8 @@ public class QuestionsDataSource {
     entry.ans4 = cursor.getString(5);
     entry.subject = cursor.getString(6);
     entry.level = cursor.getString(7);
+    entry.corAttempts = cursor.getString(8);
+    entry.attempts = cursor.getString(9);
     return entry;
   }
 } 

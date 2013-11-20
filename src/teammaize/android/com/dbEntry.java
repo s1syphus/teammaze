@@ -11,13 +11,16 @@ public class dbEntry {
 	String ans4;
 	String subject;
 	String level;
+	String corAttempts;
+	String attempts;
 	
 	
 	// public functions
 	// There are not "set" functions except for the constructor
 	// I do not think we need to modify an entry after it is made.
 	public dbEntry() {
-		
+		this.corAttempts = "0";
+		this.attempts = "0";
 	}
 	
 	public dbEntry(int ID, String quest, String a1, String a2, String a3, String a4, String subject, String level) {
@@ -30,6 +33,9 @@ public class dbEntry {
 		this.ans2 = a2;
 		this.ans3 = a3;
 		this.ans4 = a4;
+		this.corAttempts = "0";
+		this.attempts = "0";
+		
 	}
 	
 
@@ -60,6 +66,14 @@ public class dbEntry {
 	
 	public String getLevel() {
 		return this.level;
+	}
+	
+	public String getCorAttempts() {
+		return this.corAttempts;
+	}
+	
+	public String getAttempts() {
+		return this.attempts;
 	}
 	
 	public long getID() {
