@@ -1,7 +1,20 @@
 package teammaize.android.com;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.StatusLine;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -9,11 +22,14 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
+
 public class QuestionsDataSource {
 
   // Database fields
   private SQLiteDatabase database;
   private MySQLiteHelper dbHelper;
+  private Boolean createNew;
+  private String toParseData;
   private String[] allColumns = { MySQLiteHelper.COLUMN_ID,
       MySQLiteHelper.COLUMN_QUESTION, MySQLiteHelper.COLUMN_ANSCORRECT, 
       MySQLiteHelper.COLUMN_ANS2, MySQLiteHelper.COLUMN_ANS3, MySQLiteHelper.COLUMN_ANS4,
@@ -21,7 +37,8 @@ public class QuestionsDataSource {
       MySQLiteHelper.COLUMN_CORATTEMPTS, MySQLiteHelper.COLUMN_ATTEMPTS};
 
   public QuestionsDataSource(Context context) {
-    dbHelper = new MySQLiteHelper(context);
+      
+	  dbHelper = new MySQLiteHelper(context);
   }
 
   public void open() throws SQLException {
@@ -32,6 +49,78 @@ public class QuestionsDataSource {
     dbHelper.close();
   }
 
+  public void addData(String parseData) {
+
+	  /* parseData is in the form of XML as follows:
+	  
+	  <ENTRY>
+	  		<id> ## 				</id>
+	  		<question> wjefjewi 	</question>
+	  		<ansCorrect> alkdjflkaj </ansCorrect>
+	  		<ans2>  alkdjflka		</ans2>
+	  		<ans3>  alkdjflka		</ans3>
+	  		<ans4>  alkdjflka		</ans4>
+	  		<subjet> alksdjf		</subject>
+	  		<level> ## 				</level>
+	  		<corAttempts> ##		</corAttempts>
+	  		<attempts>  ##			</attempts>
+	  
+	  
+	  </ENTRY>
+	  
+	 
+	 */
+	  List<String> singleEntry = new ArrayList<String>();
+	  
+	  try {
+	        //For String source
+	        XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+	        factory.setNamespaceAware(true);
+	        XmlPullParser xpp = factory.newPullParser();
+	        xpp.setInput(new StringReader(parseData)); 
+
+	        xpp.next();
+	        int eventType = xpp.getEventType();                        
+
+	          while (xpp.getEventType()!=XmlPullParser.END_DOCUMENT) {
+	              if (xpp.getEventType()==XmlPullParser.START_TAG) {
+	                  if (xpp.getName().equals("ENTRY")) {
+	                     for (int i=0;i<10;i++) {
+	                    	 while (xpp.getEventType()!=XmlPullParser.START_TAG) {
+	                    	 }
+	                    	 singleEntry.add(xpp.getText());
+	                     }
+	                  }
+	                  dbEntry insertEntry = new dbEntry();
+	                  try {
+	                	  insertEntry.id = Long.parseLong(singleEntry.get(0));
+	                  }
+	                  catch (NumberFormatException nef) {
+	                  }
+	                  
+	                  insertEntry.qestion = singleEntry.get(1);
+	                  insertEntry.ansCorrect = singleEntry.get(2);
+	                  insertEntry.ans2 = singleEntry.get(3);
+	                  insertEntry.ans3 = singleEntry.get(4);
+	                  insertEntry.ans4 = singleEntry.get(5);
+	                  insertEntry.subject = singleEntry.get(6);
+	                  insertEntry.level = singleEntry.get(7);
+	                  insertEntry.corAttempts = singleEntry.get(8);
+	                  insertEntry.attempts = singleEntry.get(9);
+	                  
+	                  dbEntry temp = createEntry(insertEntry);
+	              }
+	              xpp.next();
+	          }
+
+	    } catch (XmlPullParserException e) {
+	          e.printStackTrace();
+	    } catch (IOException e) {
+	          e.printStackTrace();
+	    }
+	  
+  }
+  
   public dbEntry createEntry(dbEntry entry) {
     ContentValues values = new ContentValues();
     values.put(MySQLiteHelper.COLUMN_QUESTION, entry.getQ());
