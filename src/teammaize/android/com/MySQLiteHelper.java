@@ -39,11 +39,16 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	  @Override
 	  public void onCreate(SQLiteDatabase database) {
 	    database.execSQL(DATABASE_CREATE);
+	    // gets parse string or throw error can't connect
+	    
 	  }
 
 	  @Override
 	  public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 	
+		  //check to see if there is connection if no then return
+		  //check to see if there is a delete if yes drop table and call create
+		  //check to see if there is add if yes get string and add
 			Log.w(MySQLiteHelper.class.getName(),
 					"Upgrading database from version " + oldVersion + " to "
 	        		+ newVersion + ", which will destroy all old data");
