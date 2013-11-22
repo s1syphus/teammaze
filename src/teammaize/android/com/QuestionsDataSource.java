@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -21,7 +22,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-
 
 public class QuestionsDataSource {
 
@@ -82,6 +82,13 @@ public class QuestionsDataSource {
 	        xpp.next();
 	        int eventType = xpp.getEventType();                        
 
+	       // StringTokenizer strtok = new StringTokenizer(parseData);
+	       //   while(there are more lines)
+	       // 	  read line
+	       // 	while(more tokens in the line)
+	       // 		singleEntry.add(token);
+	        
+	        
 	          while (xpp.getEventType()!=XmlPullParser.END_DOCUMENT) {
 	              if (xpp.getEventType()==XmlPullParser.START_TAG) {
 	                  if (xpp.getName().equals("ENTRY")) {
