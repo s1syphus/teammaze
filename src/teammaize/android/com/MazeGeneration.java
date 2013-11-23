@@ -21,15 +21,6 @@ import android.util.Pair;
  */
 
 
-
-/*
- *	To do in this class:
- *
- *	Comment the code, some of it is already commented, most of it is not
- *	Discuss and fix the returnNeighbor function
- *
- */
-
 public class MazeGeneration {
 	
 	private final int sizeX;	//rows
@@ -85,20 +76,14 @@ public class MazeGeneration {
 		this.sizeX = sizeX;
 		this.sizeY = sizeY;
 		maze = new char[this.sizeX][this.sizeY];
-		initializeMaze();
 		generateMaze(startX,startY);
 		generateRoadblock();
 	}
 	
-	private void initializeMaze(){
-		for(int i = 0; i < sizeX; i++){
-			for(int j = 0; j < sizeY; j++){
-				maze[i][j] = DataStructures.MazeSpaces.WALL.SpaceChar();
-			}
-		}
-	}
-	
 	private void generateMaze(int startX, int startY){
+		/*
+		 * Utilizes a randomized depth-first search algorithm to create a maze
+		 */
 		Stack<Pair<Integer, Integer>> mazeStack = new Stack<Pair<Integer, Integer>>();
 		Vector<Pair<Integer, Integer>> mazeVector = new Vector<Pair<Integer, Integer>>();
 		Pair<Integer, Integer> curCoords = null, neighbor = null;
@@ -109,6 +94,11 @@ public class MazeGeneration {
 		dirOrder.add(DataStructures.Directions.EAST.ordinal());
 		dirOrder.add(DataStructures.Directions.SOUTH.ordinal());
 		dirOrder.add(DataStructures.Directions.WEST.ordinal());
+		for(int i = 0; i < sizeX; i++){
+			for(int j = 0; j < sizeY; j++){
+				maze[i][j] = DataStructures.MazeSpaces.WALL.SpaceChar();
+			}
+		}
 		while(!mazeStack.isEmpty()){
 			curCoords = mazeStack.pop();
 			maze[curCoords.first][curCoords.second]  = DataStructures.MazeSpaces.PATH.SpaceChar();
@@ -127,7 +117,10 @@ public class MazeGeneration {
 	}	
 	
 	private Pair<Integer, Integer> returnNextBlock(Pair<Integer, Integer> curLoc, int dir, Vector<Pair<Integer, Integer>> visited){
-		//this is for the mazeGeneration function, delete this comment at some point, not really needed except for house cleaning purposes
+		/*
+		 * This returns the next available block for the maze generation step, this allows adjacent elements to not interfere with each other
+		 * during the generation
+		 */
 		Pair<Integer, Integer> neighbor = null;
 		if(dir == DataStructures.Directions.NORTH.ordinal()){
 			if((curLoc.second - 1) >= 0){
@@ -223,6 +216,9 @@ public class MazeGeneration {
 	}
 	
 	private Integer manDist(Pair<Integer, Integer> start, Pair<Integer, Integer> goal){
+		/*
+		 * The Manhattan distance heuristic used for weighting
+		 */
 		return (Math.abs(goal.first - start.first) + Math.abs(goal.second - start.second));
 	}
 	
@@ -243,6 +239,9 @@ public class MazeGeneration {
 	}
 	
 	private Pair<Integer, Integer> minimumValue(HashMap<Pair<Integer, Integer>, Integer> map){
+		/*
+		 * Custom sorting method in order to find the minimum value of the hash-map that contains the elements and their corresponding weights
+		 */
 		List<Pair<Integer, Integer>> minKeyList = new ArrayList<Pair<Integer, Integer>>();
 		Entry<Pair<Integer, Integer>, Integer> min = null;
 		for(Entry<Pair<Integer, Integer>, Integer> entry: map.entrySet()){
@@ -261,6 +260,9 @@ public class MazeGeneration {
 	}
 	
 	public Vector<Pair<Integer, Integer>> solveMaze(){
+		/*
+		 * Utilizes the A* algorithm in order to solve the maze
+		 */
 		HashMap<Pair<Integer, Integer>, Integer> fScore = new HashMap<Pair<Integer, Integer>, Integer>();
 		HashMap<Pair<Integer, Integer>, Integer> gScore = new HashMap<Pair<Integer, Integer>, Integer>();
 		HashMap<Pair<Integer, Integer>, Integer> fScoreOpenSet = new HashMap<Pair<Integer, Integer>, Integer>();
@@ -307,12 +309,15 @@ public class MazeGeneration {
 	}
 
 	private void generateRoadblock(){
+		/*
+		 * This calls the solveMaze method in order to get a solution path in which to place the road-blocks in
+		 */
 		Vector<Pair<Integer, Integer>> solution = solveMaze();	
 		Pair<Integer, Integer> curLoc = null;
 		for(int i = 0; i < solution.size(); i++){
 			curLoc = solution.get(i);
 			if(maze[curLoc.first][curLoc.second] == DataStructures.MazeSpaces.PATH.SpaceChar()){
-				//add in i % 5 == 0 or something at some point, right now making the whole path roadblocks for testing
+				//add in i % 5 == 0 or something at some point, right now making the whole path road-blocks for testing
 				maze[curLoc.first][curLoc.second] = DataStructures.MazeSpaces.ROADBLOCK.SpaceChar();
 			}
 		}
