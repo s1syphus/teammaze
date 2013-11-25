@@ -32,7 +32,6 @@ public class MazeGeneration {
 	private Pair<Integer, Integer> start = new Pair<Integer, Integer>(startX, startY);
 	private Pair<Integer, Integer> goal = null;
 	public final char[][] maze;	//x by y maze
-	public Pair<Integer, Integer> userCoords = new Pair<Integer, Integer>(startX, startY);
 	
 	/*
 	 * this is a helper function not utilized inside this class, very similar to returnNext which is though

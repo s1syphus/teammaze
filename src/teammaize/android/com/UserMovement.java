@@ -19,12 +19,42 @@ public class UserMovement {
 	private static MazeGUI mazeGui;
 	private static View view;
 	private static MazeGeneration mazeObj;
+	private Pair<Integer, Integer> loc;
+	private Pair<Integer, Integer> prevLoc;
 	
-	public static boolean tryMove(MazeGeneration mazeObj, Directions dir)
+	public UserMovement(Pair<Integer, Integer> startLoc)
+	{
+		loc = startLoc;
+		prevLoc = null;
+	}
+	
+	public void setCurLoc(Pair<Integer, Integer> newLoc)
+	{
+		loc = newLoc;
+	}
+	
+	public Pair<Integer, Integer> getCurLoc()
+	{
+		return loc;
+	}
+	
+	//For use with roadblocks to track where the player attempted to move
+	public void setLastLoc(Pair<Integer, Integer> nextLoc)
+	{
+		prevLoc = nextLoc;
+	}
+	
+	//Only for use with roadblocks
+	public Pair<Integer, Integer> getLastLoc()
+	{
+		return prevLoc;
+	}
+	
+	public boolean tryMove(MazeGeneration mazeObj, Directions dir)
 	{
 		boolean validMove = true;
 		try {
-			Pair<Integer, Integer> nextCoords = mazeObj.returnNeighbor(mazeObj.userCoords, dir.ordinal());
+			Pair<Integer, Integer> nextCoords = mazeObj.returnNeighbor(loc, dir.ordinal());
 			char nextSpace = mazeObj.maze[nextCoords.first][nextCoords.second];
 			if(nextCoords == null || nextSpace == MazeSpaces.WALL.SpaceChar()) {
 				validMove = false;
@@ -38,43 +68,43 @@ public class UserMovement {
 		return validMove;
 	}
 	
-	public static MazeGeneration movePlayer(MazeGeneration maze_obj, View v, MazeGUI maze_gui, Directions dir) {
+	public void movePlayer(MazeGeneration maze_obj, View v, MazeGUI maze_gui, Directions dir) {
 		mazeObj = maze_obj;
 		view = v;
 		mazeGui = maze_gui;
 		
 		try {
-			Pair<Integer, Integer> nextCoords = mazeObj.returnNeighbor(mazeObj.userCoords, dir.ordinal());
-			return movePlayer(nextCoords);
+			Pair<Integer, Integer> nextCoords = mazeObj.returnNeighbor(loc, dir.ordinal());
+			char nextSpace = mazeObj.maze[nextCoords.first][nextCoords.second];
+			
+			Log.v("UserMovement", "Player moving to " + nextCoords.first + " " + nextCoords.second);
+			
+			if(nextSpace == MazeSpaces.PATH.SpaceChar() || nextSpace == MazeSpaces.START.SpaceChar()
+					|| nextSpace == MazeSpaces.PASSED.SpaceChar()) {
+				//move user (update userCoords to nextCoords)
+				prevLoc = loc;
+				loc = nextCoords;
+			}
+			else if(nextSpace == MazeSpaces.ROADBLOCK.SpaceChar()) {
+				//start roadblock intent and save these userCoords
+				mazeGui.roadBlockEnc(view);
+				prevLoc = loc;
+				loc = nextCoords;
+			}
+			else if(nextSpace == MazeSpaces.GOAL.SpaceChar()) {
+				//update userCoords and congratulate player (offer to return to start menu or start new maze
+				Toast toast = Toast.makeText(mazeGui, "Congratulations!", Toast.LENGTH_LONG);
+				toast.show();
+				prevLoc = loc;
+				loc = nextCoords;
+			}
+			else {
+				Log.v("UserMovement", "Unexpected character encountered in the next space to move to.");
+			}
 		}
 		catch(Exception e) {
 			Log.v("UserMovement", "Exception caught in movePlayer: " + dir + " " + e.toString());
-			return null;
 		}
 		
 	}
-	
-	private static MazeGeneration movePlayer(Pair<Integer, Integer> nextCoords) {
-		char nextSpace = mazeObj.maze[nextCoords.first][nextCoords.second];
-		if(nextSpace == MazeSpaces.PATH.SpaceChar() || nextSpace == MazeSpaces.START.SpaceChar()) {
-			//move user (update userCoords to nextCoords)
-			mazeObj.userCoords = nextCoords;
-		}
-		else if(nextSpace == MazeSpaces.ROADBLOCK.SpaceChar()) {
-			//update userCoords and start roadblock intent
-			mazeObj.userCoords = nextCoords;
-			
-			mazeGui.roadBlockEnc(view);
-		}
-		else if(nextSpace == MazeSpaces.GOAL.SpaceChar()) {
-			//update userCoords and congratulate player (offer to return to start menu or start new maze
-			Toast toast = Toast.makeText(mazeGui, "Congratulations!", Toast.LENGTH_LONG);
-			mazeObj.userCoords = nextCoords;
-		}
-		else {
-			Log.v("UserMovement", "Unexpected character encountered in the next space to move to.");
-		}
-		return mazeObj;
-	}
-	
 }
