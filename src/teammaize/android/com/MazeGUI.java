@@ -1,7 +1,28 @@
 package teammaize.android.com;
 
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.StatusLine;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+
+import android.net.Uri;
+import android.net.http.AndroidHttpClient;
+import android.os.Bundle;
+
 import java.io.InputStream;
 import java.util.Vector;
+
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -15,6 +36,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+
+import android.support.v4.app.NavUtils;
+import android.content.Intent;
+import android.content.res.AssetManager;
+import android.content.res.XmlResourceParser;
+import android.database.SQLException;
+import android.view.*;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageView;
@@ -29,7 +57,12 @@ public class MazeGUI extends ASKActivity {
 	private MazeGeneration mazeObject;
 	private int[][] idArray;
 	private GridLayout mazeImage;
+
+	private QuestionsDataSource database;
+	private ConnectionDetector connection;
+
 	private UserMovement player;
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +89,17 @@ public class MazeGUI extends ASKActivity {
 		catch(Exception e) {
 			Log.v("MazeGUI", "Exception thown in onCreate: " + e.toString());
 		}
+		
+		// This is where I request the Connection and parse data
+		
+		database = new QuestionsDataSource(this);
+		database.open();
+		
+		new RequestTask(database, this).execute("http://67.194.54.19:8888/website_wip/getcsv.php");
+		
+	
+		    
+		
 		
 		try {
 			
@@ -278,7 +322,7 @@ public class MazeGUI extends ASKActivity {
     		
     		String title = "Start Asset Method";
     		String deco = "--------------------";    		
-    		System.out.println(deco + title + deco);
+    		//System.out.println(deco + title + deco);
     		
     		//get the asset manager
     		AssetManager assetM = getAssets();
@@ -296,10 +340,10 @@ public class MazeGUI extends ASKActivity {
             
             //stores the contents of the file into q
     		String ex = new String(reader);
-    		System.out.println(ex);
+    		//System.out.println(ex);
     		
     		title = "End Assets Method";
-    		System.out.println(deco + title + deco);    		
+    		//System.out.println(deco + title + deco);    		
     		inputStream.close();
     		
     	} catch(Exception e) {
@@ -312,7 +356,7 @@ public class MazeGUI extends ASKActivity {
     		String title = "Start Resource Method";
     		String deco = "--------------------";
     		String decoLine = deco + title + deco;
-    		System.out.println(deco + title + deco);    		
+    		//System.out.println(deco + title + deco);    		
     		
     		//opens the file into an input stream using the resource id
     		InputStream inputStream = null;
@@ -326,16 +370,54 @@ public class MazeGUI extends ASKActivity {
             
             //stores the contents of the file into q
     		String ex = new String(reader);
-    		System.out.println(ex);
+    		//System.out.println(ex);
     		
     		title = "End Resource Method";
-    		System.out.println(deco + title + deco);
+    		//System.out.println(deco + title + deco);
     		inputStream.close();
     		
     	} catch(Exception e) {
     		Log.e("Eerrrrrr.....", e.getMessage());
     	}    	
     	
+    	// AVI TEST TO ACCESS DATABASE //
+    	try {
+    		List<dbEntry> questions = new ArrayList<dbEntry>();
+    		
+    		System.out.println("About to access Database");
+    		
+    		//database.open();
+    		
+    		System.out.println("Database Open");
+    		
+    		questions = database.getAllEntries();
+    		
+    		System.out.println("post Query: " + questions.size());
+    		
+    		if (questions.isEmpty()) {
+    			System.out.println("EMPTY DB");
+    			throw new Exception();
+    		}
+    		else {
+    			intent.putExtra("question", questions.get(0).qestion);
+    			intent.putExtra("cAns", questions.get(0).ansCorrect);
+    			intent.putExtra("wAns1", questions.get(0).ans2);
+    			intent.putExtra("wAns2", questions.get(0).ans3);
+    			intent.putExtra("wAns3", questions.get(0).ans4);
+    			intent.putExtra("qId", questions.get(0).id);
+    			
+    			System.out.println("Accesing DataBase");
+    		}
+    		
+    		//database.close();
+    	}
+    	catch (Exception e){
+    		Log.e("YOUR_APP_LOG_TAG", "I got an error", e);
+    		System.out.println("TROUBLE ACCESING DATABASE");
+    	}
+    	// END AVI TEST TO ACCESS DATABASE //
+    	
+    	/*
     	//Default
     	q = "What is the Capital of the USA?";
     	String cAns = "Washington DC";
@@ -351,7 +433,7 @@ public class MazeGUI extends ASKActivity {
     	intent.putExtra("wAns2", wAns2);
     	intent.putExtra("wAns3", wAns3);
     	intent.putExtra("qId", qId);
-    	
+    	*/
     	//switch to the roadblock activity
     	startActivityForResult(intent, 10); //10 is arbitrary, can be anything
     }

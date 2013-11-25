@@ -8,6 +8,12 @@
         android:minSdkVersion="15"
         android:targetSdkVersion="18" />
 
+    <!-- Internet Permissions -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    
+     <!-- Network State Permissions -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -39,5 +45,6 @@
                 android:value="teammaize.android.com.MainActivity" />
         </activity>
     </application>
+    
 
 </manifest>

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 
 import org.apache.http.HttpResponse;
@@ -51,6 +52,89 @@ public class QuestionsDataSource {
 
   public void addData(String parseData) {
 
+	  System.out.println("PARSING DATA");
+	  System.out.println(parseData);
+	  
+	try {  
+	 StringTokenizer strtok = new StringTokenizer(parseData, ",\n\t\r");
+	 dbEntry insertEntry;
+	 String garb;
+	 
+	 System.out.println("parseData has: " + strtok.countTokens() + " tokens");
+	
+	 garb = new String("");
+	 
+	 while(!garb.equals("<body>")) {
+		 System.out.println(garb);
+		 garb = strtok.nextToken();
+	 }
+	 
+	 System.out.println("AHHHHHH");
+	 
+	 long count = 0;
+	 
+	 while (strtok.hasMoreTokens()) {
+		// StringTokenizer entry = new StringTokenizer(strtok.nextToken(), ",");
+		 //System.out.println("THERE ARE THIS MANY TOKENS IN THIS LINE: " + entry.countTokens());
+		 insertEntry = new dbEntry();
+		 
+		/*
+		 while(strtok.hasMoreTokens()) {
+			 System.out.println(strtok.nextToken(","));
+		 }
+		 
+		 
+		 for (int i=0;i<6;i++) {
+			 String garbage = strtok.nextToken(",");
+		 }
+		 */
+		 try {
+			 String tempStr = strtok.nextToken(",");
+			 if (tempStr.equals("</body>")) {
+				 break;
+			 }
+			 if (tempStr.equals("")) {
+				 break;
+			 }/*
+			 System.out.println("first Token: " + tempStr);
+			 Long tempLong = Long.valueOf(tempStr);
+			 System.out.println("Long Val: " + tempLong);
+       	     insertEntry.id = tempLong.longValue();
+       	     */
+         }
+         catch (NumberFormatException nef) {
+        	 System.out.println("ID isn't a Number");
+         }
+		 
+		   insertEntry.qestion = strtok.nextToken(",");
+		   insertEntry.ansCorrect = strtok.nextToken(",");
+		   insertEntry.ans2 = strtok.nextToken(",");
+		   insertEntry.ans3 = strtok.nextToken(",");
+		   insertEntry.ans4 = strtok.nextToken(",");
+		   insertEntry.subject = strtok.nextToken(",");
+		   insertEntry.level = strtok.nextToken(",");
+		   insertEntry.corAttempts = strtok.nextToken(",");
+		   insertEntry.attempts = strtok.nextToken(",");
+		   
+		   System.out.println("//////////////");
+		   insertEntry.printEntry();
+		   System.out.println("//////////////");
+		   
+		   insertEntry.id = count;
+		   
+		   dbEntry temp = createEntry(insertEntry);
+		   count++;
+	 } 
+	 
+	}
+	catch (NoSuchElementException e) {
+		System.out.println("NOSUCHELEMENTS MEANS THAT NUMBERING IS OFF");
+	}
+	
+	
+	
+      
+	  
 	  /* parseData is in the form of XML as follows:
 	  
 	  <ENTRY>
@@ -70,10 +154,12 @@ public class QuestionsDataSource {
 	  
 	 
 	 */
-	  List<String> singleEntry = new ArrayList<String>();
+	  /*List<String> singleEntry = new ArrayList<String>();
 	  
 	  try {
 	        //For String source
+		  
+		  
 	        XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
 	        factory.setNamespaceAware(true);
 	        XmlPullParser xpp = factory.newPullParser();
@@ -81,12 +167,6 @@ public class QuestionsDataSource {
 
 	        xpp.next();
 	        int eventType = xpp.getEventType();                        
-
-	       // StringTokenizer strtok = new StringTokenizer(parseData);
-	       //   while(there are more lines)
-	       // 	  read line
-	       // 	while(more tokens in the line)
-	       // 		singleEntry.add(token);
 	        
 	        
 	          while (xpp.getEventType()!=XmlPullParser.END_DOCUMENT) {
@@ -120,16 +200,19 @@ public class QuestionsDataSource {
 	              xpp.next();
 	          }
 
-	    } catch (XmlPullParserException e) {
+	    }
+	   
+	    catch (XmlPullParserException e) {
 	          e.printStackTrace();
 	    } catch (IOException e) {
 	          e.printStackTrace();
-	    }
+	    }*/
 	  
   }
   
   public dbEntry createEntry(dbEntry entry) {
     ContentValues values = new ContentValues();
+    values.put(MySQLiteHelper.COLUMN_ID, entry.getID());
     values.put(MySQLiteHelper.COLUMN_QUESTION, entry.getQ());
     values.put(MySQLiteHelper.COLUMN_ANSCORRECT, entry.getACorrect());
     values.put(MySQLiteHelper.COLUMN_ANS2, entry.getA2());
@@ -159,11 +242,16 @@ public class QuestionsDataSource {
   }
 
   public List<dbEntry> getAllEntries() {
+	  
+	  System.out.println("In get Entries");
+	  
     List<dbEntry> entries = new ArrayList<dbEntry>();
 
     Cursor cursor = database.query(MySQLiteHelper.TABLE_DATA,
         allColumns, null, null, null, null, null);
 
+    System.out.println("After Query");
+    
     cursor.moveToFirst();
     while (!cursor.isAfterLast()) {
       dbEntry entry = cursorToEntry(cursor);
@@ -172,6 +260,9 @@ public class QuestionsDataSource {
     }
     // make sure to close the cursor
     cursor.close();
+    
+    System.out.println("Entries: " + entries.size());
+    
     return entries;
   }
 

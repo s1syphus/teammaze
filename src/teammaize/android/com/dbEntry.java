@@ -79,4 +79,9 @@ public class dbEntry {
 	public long getID() {
 		return this.id;
 	}
+	
+	public void printEntry() {
+		System.out.println(id + " " + qestion + " " + ansCorrect + " " + ans2 + " " + ans3 + " " + 
+						   ans4 + " " + subject + " " + level + " " + corAttempts + " " + attempts);
+	}
 }
