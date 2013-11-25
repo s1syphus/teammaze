@@ -18,9 +18,10 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.Toast;
 
-public class MazeGUI extends Activity {
+public class MazeGUI extends ASKActivity {
 	
 	//These are only sample values.
 	int x = 10, y = 10;
@@ -198,6 +199,7 @@ public class MazeGUI extends Activity {
 					ImageView WallGraphic = new ImageView(this);
 					WallGraphic.setImageResource(R.drawable.wall_graphic);
 					WallGraphic.setId(idCount);
+					WallGraphic.setScaleType(ScaleType.FIT_XY);
 
 					mazeImage.addView(WallGraphic);
 				}
@@ -206,6 +208,7 @@ public class MazeGUI extends Activity {
 					ImageView PathGraphic = new ImageView(this);
 					PathGraphic.setBackgroundResource(R.drawable.path_graphic);
 					PathGraphic.setId(idCount);
+					PathGraphic.setScaleType(ScaleType.FIT_XY);
 					
 					mazeImage.addView(PathGraphic);
 				}
@@ -214,6 +217,7 @@ public class MazeGUI extends Activity {
 					ImageView RoadblockGraphic = new ImageView(this);
 					RoadblockGraphic.setBackgroundResource(R.drawable.roadblock_graphic);
 					RoadblockGraphic.setId(idCount);
+					RoadblockGraphic.setScaleType(ScaleType.FIT_XY);
 					
 					mazeImage.addView(RoadblockGraphic);
 				}
@@ -223,6 +227,7 @@ public class MazeGUI extends Activity {
 					StartGraphic.setBackgroundResource(R.drawable.start_graphic);
 					StartGraphic.setImageResource(R.drawable.player_graphic);
 					StartGraphic.setId(idCount);
+					StartGraphic.setScaleType(ScaleType.FIT_XY);
 					
 					mazeImage.addView(StartGraphic);
 				}
@@ -231,6 +236,7 @@ public class MazeGUI extends Activity {
 					ImageView GoalGraphic = new ImageView(this);
 					GoalGraphic.setBackgroundResource(R.drawable.goal_graphic);
 					GoalGraphic.setId(idCount);
+					GoalGraphic.setScaleType(ScaleType.FIT_XY);
 					
 					mazeImage.addView(GoalGraphic);
 				}
@@ -372,6 +378,10 @@ public class MazeGUI extends Activity {
 						
 				//Replace space on board with P
 				mazeObject.maze[player.getCurLoc().first][player.getCurLoc().second] = DataStructures.MazeSpaces.PASSED.SpaceChar();
+				
+				Pair<Integer, Integer> curLoc = player.getCurLoc();
+				ImageView lastCell = (ImageView) findViewById(idArray[curLoc.first][curLoc.second]);
+				lastCell.setBackgroundResource(R.drawable.cleared_roadblock_graphic);
 				
 				Log.v("MazeGUI", "Player passed the Roadblock!");
 				
