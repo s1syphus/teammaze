@@ -315,7 +315,7 @@ public class MazeGeneration {
 		Pair<Integer, Integer> curLoc = null;
 		for(int i = 0; i < solution.size(); i++){
 			curLoc = solution.get(i);
-			if((maze[curLoc.first][curLoc.second] == DataStructures.MazeSpaces.PATH.SpaceChar()) && ((i+3) % 5 == 0)){
+			if((maze[curLoc.first][curLoc.second] == DataStructures.MazeSpaces.PATH.SpaceChar()) && (((i+3) % 4) == 0)){
 				maze[curLoc.first][curLoc.second] = DataStructures.MazeSpaces.ROADBLOCK.SpaceChar();
 			}
 		}
