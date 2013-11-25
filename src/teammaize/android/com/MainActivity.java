@@ -1,22 +1,24 @@
 package teammaize.android.com;
 
-import android.os.Bundle;
-import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import ask.scanninglibrary.ASKActivity;
 
-public class MainActivity extends Activity {
+public class MainActivity extends ASKActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
     	try {
     		super.onCreate(savedInstanceState);
     		setContentView(R.layout.activity_main);
-    	
+    		
+    		//Up button should not appear on the home page (cannot navigate 'up' to the home screen
+    		getActionBar().hide();
+    		
     		Log.v("MainActivity", "Initialize start button click events");
     		Button startButton = (Button) findViewById(R.id.upButton);
     		startButton.setOnClickListener(new OnClickListener() {
@@ -30,7 +32,7 @@ public class MainActivity extends Activity {
     	}
     }
 
-
+/*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
     	try {
@@ -43,6 +45,7 @@ public class MainActivity extends Activity {
     		return false;
     	}
     }
+    */
     
     public void mazeStart (View view) {
     	try {

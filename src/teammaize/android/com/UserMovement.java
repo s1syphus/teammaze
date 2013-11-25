@@ -3,9 +3,15 @@ package teammaize.android.com;
 import teammaize.android.com.DataStructures.Directions;
 import teammaize.android.com.DataStructures.MazeSpaces;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.util.Log;
 import android.util.Pair;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -95,6 +101,10 @@ public class UserMovement {
 				//update userCoords and congratulate player (offer to return to start menu or start new maze
 				Toast toast = Toast.makeText(mazeGui, "Congratulations!", Toast.LENGTH_LONG);
 				toast.show();
+				
+				//start new game dialog
+				mazeGui.finishedMaze();
+				
 				prevLoc = loc;
 				loc = nextCoords;
 			}

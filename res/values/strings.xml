@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">TeamMaize</string>
+    <string name="app_name">Maize Game</string>
     <string name="action_settings">Settings</string>
     <string name="start">Start</string>
+    <string name="team_maize">Team Maize</string>
     
     <string name="up">UP</string>
     <string name="down">DOWN</string>
@@ -22,7 +23,6 @@
     <string name="choice_three">Choice Three</string>
     <string name="choice_four">Choice Four</string>
     <string name="question_here">Question Here</string>
-    <string name="team_maize">Team Maize</string>
     <string name="roadblock_test">RB Test</string>
     <string name="title_activity_maze_gui">MazeGUI</string>
     <string name="close">Close</string>
