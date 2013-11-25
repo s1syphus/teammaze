@@ -1,5 +1,6 @@
 package teammaize.android.com;
 
+<<<<<<< HEAD
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -18,32 +19,51 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import android.net.Uri;
 import android.net.http.AndroidHttpClient;
 import android.os.Bundle;
+=======
+import java.io.InputStream;
+import java.util.Vector;
+
+>>>>>>> f14ad843f069b9a14116cf4af4ad5ccb4fc497be
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.res.AssetManager;
+import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.View.OnClickListener;
+<<<<<<< HEAD
 import android.support.v4.app.NavUtils;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.content.res.XmlResourceParser;
 import android.database.SQLException;
 import android.view.*;
+=======
+>>>>>>> f14ad843f069b9a14116cf4af4ad5ccb4fc497be
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageView;
-import ask.scanninglibrary.ASKActivity;
+import android.widget.Toast;
 
-public class MazeGUI extends ASKActivity {
+public class MazeGUI extends Activity {
 	
 	//These are only sample values.
-	int m = 10, n = 10;
+	int x = 10, y = 10;
 	
 	private MazeGeneration mazeObject;
 	private int[][] idArray;
 	private GridLayout mazeImage;
+
 	private QuestionsDataSource database;
 	private ConnectionDetector connection;
+
+	private UserMovement player;
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -53,18 +73,19 @@ public class MazeGUI extends ASKActivity {
 			// Show the Up button in the action bar.
 			setupActionBar();
 
-			mazeObject = new MazeGeneration(m, n);
-			idArray = new int[m][n];
+			mazeObject = new MazeGeneration(x, y);
+			idArray = new int[x][y];
 		
 			mazeImage = (GridLayout)findViewById(R.id.mazeImage);
-			mazeImage.setColumnCount(m);
-			mazeImage.setRowCount(n);
+			mazeImage.setColumnCount(x);
+			mazeImage.setRowCount(y);
 			mazeImage.setColumnOrderPreserved(true);
 			mazeImage.setRowOrderPreserved(true);
 			//Preliminary parameter setting. To be done- cell creation methods in graphicsMapping,
 			//artwork for those cells, layering with Erika's movement UI. -Chris, 10/18/2013
 			 
 			this.graphicsMapping(mazeObject.maze);
+			this.player = new UserMovement(new Pair<Integer, Integer>(0, 0));
 		}
 		catch(Exception e) {
 			Log.v("MazeGUI", "Exception thown in onCreate: " + e.toString());
@@ -82,36 +103,23 @@ public class MazeGUI extends ASKActivity {
 		
 		
 		try {
-			//Here is where  I altered the Button bindings. -Chris, 10/20/2013
-			//GridLayout directionGrid = (GridLayout)findViewById(R.id.movementGridLayout);
-			Button upButton = (Button) findViewById(R.id.leftButton);
-			Button downButton = (Button) findViewById(R.id.rightButton);
-			Button leftButton = (Button) findViewById(R.id.upButton);
-			Button rightButton = (Button) findViewById(R.id.downButton);
-			//button.Attributes.Add("OnClick", "button_Clicked");
-		
-			//Initialize up button on click listener
-			upButton.setOnClickListener(new OnClickListener() {
-				public void onClick(View v) {
-					Log.v("MazeActivity", "North Button View");
-					Button buttonView = (Button) v;
-					
-					if(UserMovement.tryMove(mazeObject, DataStructures.Directions.NORTH)) {
-						mazeObject = UserMovement.movePlayer(mazeObject, v, MazeGUI.this, DataStructures.Directions.NORTH);
-						
-						//Testing Cell Updates - Chris
-						System.out.println("Cur Coords- First: " + (mazeObject.userCoords.first) + " Second: " + mazeObject.userCoords.second);
-						System.out.println("Last Coords- First: " + (mazeObject.userCoords.first) + " Second: " + (mazeObject.userCoords.second + 1));
-						
-						ImageView lastCell = (ImageView) findViewById(idArray[mazeObject.userCoords.first][mazeObject.userCoords.second + 1]);
-						lastCell.setImageResource(0);
-						
-						ImageView currentCell = (ImageView) findViewById(idArray[mazeObject.userCoords.first][mazeObject.userCoords.second]);
-						currentCell.setImageResource(R.drawable.player_graphic);
-						//Testing End
-						
+			
+			Vector<Button> buttons = new Vector<Button>();
+			buttons.add((Button) findViewById(R.id.upButton));
+			buttons.add((Button) findViewById(R.id.rightButton));
+			buttons.add((Button) findViewById(R.id.downButton));
+			buttons.add((Button) findViewById(R.id.leftButton));
 
-						System.out.println("Move succesful");
+			//Initialize left button on click listener
+			buttons.elementAt(DataStructures.Directions.WEST.ordinal()).setOnClickListener(new OnClickListener() {
+				public void onClick(View v) {
+					Log.v("MazeActivity", "West Button View");
+					
+					if(player.tryMove(mazeObject, DataStructures.Directions.WEST)) {
+						player.movePlayer(mazeObject, v, MazeGUI.this, DataStructures.Directions.WEST);
+						
+						//Update Player location
+						updatePlayerGraphic(player.getLastLoc(), player.getCurLoc());
 					}
 					else {
 						System.out.println("Invalid move");
@@ -120,27 +128,16 @@ public class MazeGUI extends ASKActivity {
 				}
 			});
 			
-			// Initialize down button on click listener
-			downButton.setOnClickListener(new OnClickListener() {
+			// Initialize right button on click listener
+			buttons.elementAt(DataStructures.Directions.EAST.ordinal()).setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {
-					Log.v("MazeActivity", "South Button View");
-					Button buttonView = (Button) v;
+					Log.v("MazeActivity", "East Button View");
 					
-					if(UserMovement.tryMove(mazeObject, DataStructures.Directions.SOUTH)) {
-						mazeObject = UserMovement.movePlayer(mazeObject, v, MazeGUI.this, DataStructures.Directions.SOUTH);
+					if(player.tryMove(mazeObject, DataStructures.Directions.EAST)) {
+						player.movePlayer(mazeObject, v, MazeGUI.this, DataStructures.Directions.EAST);
 						
-						//Added block -Chris
-						System.out.println("Cur Coords- First: " + (mazeObject.userCoords.first) + " Second: " + mazeObject.userCoords.second);
-						System.out.println("Last Coords- First: " + (mazeObject.userCoords.first) + " Second: " + (mazeObject.userCoords.second - 1));
-						
-						ImageView lastCell = (ImageView) findViewById(idArray[mazeObject.userCoords.first][mazeObject.userCoords.second - 1]);
-						lastCell.setImageResource(0);
-						
-						ImageView currentCell = (ImageView) findViewById(idArray[mazeObject.userCoords.first][mazeObject.userCoords.second]);
-						currentCell.setImageResource(R.drawable.player_graphic);
-						//
-						
-						System.out.println("Move succesful");
+						//Update Player location
+						updatePlayerGraphic(player.getLastLoc(), player.getCurLoc());
 					}
 					else {
 						System.out.println("Invalid move");
@@ -149,27 +146,16 @@ public class MazeGUI extends ASKActivity {
 				}
 			});
 			
-			// Initialize left button on click listener
-			leftButton.setOnClickListener(new OnClickListener() {
+			// Initialize up button on click listener
+			buttons.elementAt(DataStructures.Directions.NORTH.ordinal()).setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {
-					Log.v("MazeActivity", "West Button View");
-					Button buttonView = (Button) v;
+					Log.v("MazeActivity", "North Button View");
 					
-					if(UserMovement.tryMove(mazeObject, DataStructures.Directions.WEST)) {
-						mazeObject = UserMovement.movePlayer(mazeObject, v, MazeGUI.this, DataStructures.Directions.WEST);
+					if(player.tryMove(mazeObject, DataStructures.Directions.NORTH)) {
+						player.movePlayer(mazeObject, v, MazeGUI.this, DataStructures.Directions.NORTH);
 						
-						//Added block -Chris
-						System.out.println("Cur Coords- First: " + (mazeObject.userCoords.first) + " Second: " + mazeObject.userCoords.second);
-						System.out.println("Last Coords- First: " + (mazeObject.userCoords.first + 1) + " Second: " + (mazeObject.userCoords.second));
-						
-						ImageView lastCell = (ImageView) findViewById(idArray[mazeObject.userCoords.first + 1][mazeObject.userCoords.second]);
-						lastCell.setImageResource(0);
-						
-						ImageView currentCell = (ImageView) findViewById(idArray[mazeObject.userCoords.first][mazeObject.userCoords.second]);
-						currentCell.setImageResource(R.drawable.player_graphic);
-						//
-						
-						System.out.println("Move succesful");
+						//Update Player location
+						updatePlayerGraphic(player.getLastLoc(), player.getCurLoc());
 					}
 					else {
 						System.out.println("Invalid move");
@@ -178,78 +164,48 @@ public class MazeGUI extends ASKActivity {
 				}
 			});
 			
-			// Initialize right button on click listener
-			rightButton.setOnClickListener(new OnClickListener() {
-				public void onClick(View v) {
-					Log.v("MazeActivity", "East Button View");
-					Button buttonView = (Button) v;
+			// Initialize down button on click listener
+			buttons.elementAt(DataStructures.Directions.SOUTH.ordinal()).setOnClickListener(new OnClickListener() {
+					public void onClick(View v) {
+					Log.v("MazeActivity", "South Button View");
 					
-					if(UserMovement.tryMove(mazeObject, DataStructures.Directions.EAST)) {
-						mazeObject = UserMovement.movePlayer(mazeObject, v, MazeGUI.this, DataStructures.Directions.EAST);
+					if(player.tryMove(mazeObject, DataStructures.Directions.SOUTH)) {
+						player.movePlayer(mazeObject, v, MazeGUI.this, DataStructures.Directions.SOUTH);
 						
-						//Added block -Chris
-						System.out.println("Cur Coords- First: " + (mazeObject.userCoords.first) + " Second: " + mazeObject.userCoords.second);
-						System.out.println("Last Coords- First: " + (mazeObject.userCoords.first - 1) + " Second: " + (mazeObject.userCoords.second));
-						
-						ImageView lastCell = (ImageView) findViewById(idArray[mazeObject.userCoords.first - 1][mazeObject.userCoords.second]);
-						lastCell.setImageResource(0);
-						
-						
-						ImageView currentCell = (ImageView) findViewById(idArray[mazeObject.userCoords.first][mazeObject.userCoords.second]);
-						currentCell.setImageResource(R.drawable.player_graphic);
-						//
-						
-						System.out.println("Move succesful");
+						//Update player location
+						updatePlayerGraphic(player.getLastLoc(), player.getCurLoc());
 					}
 					else {
 						System.out.println("Invalid move");
 					}
-					
-					//TODO: call method to update UI?
-					//buttonView.setText("R");				
 				}
 			});
 		}
 		catch(Exception e) {
 			Log.v("MazeGUI", "Exception thown in onCreate onClickListeners: " + e.toString());
 		}
-		
-		OnClickListener clickListener = new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Log.v("MazeActivity", "Button View");
-				Button buttonView = (Button)v;
-				System.out.println("Button " + buttonView.getText().toString() + " pressed");
-				//TODO: change logic to check the direction is valid
-				// update location in array 
-				// call method to update UI? (need to know which direction button was pressed)
-				//if (buttonView.getText().toString().isEmpty()) {
-					buttonView.setText("X");
-				//}
-			}
-		};
 	}
 
 	/**
 	 * Set up the {@link android.app.ActionBar}.
 	 */
+	
 	private void setupActionBar() {
 
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 
 	}
-
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.maze_gui, menu);
 		return true;
 	}
-
+	
+	//I don't think it makes sense to have an up button in our app
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case android.R.id.home:
 			// This ID represents the Home or Up button. In the case of this
 			// activity, the Up button is shown. Use NavUtils to allow users
 			// to navigate up one level in the application structure. For
@@ -257,23 +213,33 @@ public class MazeGUI extends ASKActivity {
 			//
 			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
 			//
-			NavUtils.navigateUpFromSameTask(this);
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
+		startActivity(new Intent(MazeGUI.this, MainActivity.class)); 
+        return true;
+	}
+	
+	private void updatePlayerGraphic(Pair<Integer, Integer> currentLoc, Pair<Integer, Integer> nextLoc)
+	{
+		Log.v("MazeGUI", "Redraw Player moved from: " + currentLoc.first + " " + currentLoc.second
+				+ " to " + nextLoc.first + " " + nextLoc.second);
+		
+		ImageView lastCell = (ImageView) findViewById(idArray[currentLoc.first][currentLoc.second]);
+		lastCell.setImageResource(0);
+		
+		ImageView currentCell = (ImageView) findViewById(idArray[nextLoc.first][nextLoc.second]);
+		currentCell.setImageResource(R.drawable.player_graphic);
 	}
 	
 	public void graphicsMapping(char[][] textArray)
 	{	
 		int idCount = 0;
 		
-		for (int i = 0; i < m; i++)
+		for (int i = 0; i < x; i++)
 		{
-			for(int j = 0; j < n; j++)
+			for(int j = 0; j < y; j++)
 			{
-				idArray[i][j] = idCount;
+				idArray[j][i] = idCount;
 				
-				if(textArray[i][j] == 'X')
+				if(textArray[j][i] == 'X')
 				{
 					ImageView WallGraphic = new ImageView(this);
 					WallGraphic.setImageResource(R.drawable.wall_graphic);
@@ -281,7 +247,7 @@ public class MazeGUI extends ASKActivity {
 
 					mazeImage.addView(WallGraphic);
 				}
-				else if(textArray[i][j] == '.')
+				else if(textArray[j][i] == '.')
 				{
 					ImageView PathGraphic = new ImageView(this);
 					PathGraphic.setBackgroundResource(R.drawable.path_graphic);
@@ -289,7 +255,7 @@ public class MazeGUI extends ASKActivity {
 					
 					mazeImage.addView(PathGraphic);
 				}
-				else if(textArray[i][j] == 'R')
+				else if(textArray[j][i] == 'R')
 				{
 					ImageView RoadblockGraphic = new ImageView(this);
 					RoadblockGraphic.setBackgroundResource(R.drawable.roadblock_graphic);
@@ -297,7 +263,7 @@ public class MazeGUI extends ASKActivity {
 					
 					mazeImage.addView(RoadblockGraphic);
 				}
-				else if(textArray[i][j] == 'S')
+				else if(textArray[j][i] == 'S')
 				{
 					ImageView StartGraphic = new ImageView(this);
 					StartGraphic.setBackgroundResource(R.drawable.start_graphic);
@@ -306,7 +272,7 @@ public class MazeGUI extends ASKActivity {
 					
 					mazeImage.addView(StartGraphic);
 				}
-				else if(textArray[i][j] == 'G')
+				else if(textArray[j][i] == 'G')
 				{
 					ImageView GoalGraphic = new ImageView(this);
 					GoalGraphic.setBackgroundResource(R.drawable.goal_graphic);
@@ -485,12 +451,62 @@ public class MazeGUI extends ASKActivity {
 			System.out.println(ans);
 			System.out.println(qId);
 			
-			//if correct, resultCode = RESULT_OK
-			if (resultCode == RESULT_OK){
-				//Put in stuff to do when correct	            
+			//if correct ans = "correct"
+			if (ans.equals("correct")){
+						
+				//Replace space on board with P
+				mazeObject.maze[player.getCurLoc().first][player.getCurLoc().second] = DataStructures.MazeSpaces.PASSED.SpaceChar();
+				
+				Log.v("MazeGUI", "Player passed the Roadblock!");
+				
 			} else {
-				//Put in stuff to do when incorrect
+				//Player was incorrect
+				
+				//update player loc graphic
+				updatePlayerGraphic(player.getCurLoc(), player.getLastLoc());
+				Log.v("MazeGUI", "Player moved back from: " + player.getCurLoc().first + " " + player.getCurLoc().second
+						+ " to " + player.getLastLoc().first + " " + player.getLastLoc().second);
+				
+				//move player
+				Pair<Integer, Integer> prevLoc = player.getCurLoc();
+				player.setCurLoc(player.getLastLoc());
+				
 			}
 		}
+	}
+
+	public void finishedMaze() {
+		Log.v("MazeGui", "Game is finished - prompt user to continue");
+		
+		AlertDialog.Builder alert = new AlertDialog.Builder(MazeGUI.this);
+		alert.setTitle("Game Won!");
+		alert.setMessage("Would you like to start a new game?");
+		alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface arg0, int arg1) {
+				Log.v("MazeComplete", "Start new game");
+				// TODO Auto-generated method stub
+				Toast.makeText(getApplicationContext(), "Ok is clicked", Toast.LENGTH_LONG)
+						.show();
+				mazeObject = new MazeGeneration(x, y);
+				
+				//TODO: need to delete the old maze object
+				
+				MazeGUI.this.graphicsMapping(mazeObject.maze);
+				player.setCurLoc(new Pair<Integer, Integer>(0, 0));
+			}
+		});
+		alert.setNegativeButton("Cancel",
+				new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface arg0, int arg1) {
+						Log.v("MazeComplete", "Do not start new game");
+						// TODO Auto-generated method stub
+						Toast.makeText(getApplicationContext(), "Cancel is clicked",
+								Toast.LENGTH_LONG).show();
+					}
+				});
+
+		alert.show();
 	}
 }

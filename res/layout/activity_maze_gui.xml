@@ -6,7 +6,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-     tools:context=".MazeGUI">
+    tools:context=".MazeGUI">
 <LinearLayout
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -26,11 +26,11 @@
         android:columnCount="3" 
         android:clickable="false">
         
-        <Button android:id="@+id/rightButton" 
-            android:text="@string/right" 
-            android:contentDescription="@string/right_button_des" 
+        <Button android:id="@+id/leftButton" 
+            android:text="@string/left" 
+            android:contentDescription="@string/left_button_des" 
             android:layout_row="3" 
-            android:layout_gravity="right|top" 
+            android:layout_gravity="left|top" 
             android:layout_column="2"/>
         
         <Button android:id="@+id/upButton" 
@@ -47,20 +47,20 @@
             android:layout_gravity="center" 
             android:layout_column="2"/>
         
-        <Button android:id="@+id/leftButton" 
-            android:text="@string/left" 
-            android:contentDescription="@string/left_button_des" 
+        <Button android:id="@+id/rightButton" 
+            android:text="@string/right" 
+            android:contentDescription="@string/right_button_des" 
             android:layout_row="3" 
-            android:layout_gravity="left|top" 
+            android:layout_gravity="right|top" 
             android:layout_column="2"/>
-                
+            
+    	<Button
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:onClick="closeActivity"
+        	android:text="@string/close" />
+    	
     </GridLayout>
-    
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="closeActivity"
-        android:text="@string/close" />
-    
+
 </LinearLayout>
 </ScrollView>
