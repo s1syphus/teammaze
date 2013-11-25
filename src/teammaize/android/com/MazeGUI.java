@@ -1,6 +1,6 @@
 package teammaize.android.com;
 
-<<<<<<< HEAD
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -19,11 +19,11 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import android.net.Uri;
 import android.net.http.AndroidHttpClient;
 import android.os.Bundle;
-=======
+
 import java.io.InputStream;
 import java.util.Vector;
 
->>>>>>> f14ad843f069b9a14116cf4af4ad5ccb4fc497be
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -36,15 +36,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-<<<<<<< HEAD
+
 import android.support.v4.app.NavUtils;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.content.res.XmlResourceParser;
 import android.database.SQLException;
 import android.view.*;
-=======
->>>>>>> f14ad843f069b9a14116cf4af4ad5ccb4fc497be
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageView;
