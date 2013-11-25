@@ -48,6 +48,7 @@ import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.Toast;
+import ask.scanninglibrary.ASKActivity;
 
 public class MazeGUI extends ASKActivity {
 	
@@ -91,12 +92,12 @@ public class MazeGUI extends ASKActivity {
 		}
 		
 		// This is where I request the Connection and parse data
-		
+		/*
 		database = new QuestionsDataSource(this);
 		database.open();
 		
 		new RequestTask(database, this).execute("http://67.194.54.19:8888/website_wip/getcsv.php");
-		
+		*/
 	
 		    
 		
