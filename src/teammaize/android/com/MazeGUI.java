@@ -24,8 +24,13 @@ import java.io.InputStream;
 import java.util.Vector;
 
 
+
+
+
+
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.AssetManager;
@@ -36,7 +41,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-
+import android.view.ViewGroup.LayoutParams;
 import android.support.v4.app.NavUtils;
 import android.content.Intent;
 import android.content.res.AssetManager;
@@ -59,8 +64,8 @@ public class MazeGUI extends ASKActivity {
 	private int[][] idArray;
 	private GridLayout mazeImage;
 
-	private QuestionsDataSource database;
-	private ConnectionDetector connection;
+	//private QuestionsDataSource database;
+	//private ConnectionDetector connection;
 
 	private UserMovement player;
 
@@ -232,6 +237,26 @@ public class MazeGUI extends ASKActivity {
 	public void graphicsMapping(char[][] textArray)
 	{	
 		int idCount = 0;
+		int finalDimen = 0;
+		LayoutParams dimensions;
+		
+		Display d = ((WindowManager)getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+		@SuppressWarnings("deprecation")
+		int width = d.getWidth();
+		@SuppressWarnings("deprecation")
+		int height = d.getHeight();
+		
+		dimensions = new LayoutParams(finalDimen, finalDimen);
+		
+		//Set percentage of screen taken up by maze
+		if(width < height)
+		{
+			finalDimen = (int) (width/this.x * 0.80);
+		}
+		else
+		{
+			finalDimen = (int) (height/this.x * 0.60);
+		}
 		
 		for (int i = 0; i < x; i++)
 		{
@@ -245,7 +270,9 @@ public class MazeGUI extends ASKActivity {
 					WallGraphic.setImageResource(R.drawable.wall_graphic);
 					WallGraphic.setId(idCount);
 					WallGraphic.setScaleType(ScaleType.FIT_XY);
-
+					WallGraphic.setAdjustViewBounds(true);
+					WallGraphic.setLayoutParams(new LayoutParams(finalDimen, finalDimen));
+					
 					mazeImage.addView(WallGraphic);
 				}
 				else if(textArray[j][i] == '.')
@@ -254,6 +281,8 @@ public class MazeGUI extends ASKActivity {
 					PathGraphic.setBackgroundResource(R.drawable.path_graphic);
 					PathGraphic.setId(idCount);
 					PathGraphic.setScaleType(ScaleType.FIT_XY);
+					PathGraphic.setAdjustViewBounds(true);
+					PathGraphic.setLayoutParams(new LayoutParams(finalDimen, finalDimen));
 					
 					mazeImage.addView(PathGraphic);
 				}
@@ -263,6 +292,8 @@ public class MazeGUI extends ASKActivity {
 					RoadblockGraphic.setBackgroundResource(R.drawable.roadblock_graphic);
 					RoadblockGraphic.setId(idCount);
 					RoadblockGraphic.setScaleType(ScaleType.FIT_XY);
+					RoadblockGraphic.setAdjustViewBounds(true);
+					RoadblockGraphic.setLayoutParams(new LayoutParams(finalDimen, finalDimen));
 					
 					mazeImage.addView(RoadblockGraphic);
 				}
@@ -273,6 +304,8 @@ public class MazeGUI extends ASKActivity {
 					StartGraphic.setImageResource(R.drawable.player_graphic);
 					StartGraphic.setId(idCount);
 					StartGraphic.setScaleType(ScaleType.FIT_XY);
+					StartGraphic.setAdjustViewBounds(true);
+					StartGraphic.setLayoutParams(new LayoutParams(finalDimen, finalDimen));
 					
 					mazeImage.addView(StartGraphic);
 				}
@@ -282,6 +315,8 @@ public class MazeGUI extends ASKActivity {
 					GoalGraphic.setBackgroundResource(R.drawable.goal_graphic);
 					GoalGraphic.setId(idCount);
 					GoalGraphic.setScaleType(ScaleType.FIT_XY);
+					GoalGraphic.setAdjustViewBounds(true);
+					GoalGraphic.setLayoutParams(new LayoutParams(finalDimen, finalDimen));
 					
 					mazeImage.addView(GoalGraphic);
 				}
@@ -391,7 +426,7 @@ public class MazeGUI extends ASKActivity {
     		
     		System.out.println("Database Open");
     		
-    		questions = database.getAllEntries();
+    		//questions = database.getAllEntries();
     		
     		System.out.println("post Query: " + questions.size());
     		

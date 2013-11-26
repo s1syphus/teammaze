@@ -34,7 +34,7 @@
             android:parentActivityName="teammaize.android.com" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="teammaize.android.com" />
+                android:value="teammaize.android.com.MazeGUI" />
         </activity>
         <activity
             android:name="teammaize.android.com.MazeGUI"
@@ -42,8 +42,8 @@
             android:parentActivityName="teammaize.android.com" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="teammaize.android.com" />
-        </activity>    
+                android:value="teammaize.android.com.MainActivity" />
+        </activity>
     </application>
     
 
