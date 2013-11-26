@@ -25,3 +25,13 @@ In order to set up our application:
 6. Run the application: Click on Android Virtual Device Manager Button in eclipse top bar
    Click "New..." and create a device emulator
    Click Run button
+
+The other required part of our project is to run a (local) web server for the questions
+In order to run this:
+
+1. Clone the application from: https://github.com/migabreu/maizemaze
+
+2. 
+
+
+
