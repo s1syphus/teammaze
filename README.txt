@@ -29,9 +29,36 @@ In order to set up our application:
 The other required part of our project is to run a (local) web server for the questions
 In order to run this:
 
-1. Clone the application from: https://github.com/migabreu/maizemaze
+1. Download the local webserver software
+-Wamp if you're on a PC
+--www.wampserver.com/en
+-Mamp if you're on a Mac
+--www.mamp.info/en/index.html
 
-2. 
+2. Clone the application from: https://github.com/migabreu/maizemaze 
 
+3. Place a copy of the website_wip into the htdocs folder
 
+4. Unzip the mysql file and place the extracted folder into the db folder
+
+5. Start Mamp/Wamp
+
+6. Get your port number from the preferences menu
+
+7. Start the servers
+
+8. To access the website, open a browser and type in localhost:port_number/website_wip/index.html
+
+Connect the android app to the website
+
+1. Get your ip address
+-on a pc, go to start -> type cmd in the input text box -> click cmd and open
+-then type in ipconfig
+-get your address that's
+
+-on a mac, go to system preferences -> network -> Select your current web device -> The ip address listed in the description under status : connected
+
+2. Edit this line in this file and add the ip addres
+
+3. You're app now connects to the database
 
