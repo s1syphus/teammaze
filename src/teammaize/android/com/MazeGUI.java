@@ -25,8 +25,13 @@ import java.io.InputStream;
 import java.util.Vector;
 
 
+
+
+
+
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.AssetManager;
@@ -37,7 +42,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-
+import android.view.ViewGroup.LayoutParams;
 import android.support.v4.app.NavUtils;
 import android.content.Intent;
 import android.content.res.AssetManager;
@@ -47,9 +52,11 @@ import android.view.*;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.Toast;
+import ask.scanninglibrary.ASKActivity;
 
-public class MazeGUI extends Activity {
+public class MazeGUI extends ASKActivity {
 	
 	//These are only sample values.
 	int x = 10, y = 10;
@@ -58,11 +65,13 @@ public class MazeGUI extends Activity {
 	private int[][] idArray;
 	private GridLayout mazeImage;
 
+
 	private QuestionsDataSource database;
-	private ConnectionDetector connection;
+//	private ConnectionDetector connection;
 	private List<dbEntry> dataList;
 	private int index;
 	private Random r;
+
 
 	private UserMovement player;
 
@@ -93,20 +102,18 @@ public class MazeGUI extends Activity {
 			Log.v("MazeGUI", "Exception thown in onCreate: " + e.toString());
 		}
 		
-		// This is where I request the Connection and parse data
-		
+		// This is where I request the Connection and parse data		
 		//database = new QuestionsDataSource(this);
 		//database.open();
 		
 		dataList = new ArrayList<dbEntry>();
-		r = new Random();
-		
-		new RequestTask(database, this, dataList, this).execute("http://67.194.25.58:8888/website_wip/getcsv.php");
-		
-	
-		    
-		
-		
+		r = new Random();	
+		try {
+			new RequestTask(database, this, dataList, this).execute("http://67.194.25.58:8888/website_wip/getcsv.php");		
+		}
+		catch (Exception e) {
+			Log.v("MazeGUI", "Exception thrown in RequestTask " + e.toString());
+		}
 		try {
 			
 			Vector<Button> buttons = new Vector<Button>();
@@ -237,6 +244,26 @@ public class MazeGUI extends Activity {
 	public void graphicsMapping(char[][] textArray)
 	{	
 		int idCount = 0;
+		int finalDimen = 0;
+		LayoutParams dimensions;
+		
+		Display d = ((WindowManager)getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+		@SuppressWarnings("deprecation")
+		int width = d.getWidth();
+		@SuppressWarnings("deprecation")
+		int height = d.getHeight();
+		
+		dimensions = new LayoutParams(finalDimen, finalDimen);
+		
+		//Set percentage of screen taken up by maze
+		if(width < height)
+		{
+			finalDimen = (int) (width/this.x * 0.80);
+		}
+		else
+		{
+			finalDimen = (int) (height/this.x * 0.60);
+		}
 		
 		for (int i = 0; i < x; i++)
 		{
@@ -249,7 +276,10 @@ public class MazeGUI extends Activity {
 					ImageView WallGraphic = new ImageView(this);
 					WallGraphic.setImageResource(R.drawable.wall_graphic);
 					WallGraphic.setId(idCount);
-
+					WallGraphic.setScaleType(ScaleType.FIT_XY);
+					WallGraphic.setAdjustViewBounds(true);
+					WallGraphic.setLayoutParams(new LayoutParams(finalDimen, finalDimen));
+					
 					mazeImage.addView(WallGraphic);
 				}
 				else if(textArray[j][i] == '.')
@@ -257,6 +287,9 @@ public class MazeGUI extends Activity {
 					ImageView PathGraphic = new ImageView(this);
 					PathGraphic.setBackgroundResource(R.drawable.path_graphic);
 					PathGraphic.setId(idCount);
+					PathGraphic.setScaleType(ScaleType.FIT_XY);
+					PathGraphic.setAdjustViewBounds(true);
+					PathGraphic.setLayoutParams(new LayoutParams(finalDimen, finalDimen));
 					
 					mazeImage.addView(PathGraphic);
 				}
@@ -265,6 +298,9 @@ public class MazeGUI extends Activity {
 					ImageView RoadblockGraphic = new ImageView(this);
 					RoadblockGraphic.setBackgroundResource(R.drawable.roadblock_graphic);
 					RoadblockGraphic.setId(idCount);
+					RoadblockGraphic.setScaleType(ScaleType.FIT_XY);
+					RoadblockGraphic.setAdjustViewBounds(true);
+					RoadblockGraphic.setLayoutParams(new LayoutParams(finalDimen, finalDimen));
 					
 					mazeImage.addView(RoadblockGraphic);
 				}
@@ -274,6 +310,9 @@ public class MazeGUI extends Activity {
 					StartGraphic.setBackgroundResource(R.drawable.start_graphic);
 					StartGraphic.setImageResource(R.drawable.player_graphic);
 					StartGraphic.setId(idCount);
+					StartGraphic.setScaleType(ScaleType.FIT_XY);
+					StartGraphic.setAdjustViewBounds(true);
+					StartGraphic.setLayoutParams(new LayoutParams(finalDimen, finalDimen));
 					
 					mazeImage.addView(StartGraphic);
 				}
@@ -282,6 +321,9 @@ public class MazeGUI extends Activity {
 					ImageView GoalGraphic = new ImageView(this);
 					GoalGraphic.setBackgroundResource(R.drawable.goal_graphic);
 					GoalGraphic.setId(idCount);
+					GoalGraphic.setScaleType(ScaleType.FIT_XY);
+					GoalGraphic.setAdjustViewBounds(true);
+					GoalGraphic.setLayoutParams(new LayoutParams(finalDimen, finalDimen));
 					
 					mazeImage.addView(GoalGraphic);
 				}
@@ -399,7 +441,7 @@ public class MazeGUI extends Activity {
     		
     		System.out.println("Database Open");
     		
-    		questions = database.getAllEntries();
+    		//questions = database.getAllEntries();
     		
     		System.out.println("post Query: " + questions.size());
     		
@@ -488,6 +530,10 @@ public class MazeGUI extends Activity {
 						
 				//Replace space on board with P
 				mazeObject.maze[player.getCurLoc().first][player.getCurLoc().second] = DataStructures.MazeSpaces.PASSED.SpaceChar();
+				
+				Pair<Integer, Integer> curLoc = player.getCurLoc();
+				ImageView lastCell = (ImageView) findViewById(idArray[curLoc.first][curLoc.second]);
+				lastCell.setBackgroundResource(R.drawable.cleared_roadblock_graphic);
 				
 				Log.v("MazeGUI", "Player passed the Roadblock!");
 				
