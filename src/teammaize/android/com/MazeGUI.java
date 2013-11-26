@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -59,6 +60,9 @@ public class MazeGUI extends Activity {
 
 	private QuestionsDataSource database;
 	private ConnectionDetector connection;
+	private List<dbEntry> dataList;
+	private int index;
+	private Random r;
 
 	private UserMovement player;
 
@@ -91,10 +95,13 @@ public class MazeGUI extends Activity {
 		
 		// This is where I request the Connection and parse data
 		
-		database = new QuestionsDataSource(this);
-		database.open();
+		//database = new QuestionsDataSource(this);
+		//database.open();
 		
-		new RequestTask(database, this).execute("http://67.194.54.19:8888/website_wip/getcsv.php");
+		dataList = new ArrayList<dbEntry>();
+		r = new Random();
+		
+		new RequestTask(database, this, dataList, this).execute("http://67.194.25.58:8888/website_wip/getcsv.php");
 		
 	
 		    
@@ -289,6 +296,12 @@ public class MazeGUI extends Activity {
     	Intent intent = new Intent(MazeGUI.this, RoadBlock.class);
     	String q = new String();
     	
+    	System.out.println("IN RoadBlockEnc: " + dataList.size());
+    	
+    	
+    	
+    	index = (r.nextInt(dataList.size()));
+    	
     	/* Not working, no way to get the path
     	//getting questions
     	String fileL = new String();
@@ -375,7 +388,9 @@ public class MazeGUI extends Activity {
     	}    	
     	
     	// AVI TEST TO ACCESS DATABASE //
+    	/*
     	try {
+    		
     		List<dbEntry> questions = new ArrayList<dbEntry>();
     		
     		System.out.println("About to access Database");
@@ -409,7 +424,26 @@ public class MazeGUI extends Activity {
     		Log.e("YOUR_APP_LOG_TAG", "I got an error", e);
     		System.out.println("TROUBLE ACCESING DATABASE");
     	}
+    	*/
     	// END AVI TEST TO ACCESS DATABASE //
+    		
+    	// AVI NO DATABASE //
+    		
+    		if (dataList.isEmpty()) {
+    			System.out.println("DATA LIST IS EMPTY");
+    		}
+    		else {
+    			System.out.println("YAY!!!!!!!!!!");
+    			intent.putExtra("question", dataList.get(index).qestion);
+    			intent.putExtra("cAns", dataList.get(index).ansCorrect);
+    			intent.putExtra("wAns1", dataList.get(index).ans2);
+    			intent.putExtra("wAns2", dataList.get(index).ans3);
+    			intent.putExtra("wAns3", dataList.get(index).ans4);
+    			intent.putExtra("qId", dataList.get(index).id);
+    		}
+    		
+    	// END AVI NO DATABASE //
+    		
     	
     	/*
     	//Default
@@ -506,5 +540,9 @@ public class MazeGUI extends Activity {
 				});
 
 		alert.show();
+	}
+	
+	public void setDataList(List<dbEntry> list) {
+		dataList = list;
 	}
 }

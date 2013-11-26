@@ -2,6 +2,10 @@ package teammaize.android.com;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.StringTokenizer;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -18,12 +22,16 @@ class RequestTask extends AsyncTask<String, Void, String>{
 
 	private QuestionsDataSource data;
 	private Context _context;
+	private List<dbEntry> dataList;
+	private MazeGUI m_gui;
 	
-    public RequestTask(QuestionsDataSource dataSource, Context context) {
+    public RequestTask(QuestionsDataSource dataSource, Context context, List<dbEntry> list, MazeGUI maze_gui) {
     	super();
     	
     	data = dataSource;
     	_context = context;
+    	dataList = list;
+    	m_gui = maze_gui;
     	
     }
 	
@@ -58,13 +66,122 @@ class RequestTask extends AsyncTask<String, Void, String>{
     
     protected void onPostExecute(String result) {
         
-    	data = new QuestionsDataSource(_context);
-    	data.open();
-    	data.addData(result);
+    
+	
+    	//data = new QuestionsDataSource(_context);
+    	//data.open();
+    	//data.addData(result);
     	//data.close();
     	System.out.println("Got Data from Website " + result);
+    	try {
+    		dataList = parseData(result);
+    	}
+        catch(NoSuchElementException e) {
+        	System.out.println("NoSuchElementException");
+        }
     	       
+    	System.out.println("DATA LIST HAS: " + dataList.size());
+    	
+    	for (int i=0;i<dataList.size();i++) {
+    		dataList.get(i).printEntry();
+    	}
         
+    	m_gui.setDataList(dataList);
         
+    }
+    
+    public List<dbEntry> parseData(String data) {
+    	
+    	List<dbEntry> list = new ArrayList<dbEntry>();
+    	
+
+    		 StringTokenizer strtok = new StringTokenizer(data, ",\n\t\r");
+    		 dbEntry insertEntry;
+    		 String garb;
+    		 
+    		 System.out.println("parseData has: " + strtok.countTokens() + " tokens");
+    		
+    		 garb = new String("");
+    		 
+    		 while(!garb.equals("<body>")) {
+    			 System.out.println(garb);
+    			 garb = strtok.nextToken();
+    		 }
+    		 
+    	
+    		 
+    		 long count = 0;
+    		 
+    		 while (strtok.hasMoreTokens()) {
+    			// StringTokenizer entry = new StringTokenizer(strtok.nextToken(), ",");
+    			 //System.out.println("THERE ARE THIS MANY TOKENS IN THIS LINE: " + entry.countTokens());
+    			 insertEntry = new dbEntry();
+    			 
+    	
+    				 String tempStr = strtok.nextToken(",");
+    				 
+    				 
+    				 if (tempStr.equals("</body>")) {
+    					 System.out.println("BODY END TAG");
+    					 return list;
+    				 }
+    			
+
+    				 
+    				 System.out.println("TEMPSTR = " + tempStr);
+
+    			 if (strtok.hasMoreElements()) {
+    			   tempStr = strtok.nextToken(",");
+    			   insertEntry.qestion = tempStr;
+    			 }
+    			 if (strtok.hasMoreElements()) {
+    			   tempStr = strtok.nextToken(",");
+    			   insertEntry.ansCorrect = tempStr;
+    			 }
+    			 if (strtok.hasMoreElements()) {
+    			   tempStr = strtok.nextToken(",");
+    			   insertEntry.ans2 = tempStr;
+    			 }
+    			 if (strtok.hasMoreElements()) {
+    			   tempStr = strtok.nextToken(",");
+    			   insertEntry.ans3 = tempStr;
+    			 }
+    			 if (strtok.hasMoreElements()) {
+    			   tempStr = strtok.nextToken(",");
+    			   insertEntry.ans4 = tempStr;
+    			 }
+    			 if (strtok.hasMoreElements()) {
+    			   tempStr = strtok.nextToken(",");
+    			   insertEntry.subject = tempStr;
+    			 }
+    			 if (strtok.hasMoreElements()) {
+    			   tempStr = strtok.nextToken(",");
+    			   insertEntry.level = tempStr;
+    			 }
+    			 if (strtok.hasMoreElements()) {
+    			   tempStr = strtok.nextToken(",");
+    			   insertEntry.corAttempts = tempStr;
+    			 }
+    			 if (strtok.hasMoreElements()) {
+    			   tempStr = strtok.nextToken(",");
+    			   insertEntry.attempts = tempStr;
+    			 }
+    			 else {
+    				 return list;
+    			 }
+    				
+    			   System.out.println("//////////////");
+    			   insertEntry.printEntry();
+    			   System.out.println("//////////////");
+    			   
+    			   insertEntry.id = count;
+    			   
+    			   list.add(insertEntry);
+    			   count++;
+    		 } 
+    		 
+    		 
+    	return list;
+    	
     }
 }
