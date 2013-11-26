@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -64,8 +65,13 @@ public class MazeGUI extends ASKActivity {
 	private int[][] idArray;
 	private GridLayout mazeImage;
 
-	//private QuestionsDataSource database;
-	//private ConnectionDetector connection;
+
+	private QuestionsDataSource database;
+//	private ConnectionDetector connection;
+	private List<dbEntry> dataList;
+	private int index;
+	private Random r;
+
 
 	private UserMovement player;
 
@@ -96,17 +102,20 @@ public class MazeGUI extends ASKActivity {
 			Log.v("MazeGUI", "Exception thown in onCreate: " + e.toString());
 		}
 		
-		// This is where I request the Connection and parse data
-		/*
-		database = new QuestionsDataSource(this);
-		database.open();
+		// This is where I request the Connection and parse data		
+		//database = new QuestionsDataSource(this);
+		//database.open();
 		
-		new RequestTask(database, this).execute("http://67.194.54.19:8888/website_wip/getcsv.php");
-		*/
-	
-		    
-		
-		
+		dataList = new ArrayList<dbEntry>();
+		r = new Random();	
+		try {
+			// Change IP Here //
+			// Replace 67.194.25.58 with your IP address //
+			new RequestTask(database, this, dataList, this).execute("http://67.194.25.58:8888/website_wip/getcsv.php");		
+		}
+		catch (Exception e) {
+			Log.v("MazeGUI", "Exception thrown in RequestTask " + e.toString());
+		}
 		try {
 			
 			Vector<Button> buttons = new Vector<Button>();
@@ -331,145 +340,22 @@ public class MazeGUI extends ASKActivity {
     	Intent intent = new Intent(MazeGUI.this, RoadBlock.class);
     	String q = new String();
     	
-    	/* Not working, no way to get the path
-    	//getting questions
-    	String fileL = new String();
-    	fileL = "android.resource://" + getPackageName() + "/"+R.raw.sample;
-    	QuestionParser qParser = new QuestionParser();
-    	qParser.parseXML(fileL);
+    	System.out.println("IN RoadBlockEnc: " + dataList.size());
     	
-    	//----Put Extra Testing----
-    	//instantiating string variables (unnecessary but just for kicks)
-    	String q, a, wa1, wa2, wa3;
-    	q = new String();
-    	ArrayList<dbEntry> qList = qParser.getQuestionList();
-    	dbEntry dbE = qList.get(0);
+    	index = (r.nextInt(dataList.size()));
     	
-    	//assign q variable to the question text
-    	q = dbE.getQ();    	
-    	
-    	//add questions class to intent here
-    	//intent.putExtra("question", q);
-    	 
-    	*/
-    	
-    	
-    	try { //This way works if we're using the assets folder
-    		
-    		String title = "Start Asset Method";
-    		String deco = "--------------------";    		
-    		//System.out.println(deco + title + deco);
-    		
-    		//get the asset manager
-    		AssetManager assetM = getAssets();
-    		//String dirList[] = assetM.list(""); //files in list
-    		
-    		//open file
-    		InputStream inputStream = null;
-        	inputStream = assetM.open("sample.xml");
-        	
-        	//variable to store the contents of the file
-            byte[] reader = new byte[inputStream.available()];
-            
-            //reads the whole file
-            while (inputStream.read(reader) != -1) {}
-            
-            //stores the contents of the file into q
-    		String ex = new String(reader);
-    		//System.out.println(ex);
-    		
-    		title = "End Assets Method";
-    		//System.out.println(deco + title + deco);    		
-    		inputStream.close();
-    		
-    	} catch(Exception e) {
-    		System.out.println("ERMEGERD");
-    	}
-    	
-    	    	    	
-    	//Method if we use the resource raw method
-    	try {
-    		String title = "Start Resource Method";
-    		String deco = "--------------------";
-    		String decoLine = deco + title + deco;
-    		//System.out.println(deco + title + deco);    		
-    		
-    		//opens the file into an input stream using the resource id
-    		InputStream inputStream = null;
-        	inputStream = getResources().openRawResource(R.raw.sample2);
-        	
-        	//variable to store the contents of the file
-            byte[] reader = new byte[inputStream.available()];
-            
-            //reads the whole file
-            while (inputStream.read(reader) != -1) {}
-            
-            //stores the contents of the file into q
-    		String ex = new String(reader);
-    		//System.out.println(ex);
-    		
-    		title = "End Resource Method";
-    		//System.out.println(deco + title + deco);
-    		inputStream.close();
-    		
-    	} catch(Exception e) {
-    		Log.e("Eerrrrrr.....", e.getMessage());
-    	}    	
-    	
-    	// AVI TEST TO ACCESS DATABASE //
-    	try {
-    		List<dbEntry> questions = new ArrayList<dbEntry>();
-    		
-    		System.out.println("About to access Database");
-    		
-    		//database.open();
-    		
-    		System.out.println("Database Open");
-    		
-    		//questions = database.getAllEntries();
-    		
-    		System.out.println("post Query: " + questions.size());
-    		
-    		if (questions.isEmpty()) {
-    			System.out.println("EMPTY DB");
-    			throw new Exception();
-    		}
-    		else {
-    			intent.putExtra("question", questions.get(0).qestion);
-    			intent.putExtra("cAns", questions.get(0).ansCorrect);
-    			intent.putExtra("wAns1", questions.get(0).ans2);
-    			intent.putExtra("wAns2", questions.get(0).ans3);
-    			intent.putExtra("wAns3", questions.get(0).ans4);
-    			intent.putExtra("qId", questions.get(0).id);
-    			
-    			System.out.println("Accesing DataBase");
-    		}
-    		
-    		//database.close();
-    	}
-    	catch (Exception e){
-    		Log.e("YOUR_APP_LOG_TAG", "I got an error", e);
-    		System.out.println("TROUBLE ACCESING DATABASE");
-    	}
-    	// END AVI TEST TO ACCESS DATABASE //
-    	
-    	/*
-    	//Default
-    	q = "What is the Capital of the USA?";
-    	String cAns = "Washington DC";
-    	String wAns1 = "Alabama";
-    	String wAns2 = "California";
-    	String wAns3 = "Michigan";
-    	String qId = "11111";
-    	
-    	//Adding q to the intent
-    	intent.putExtra("question", q);
-    	intent.putExtra("cAns", cAns);
-    	intent.putExtra("wAns1", wAns1);
-    	intent.putExtra("wAns2", wAns2);
-    	intent.putExtra("wAns3", wAns3);
-    	intent.putExtra("qId", qId);
-    	*/
+		if (dataList.isEmpty()) {
+			System.out.println("DATA LIST IS EMPTY");
+		} else {
+			System.out.println("YAY!!!!!!!!!!");
+			intent.putExtra("question", dataList.get(index).qestion);
+			intent.putExtra("cAns", dataList.get(index).ansCorrect);
+			intent.putExtra("wAns1", dataList.get(index).ans2);
+			intent.putExtra("wAns2", dataList.get(index).ans3);
+			intent.putExtra("wAns3", dataList.get(index).ans4);
+			intent.putExtra("qId", dataList.get(index).id);
+		}
+
     	//switch to the roadblock activity
     	startActivityForResult(intent, 10); //10 is arbitrary, can be anything
     }
@@ -529,9 +415,6 @@ public class MazeGUI extends ASKActivity {
 			@Override
 			public void onClick(DialogInterface arg0, int arg1) {
 				Log.v("MazeComplete", "Start new game");
-				// TODO Auto-generated method stub
-				Toast.makeText(getApplicationContext(), "Ok is clicked", Toast.LENGTH_LONG)
-						.show();
 				mazeObject = new MazeGeneration(x, y);
 				
 				//TODO: need to delete the old maze object
@@ -545,12 +428,13 @@ public class MazeGUI extends ASKActivity {
 					@Override
 					public void onClick(DialogInterface arg0, int arg1) {
 						Log.v("MazeComplete", "Do not start new game");
-						// TODO Auto-generated method stub
-						Toast.makeText(getApplicationContext(), "Cancel is clicked",
-								Toast.LENGTH_LONG).show();
 					}
 				});
 
 		alert.show();
+	}
+	
+	public void setDataList(List<dbEntry> list) {
+		dataList = list;
 	}
 }
