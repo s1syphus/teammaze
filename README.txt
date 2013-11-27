@@ -35,7 +35,7 @@ In order to run this:
 -Mamp if you're on a Mac
 --www.mamp.info/en/index.html
 
-2. Clone the application from: https://github.com/migabreu/maizemaze 
+2. Get the website and other necessary files from: https://github.com/migabreu/maizemaze 
 
 3. Place a copy of the website_wip into the htdocs folder (mamp only)
 -For wamp users, website_wip goes into the www folder found in the wamp folder (/your_installation_path/www)
