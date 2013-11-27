@@ -20,7 +20,7 @@ In order to set up our application:
 5. Add the ASK scanning library to the TeamMaize project (if it isn't already) 
    Right click on TeamMaize folder in eclipse
    Properties > Android > 
-   Under Library click "Add…" Select ASKScanningLibrary (should show up if has been imported)
+   Under Library click "Addï¿½" Select ASKScanningLibrary (should show up if has been imported)
 
 6. Run the application: Click on Android Virtual Device Manager Button in eclipse top bar
    Click "New..." and create a device emulator
@@ -58,7 +58,11 @@ Connect the android app to the website
 
 -on a mac, go to system preferences -> network -> Select your current web device -> The ip address listed in the description under status : connected
 
-2. Edit this line in this file and add the ip addres
+2. In the code of MazeGUI.java search for the comment // Change IP Here //
+-Edit this line in this file and add the ip address
+-If your port number is different than 8888 replace it with your apache Port Number.
 
 3. You're app now connects to the database
+
+After all this is complete you can run the program.
 
