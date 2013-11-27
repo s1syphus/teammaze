@@ -3,15 +3,9 @@ package teammaize.android.com;
 import teammaize.android.com.DataStructures.Directions;
 import teammaize.android.com.DataStructures.MazeSpaces;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.util.Log;
 import android.util.Pair;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -23,7 +17,6 @@ import android.widget.Toast;
 public class UserMovement {
 	
 	private static MazeGUI mazeGui;
-	private static View view;
 	private static MazeGeneration mazeObj;
 	private Pair<Integer, Integer> loc;
 	private Pair<Integer, Integer> prevLoc;
@@ -56,9 +49,11 @@ public class UserMovement {
 		return prevLoc;
 	}
 	
-	public boolean tryMove(MazeGeneration mazeObj, Directions dir)
+	public boolean tryMove(MazeGeneration maze_obj, Directions dir)
 	{
+		mazeObj = maze_obj;
 		boolean validMove = true;
+		
 		try {
 			Pair<Integer, Integer> nextCoords = mazeObj.returnNeighbor(loc, dir.ordinal());
 			char nextSpace = mazeObj.maze[nextCoords.first][nextCoords.second];
@@ -70,13 +65,10 @@ public class UserMovement {
 			Log.v("UserMovement", "Exception caught in tryMove: " + dir.ordinal() + " "+ e.toString());
 			validMove = false;
 		}
-		
 		return validMove;
 	}
 	
-	public void movePlayer(MazeGeneration maze_obj, View v, MazeGUI maze_gui, Directions dir) {
-		mazeObj = maze_obj;
-		view = v;
+	public void movePlayer(View view, MazeGUI maze_gui, Directions dir) {
 		mazeGui = maze_gui;
 		
 		try {
@@ -98,15 +90,15 @@ public class UserMovement {
 				loc = nextCoords;
 			}
 			else if(nextSpace == MazeSpaces.GOAL.SpaceChar()) {
-				//update userCoords and congratulate player (offer to return to start menu or start new maze
+				//update userCoords and congratulate player
 				Toast toast = Toast.makeText(mazeGui, "Congratulations!", Toast.LENGTH_LONG);
 				toast.show();
 				
-				//start new game dialog
-				mazeGui.finishedMaze();
-				
 				prevLoc = loc;
 				loc = nextCoords;
+				
+				//start new game dialog
+				mazeGui.finishedMaze();
 			}
 			else {
 				Log.v("UserMovement", "Unexpected character encountered in the next space to move to.");
