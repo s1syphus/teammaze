@@ -37,25 +37,26 @@ In order to run this:
 
 2. Clone the application from: https://github.com/migabreu/maizemaze 
 
-3. Place a copy of the website_wip into the htdocs folder
+3. Place a copy of the website_wip into the htdocs folder (mamp only)
+-For wamp users, website_wip goes into the www folder found in the wamp folder (/your_installation_path/www)
 
 4. Unzip the mysql file and place the extracted folder into the db folder
+-On a mac, the db folder can be found in Applications/MAMP/
+-On a pc, the mysql folder contents go into /Your_installationPath/bin/mysql/mysql-version/data
 
 5. Start Mamp/Wamp
 
-6. Get your port number from the preferences menu
+6. Get your apache port number from the preferences option
 
 7. Start the servers
+-the servers that should be running are appache and mysql
 
-8. To access the website, open a browser and type in localhost:port_number/website_wip/index.html
+8. To access the website, open a browser and type in http://localhost:port_number/website_wip/index.html
 
-Connect the android app to the website
+Connecting the android app to the website
 
 1. Get your ip address
--on a pc, go to start -> type cmd in the input text box -> click cmd and open
--then type in ipconfig
--get your address that's
-
+-on a pc, go to start -> type cmd in the input text box -> click cmd and open, then type in ipconfig and locate your local ip address
 -on a mac, go to system preferences -> network -> Select your current web device -> The ip address listed in the description under status : connected
 
 2. In the code of MazeGUI.java search for the comment // Change IP Here //
