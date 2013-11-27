@@ -1,17 +1,14 @@
 package teammaize.android.com;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.support.v4.app.NavUtils;
 import android.content.Context;
 import android.content.Intent;
 import android.widget.Button;
@@ -111,7 +108,7 @@ public class RoadBlock extends ASKActivity {
 		//
 		// http://developer.android.com/design/patterns/navigation.html#up-vs-back
 		
-		startActivity(new Intent(RoadBlock.this, MainActivity.class)); 
+		startActivity(new Intent(RoadBlock.this, MazeGUI.class)); 
         return true;
 	}
 	

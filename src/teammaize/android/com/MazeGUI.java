@@ -114,6 +114,19 @@ public class MazeGUI extends ASKActivity {
 		catch (Exception e) {
 			Log.v("MazeGUI", "Exception thrown in RequestTask " + e.toString());
 		}
+		
+		if(dataList.size() == 0) {
+			//Server couldn't be reached -> add default question
+            //TODO: Remove once off-line database works
+            dbEntry entry = new dbEntry();
+            entry.qestion = "What is the capital of the USA?";
+            entry.ansCorrect = "Washington D.C.";
+            entry.ans2 = "California";
+            entry.ans3 = "Michigan";
+            entry.ans4 = "Alabama";
+            dataList.add(entry);
+		}
+		
 		try {
 			
 			Vector<Button> buttons = new Vector<Button>();
