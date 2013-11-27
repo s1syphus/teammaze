@@ -40,7 +40,7 @@ In order to run this:
 3. Place a copy of the website_wip into the htdocs folder (mamp only)
 -For wamp users, website_wip goes into the www folder found in the wamp folder (/your_installation_path/www)
 
-4. Unzip the mysql file and place the extracted folder into the db folder
+4. Unzip the mysql file found in website_wip/"sql database" and place the extracted folder into the db folder
 -On a mac, the db folder can be found in Applications/MAMP/
 -On a pc, the mysql folder contents go into /Your_installationPath/bin/mysql/mysql-version/data
 
