@@ -56,6 +56,7 @@ import android.widget.ImageView.ScaleType;
 import android.widget.Toast;
 import ask.scanninglibrary.ASKActivity;
 
+
 public class MazeGUI extends ASKActivity {
 	
 	//These are only sample values.
@@ -64,7 +65,7 @@ public class MazeGUI extends ASKActivity {
 	private MazeGeneration mazeObject;
 	private int[][] idArray;
 	private GridLayout mazeImage;
-
+	private UserMovement player;
 
 	private QuestionsDataSource database;
 	private ConnectionDetector connection;
@@ -72,9 +73,9 @@ public class MazeGUI extends ASKActivity {
 	private int index;
 	private Random r;
 
-
-	private UserMovement player;
-
+	public void setDataList(List<dbEntry> list) {
+		dataList = list;
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -92,8 +93,6 @@ public class MazeGUI extends ASKActivity {
 			mazeImage.setRowCount(y);
 			mazeImage.setColumnOrderPreserved(true);
 			mazeImage.setRowOrderPreserved(true);
-			//Preliminary parameter setting. To be done- cell creation methods in graphicsMapping,
-			//artwork for those cells, layering with Erika's movement UI. -Chris, 10/18/2013
 			 
 			this.graphicsMapping(mazeObject.maze);
 			this.player = new UserMovement(new Pair<Integer, Integer>(0, 0));
@@ -120,12 +119,25 @@ public class MazeGUI extends ASKActivity {
 		try {
 			connection = new ConnectionDetector(this);
 			if (connection.isConnectingToInternet()) {
-			new RequestTask(database, this, dataList, this).execute("http://67.194.99.126:8888/website_wip/getcsv.php");		
+			new RequestTask(database, this, dataList, this).execute("http://35.0.125.52:8888/website_wip/getcsv.php");		
 			}
 		}
 		catch (Exception e) {
 			Log.v("MazeGUI", "Exception thrown in RequestTask " + e.toString());
 		}
+		
+		if(dataList.size() == 0) {
+			//Server couldn't be reached -> add default question
+            //TODO: Remove once off-line database works
+            dbEntry entry = new dbEntry();
+            entry.qestion = "What is the capital of the USA?";
+            entry.ansCorrect = "Washington D.C.";
+            entry.ans2 = "California";
+            entry.ans3 = "Michigan";
+            entry.ans4 = "Alabama";
+            dataList.add(entry);
+		}
+		
 		try {
 			
 			Vector<Button> buttons = new Vector<Button>();
@@ -140,7 +152,7 @@ public class MazeGUI extends ASKActivity {
 					Log.v("MazeActivity", "West Button View");
 					
 					if(player.tryMove(mazeObject, DataStructures.Directions.WEST)) {
-						player.movePlayer(mazeObject, v, MazeGUI.this, DataStructures.Directions.WEST);
+						player.movePlayer(v, MazeGUI.this, DataStructures.Directions.WEST);
 						
 						//Update Player location
 						updatePlayerGraphic(player.getLastLoc(), player.getCurLoc());
@@ -148,7 +160,6 @@ public class MazeGUI extends ASKActivity {
 					else {
 						System.out.println("Invalid move");
 					}
-					
 				}
 			});
 			
@@ -158,7 +169,7 @@ public class MazeGUI extends ASKActivity {
 					Log.v("MazeActivity", "East Button View");
 					
 					if(player.tryMove(mazeObject, DataStructures.Directions.EAST)) {
-						player.movePlayer(mazeObject, v, MazeGUI.this, DataStructures.Directions.EAST);
+						player.movePlayer(v, MazeGUI.this, DataStructures.Directions.EAST);
 						
 						//Update Player location
 						updatePlayerGraphic(player.getLastLoc(), player.getCurLoc());
@@ -176,7 +187,7 @@ public class MazeGUI extends ASKActivity {
 					Log.v("MazeActivity", "North Button View");
 					
 					if(player.tryMove(mazeObject, DataStructures.Directions.NORTH)) {
-						player.movePlayer(mazeObject, v, MazeGUI.this, DataStructures.Directions.NORTH);
+						player.movePlayer(v, MazeGUI.this, DataStructures.Directions.NORTH);
 						
 						//Update Player location
 						updatePlayerGraphic(player.getLastLoc(), player.getCurLoc());
@@ -194,7 +205,7 @@ public class MazeGUI extends ASKActivity {
 					Log.v("MazeActivity", "South Button View");
 					
 					if(player.tryMove(mazeObject, DataStructures.Directions.SOUTH)) {
-						player.movePlayer(mazeObject, v, MazeGUI.this, DataStructures.Directions.SOUTH);
+						player.movePlayer(v, MazeGUI.this, DataStructures.Directions.SOUTH);
 						
 						//Update player location
 						updatePlayerGraphic(player.getLastLoc(), player.getCurLoc());
@@ -210,37 +221,7 @@ public class MazeGUI extends ASKActivity {
 		}
 	}
 
-	/**
-	 * Set up the {@link android.app.ActionBar}.
-	 */
-	
-	private void setupActionBar() {
-
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-
-	}
-	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.maze_gui, menu);
-		return true;
-	}
-	
-	//I don't think it makes sense to have an up button in our app
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-			// This ID represents the Home or Up button. In the case of this
-			// activity, the Up button is shown. Use NavUtils to allow users
-			// to navigate up one level in the application structure. For
-			// more details, see the Navigation pattern on Android Design:
-			//
-			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
-			//
-		startActivity(new Intent(MazeGUI.this, MainActivity.class)); 
-        return true;
-	}
-	
+	// Update the location of the player graphic from current location to the next location
 	private void updatePlayerGraphic(Pair<Integer, Integer> currentLoc, Pair<Integer, Integer> nextLoc)
 	{
 		Log.v("MazeGUI", "Redraw Player moved from: " + currentLoc.first + " " + currentLoc.second
@@ -350,6 +331,7 @@ public class MazeGUI extends ASKActivity {
     	Intent intent = new Intent(MazeGUI.this, RoadBlock.class);
     	String q = new String();
 
+
     	// AVI TEST TO ACCESS DATABASE //
     	
     	try {
@@ -389,50 +371,10 @@ public class MazeGUI extends ASKActivity {
     	
     	// END AVI TEST TO ACCESS DATABASE //
     		
-    	// AVI NO DATABASE //
-    	/*	
-    		if (dataList.isEmpty()) {
-    			System.out.println("DATA LIST IS EMPTY");
-    		}
-    		else {
-    			System.out.println("YAY!!!!!!!!!!");
-    			intent.putExtra("question", dataList.get(index).qestion);
-    			intent.putExtra("cAns", dataList.get(index).ansCorrect);
-    			intent.putExtra("wAns1", dataList.get(index).ans2);
-    			intent.putExtra("wAns2", dataList.get(index).ans3);
-    			intent.putExtra("wAns3", dataList.get(index).ans4);
-    			intent.putExtra("qId", dataList.get(index).id);
-    		}
-    	*/	
-    	// END AVI NO DATABASE //
-    		
-    	
-    	/*
-    	//Default
-    	q = "What is the Capital of the USA?";
-    	String cAns = "Washington DC";
-    	String wAns1 = "Alabama";
-    	String wAns2 = "California";
-    	String wAns3 = "Michigan";
-    	String qId = "11111";
-    	
-    	//Adding q to the intent
-    	intent.putExtra("question", q);
-    	intent.putExtra("cAns", cAns);
-    	intent.putExtra("wAns1", wAns1);
-    	intent.putExtra("wAns2", wAns2);
-    	intent.putExtra("wAns3", wAns3);
-    	intent.putExtra("qId", qId);
-    	*/
+ 
     	//switch to the roadblock activity
     	startActivityForResult(intent, 10); //10 is arbitrary, can be anything
     }
-	
-	//Closes activity
-	public void closeActivity(View view) {
-		//return to the previous activity with no results intent
-		finish();
-	}
 
 	//Handles the results from the roadblock
 	protected void onActivityResult(int requestCode, int resultCode,
@@ -483,13 +425,14 @@ public class MazeGUI extends ASKActivity {
 			@Override
 			public void onClick(DialogInterface arg0, int arg1) {
 				Log.v("MazeComplete", "Start new game");
-				// TODO Auto-generated method stub
-				Toast.makeText(getApplicationContext(), "Ok is clicked", Toast.LENGTH_LONG)
-						.show();
+				
+				//generate a new maze
 				mazeObject = new MazeGeneration(x, y);
 				
-				//TODO: need to delete the old maze object
+				//delete the old maze image
+				mazeImage.removeAllViews();
 				
+				//make the new maze image
 				MazeGUI.this.graphicsMapping(mazeObject.maze);
 				player.setCurLoc(new Pair<Integer, Integer>(0, 0));
 			}
@@ -499,17 +442,45 @@ public class MazeGUI extends ASKActivity {
 					@Override
 					public void onClick(DialogInterface arg0, int arg1) {
 						Log.v("MazeComplete", "Do not start new game");
-						// TODO Auto-generated method stub
-						Toast.makeText(getApplicationContext(), "Cancel is clicked",
-								Toast.LENGTH_LONG).show();
 					}
 				});
 
 		alert.show();
 	}
 	
-	public void setDataList(List<dbEntry> list) {
-		dataList = list;
+	/**
+	 * Set up the {@link android.app.ActionBar}.
+	 */
+	private void setupActionBar() {
+
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.maze_gui, menu);
+		return true;
+	}
+	
+	//I don't think it makes sense to have an up button in our app
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+			// This ID represents the Home or Up button. In the case of this
+			// activity, the Up button is shown. Use NavUtils to allow users
+			// to navigate up one level in the application structure. For
+			// more details, see the Navigation pattern on Android Design:
+			//
+			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
+			//
+		startActivity(new Intent(MazeGUI.this, MainActivity.class)); 
+        return true;
+	}
+	
+	//Closes activity
+	public void closeActivity(View view) {
+		//return to the previous activity with no results intent
+		finish();
 	}
 	
 	public void setDatabase(List<dbEntry> list) {
@@ -528,3 +499,4 @@ public class MazeGUI extends ASKActivity {
 		database.forceClear();
 	}
 }
+

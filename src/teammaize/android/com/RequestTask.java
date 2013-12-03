@@ -62,24 +62,26 @@ class RequestTask extends AsyncTask<String, Void, String>{
         return responseString;
     }
     
-
-
-    
     protected void onPostExecute(String result) {
-        
-    
-	
     	//data = new QuestionsDataSource(_context);
     	//data.open();
     	//data.addData(result);
     	//data.close();
     	System.out.println("Got Data from Website " + result);
     	try {
-    		dataList = parseData(result);
+    		if(!result.equals("null")) {
+    			dataList = parseData(result);
+    		}
+    		else {
+    			Log.v("RequestTask", "Server could not be reached");
+    		}
     	}
         catch(NoSuchElementException e) {
         	System.out.println("NoSuchElementException");
         }
+    	catch(Exception e) {
+    		Log.v("RequestTask", "Exception thrown in onPostExecute: " + e.toString());
+    	}
     	       
     	System.out.println("DATA LIST HAS: " + dataList.size());
     	
