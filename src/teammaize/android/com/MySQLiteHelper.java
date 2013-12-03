@@ -21,7 +21,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	  public static final String COLUMN_CORATTEMPTS = "corattempts";
 	  public static final String COLUMN_ATTEMPTS = "attempts";
 
-	  private static final String DATABASE_NAME = "questions.db";
+	  private static final String DATABASE_NAME = "questions2.db";
 	  private static final int DATABASE_VERSION = 1;
 	  private ConnectionDetector connection;
 
@@ -32,8 +32,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	      + " text not null," + COLUMN_ANSCORRECT + " text not null,"
 	      + COLUMN_ANS2 + " text not null," + COLUMN_ANS3 + " text not null,"
 	      + COLUMN_ANS4 + " text not null," + COLUMN_SUBJECT + " text not null,"
-	      + COLUMN_LEVEL + " text not null" +COLUMN_CORATTEMPTS + " text not null,"
-	      + COLUMN_ATTEMPTS + " text not null);";
+	      + COLUMN_LEVEL + " text not null," +COLUMN_CORATTEMPTS + " text not null,"
+	      + COLUMN_ATTEMPTS + ");";
 	      
 
 	  public MySQLiteHelper(Context context) {

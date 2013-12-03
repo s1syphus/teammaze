@@ -17,19 +17,20 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 class RequestTask extends AsyncTask<String, Void, String>{
 
-	private QuestionsDataSource data;
-	private Context _context;
+	//private QuestionsDataSource data;
+	//private Context _context;
 	private List<dbEntry> dataList;
 	private MazeGUI m_gui;
 	
     public RequestTask(QuestionsDataSource dataSource, Context context, List<dbEntry> list, MazeGUI maze_gui) {
     	super();
     	
-    	data = dataSource;
-    	_context = context;
+    	//data = dataSource;
+    	//_context = context;
     	dataList = list;
     	m_gui = maze_gui;
     	
@@ -88,6 +89,23 @@ class RequestTask extends AsyncTask<String, Void, String>{
         
     	m_gui.setDataList(dataList);
         
+    	
+    	if (dataList.isEmpty()) {
+    		return;
+    	}
+    	else {
+    		
+    		System.out.println("About to add to database");
+    		
+    		m_gui.clearDatabase();
+    		
+    		try {
+    			m_gui.setDatabase(dataList);
+    		}
+    		catch (Exception e) {
+    			Log.v("RequestTask", "Error when in setDatabase " + e.toString());
+    		}
+    	}
     }
     
     public List<dbEntry> parseData(String data) {

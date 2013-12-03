@@ -67,7 +67,7 @@ public class MazeGUI extends ASKActivity {
 
 
 	private QuestionsDataSource database;
-//	private ConnectionDetector connection;
+	private ConnectionDetector connection;
 	private List<dbEntry> dataList;
 	private int index;
 	private Random r;
@@ -108,8 +108,20 @@ public class MazeGUI extends ASKActivity {
 		
 		dataList = new ArrayList<dbEntry>();
 		r = new Random();	
+		
 		try {
-			new RequestTask(database, this, dataList, this).execute("http://67.194.25.58:8888/website_wip/getcsv.php");		
+			database = new QuestionsDataSource(this);
+			database.open();
+		}
+		catch (Exception e) {
+			Log.v("MazeGUI", "Trouble Opening Database " + e.toString());
+		}
+		
+		try {
+			connection = new ConnectionDetector(this);
+			if (connection.isConnectingToInternet()) {
+			new RequestTask(database, this, dataList, this).execute("http://67.194.99.126:8888/website_wip/getcsv.php");		
+			}
 		}
 		catch (Exception e) {
 			Log.v("MazeGUI", "Exception thrown in RequestTask " + e.toString());
@@ -337,111 +349,16 @@ public class MazeGUI extends ASKActivity {
     	//Initiating the roadblock intent
     	Intent intent = new Intent(MazeGUI.this, RoadBlock.class);
     	String q = new String();
-    	
-    	System.out.println("IN RoadBlockEnc: " + dataList.size());
-    	
-    	
-    	
-    	index = (r.nextInt(dataList.size()));
-    	
-    	/* Not working, no way to get the path
-    	//getting questions
-    	String fileL = new String();
-    	fileL = "android.resource://" + getPackageName() + "/"+R.raw.sample;
-    	QuestionParser qParser = new QuestionParser();
-    	qParser.parseXML(fileL);
-    	
-    	//----Put Extra Testing----
-    	//instantiating string variables (unnecessary but just for kicks)
-    	String q, a, wa1, wa2, wa3;
-    	q = new String();
-    	ArrayList<dbEntry> qList = qParser.getQuestionList();
-    	dbEntry dbE = qList.get(0);
-    	
-    	//assign q variable to the question text
-    	q = dbE.getQ();    	
-    	
-    	//add questions class to intent here
-    	//intent.putExtra("question", q);
-    	 
-    	*/
-    	
-    	
-    	try { //This way works if we're using the assets folder
-    		
-    		String title = "Start Asset Method";
-    		String deco = "--------------------";    		
-    		//System.out.println(deco + title + deco);
-    		
-    		//get the asset manager
-    		AssetManager assetM = getAssets();
-    		//String dirList[] = assetM.list(""); //files in list
-    		
-    		//open file
-    		InputStream inputStream = null;
-        	inputStream = assetM.open("sample.xml");
-        	
-        	//variable to store the contents of the file
-            byte[] reader = new byte[inputStream.available()];
-            
-            //reads the whole file
-            while (inputStream.read(reader) != -1) {}
-            
-            //stores the contents of the file into q
-    		String ex = new String(reader);
-    		//System.out.println(ex);
-    		
-    		title = "End Assets Method";
-    		//System.out.println(deco + title + deco);    		
-    		inputStream.close();
-    		
-    	} catch(Exception e) {
-    		System.out.println("ERMEGERD");
-    	}
-    	
-    	    	    	
-    	//Method if we use the resource raw method
-    	try {
-    		String title = "Start Resource Method";
-    		String deco = "--------------------";
-    		String decoLine = deco + title + deco;
-    		//System.out.println(deco + title + deco);    		
-    		
-    		//opens the file into an input stream using the resource id
-    		InputStream inputStream = null;
-        	inputStream = getResources().openRawResource(R.raw.sample2);
-        	
-        	//variable to store the contents of the file
-            byte[] reader = new byte[inputStream.available()];
-            
-            //reads the whole file
-            while (inputStream.read(reader) != -1) {}
-            
-            //stores the contents of the file into q
-    		String ex = new String(reader);
-    		//System.out.println(ex);
-    		
-    		title = "End Resource Method";
-    		//System.out.println(deco + title + deco);
-    		inputStream.close();
-    		
-    	} catch(Exception e) {
-    		Log.e("Eerrrrrr.....", e.getMessage());
-    	}    	
-    	
+
     	// AVI TEST TO ACCESS DATABASE //
-    	/*
+    	
     	try {
     		
     		List<dbEntry> questions = new ArrayList<dbEntry>();
     		
     		System.out.println("About to access Database");
     		
-    		//database.open();
-    		
-    		System.out.println("Database Open");
-    		
-    		//questions = database.getAllEntries();
+    		questions = database.getAllEntries();
     		
     		System.out.println("post Query: " + questions.size());
     		
@@ -450,12 +367,15 @@ public class MazeGUI extends ASKActivity {
     			throw new Exception();
     		}
     		else {
-    			intent.putExtra("question", questions.get(0).qestion);
-    			intent.putExtra("cAns", questions.get(0).ansCorrect);
-    			intent.putExtra("wAns1", questions.get(0).ans2);
-    			intent.putExtra("wAns2", questions.get(0).ans3);
-    			intent.putExtra("wAns3", questions.get(0).ans4);
-    			intent.putExtra("qId", questions.get(0).id);
+    			
+    			index = (r.nextInt(questions.size()));
+    			
+    			intent.putExtra("question", questions.get(index).qestion);
+    			intent.putExtra("cAns", questions.get(index).ansCorrect);
+    			intent.putExtra("wAns1", questions.get(index).ans2);
+    			intent.putExtra("wAns2", questions.get(index).ans3);
+    			intent.putExtra("wAns3", questions.get(index).ans4);
+    			intent.putExtra("qId", questions.get(index).id);
     			
     			System.out.println("Accesing DataBase");
     		}
@@ -463,14 +383,14 @@ public class MazeGUI extends ASKActivity {
     		//database.close();
     	}
     	catch (Exception e){
-    		Log.e("YOUR_APP_LOG_TAG", "I got an error", e);
+    		Log.v("MazeGUI", e.toString());
     		System.out.println("TROUBLE ACCESING DATABASE");
     	}
-    	*/
+    	
     	// END AVI TEST TO ACCESS DATABASE //
     		
     	// AVI NO DATABASE //
-    		
+    	/*	
     		if (dataList.isEmpty()) {
     			System.out.println("DATA LIST IS EMPTY");
     		}
@@ -483,7 +403,7 @@ public class MazeGUI extends ASKActivity {
     			intent.putExtra("wAns3", dataList.get(index).ans4);
     			intent.putExtra("qId", dataList.get(index).id);
     		}
-    		
+    	*/	
     	// END AVI NO DATABASE //
     		
     	
@@ -590,5 +510,21 @@ public class MazeGUI extends ASKActivity {
 	
 	public void setDataList(List<dbEntry> list) {
 		dataList = list;
+	}
+	
+	public void setDatabase(List<dbEntry> list) {
+		
+		dbEntry temp;
+		
+		System.out.println("The Database is called: " + database.Name() + " list size = " + list.size());
+		System.out.println("DATABASE PATH: " + database.Path());
+		
+		for (int i=0; i<list.size(); i++) {
+			temp = database.createEntry(list.get(i));
+		}
+	}
+	
+	public void clearDatabase() {
+		database.forceClear();
 	}
 }

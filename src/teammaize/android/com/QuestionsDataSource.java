@@ -23,6 +23,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 public class QuestionsDataSource {
 
@@ -34,8 +35,8 @@ public class QuestionsDataSource {
   private String[] allColumns = { MySQLiteHelper.COLUMN_ID,
       MySQLiteHelper.COLUMN_QUESTION, MySQLiteHelper.COLUMN_ANSCORRECT, 
       MySQLiteHelper.COLUMN_ANS2, MySQLiteHelper.COLUMN_ANS3, MySQLiteHelper.COLUMN_ANS4,
-      MySQLiteHelper.COLUMN_SUBJECT, MySQLiteHelper.COLUMN_LEVEL}; 
-     // MySQLiteHelper.COLUMN_CORATTEMPTS, MySQLiteHelper.COLUMN_ATTEMPTS};
+      MySQLiteHelper.COLUMN_SUBJECT, MySQLiteHelper.COLUMN_LEVEL, 
+      MySQLiteHelper.COLUMN_CORATTEMPTS, MySQLiteHelper.COLUMN_ATTEMPTS};
 
   public QuestionsDataSource(Context context) {
       
@@ -44,6 +45,7 @@ public class QuestionsDataSource {
 
   public void open() throws SQLException {
     database = dbHelper.getWritableDatabase();
+    Log.v("QuestionsDataSource","DB OPEN: " + database.getPath());
   }
 
   public void close() {
@@ -60,7 +62,7 @@ public class QuestionsDataSource {
 	 dbEntry insertEntry;
 	 String garb;
 	 
-	 System.out.println("parseData has: " + strtok.countTokens() + " tokens");
+
 	
 	 garb = new String("");
 	 
@@ -69,25 +71,12 @@ public class QuestionsDataSource {
 		 garb = strtok.nextToken();
 	 }
 	 
-	 System.out.println("AHHHHHH");
 	 
 	 long count = 0;
 	 
 	 while (strtok.hasMoreTokens()) {
-		// StringTokenizer entry = new StringTokenizer(strtok.nextToken(), ",");
-		 //System.out.println("THERE ARE THIS MANY TOKENS IN THIS LINE: " + entry.countTokens());
 		 insertEntry = new dbEntry();
 		 
-		/*
-		 while(strtok.hasMoreTokens()) {
-			 System.out.println(strtok.nextToken(","));
-		 }
-		 
-		 
-		 for (int i=0;i<6;i++) {
-			 String garbage = strtok.nextToken(",");
-		 }
-		 */
 		 try {
 			 String tempStr = strtok.nextToken(",");
 			 if (tempStr.equals("</body>")) {
@@ -95,12 +84,7 @@ public class QuestionsDataSource {
 			 }
 			 if (tempStr.equals("")) {
 				 break;
-			 }/*
-			 System.out.println("first Token: " + tempStr);
-			 Long tempLong = Long.valueOf(tempStr);
-			 System.out.println("Long Val: " + tempLong);
-       	     insertEntry.id = tempLong.longValue();
-       	     */
+			 }
          }
          catch (NumberFormatException nef) {
         	 System.out.println("ID isn't a Number");
@@ -130,83 +114,6 @@ public class QuestionsDataSource {
 	catch (NoSuchElementException e) {
 		System.out.println("NOSUCHELEMENTS MEANS THAT NUMBERING IS OFF");
 	}
-	
-	
-	
-      
-	  
-	  /* parseData is in the form of XML as follows:
-	  
-	  <ENTRY>
-	  		<id> ## 				</id>
-	  		<question> wjefjewi 	</question>
-	  		<ansCorrect> alkdjflkaj </ansCorrect>
-	  		<ans2>  alkdjflka		</ans2>
-	  		<ans3>  alkdjflka		</ans3>
-	  		<ans4>  alkdjflka		</ans4>
-	  		<subjet> alksdjf		</subject>
-	  		<level> ## 				</level>
-	  		<corAttempts> ##		</corAttempts>
-	  		<attempts>  ##			</attempts>
-	  
-	  
-	  </ENTRY>
-	  
-	 
-	 */
-	  /*List<String> singleEntry = new ArrayList<String>();
-	  
-	  try {
-	        //For String source
-		  
-		  
-	        XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
-	        factory.setNamespaceAware(true);
-	        XmlPullParser xpp = factory.newPullParser();
-	        xpp.setInput(new StringReader(parseData)); 
-
-	        xpp.next();
-	        int eventType = xpp.getEventType();                        
-	        
-	        
-	          while (xpp.getEventType()!=XmlPullParser.END_DOCUMENT) {
-	              if (xpp.getEventType()==XmlPullParser.START_TAG) {
-	                  if (xpp.getName().equals("ENTRY")) {
-	                     for (int i=0;i<10;i++) {
-	                    	 while (xpp.getEventType()!=XmlPullParser.START_TAG) {
-	                    	 }
-	                    	 singleEntry.add(xpp.getText());
-	                     }
-	                  }
-	                  dbEntry insertEntry = new dbEntry();
-	                  try {
-	                	  insertEntry.id = Long.parseLong(singleEntry.get(0));
-	                  }
-	                  catch (NumberFormatException nef) {
-	                  }
-	                  
-	                  insertEntry.qestion = singleEntry.get(1);
-	                  insertEntry.ansCorrect = singleEntry.get(2);
-	                  insertEntry.ans2 = singleEntry.get(3);
-	                  insertEntry.ans3 = singleEntry.get(4);
-	                  insertEntry.ans4 = singleEntry.get(5);
-	                  insertEntry.subject = singleEntry.get(6);
-	                  insertEntry.level = singleEntry.get(7);
-	                  insertEntry.corAttempts = singleEntry.get(8);
-	                  insertEntry.attempts = singleEntry.get(9);
-	                  
-	                  dbEntry temp = createEntry(insertEntry);
-	              }
-	              xpp.next();
-	          }
-
-	    }
-	   
-	    catch (XmlPullParserException e) {
-	          e.printStackTrace();
-	    } catch (IOException e) {
-	          e.printStackTrace();
-	    }*/
 	  
   }
   
@@ -223,14 +130,13 @@ public class QuestionsDataSource {
     values.put(MySQLiteHelper.COLUMN_CORATTEMPTS, entry.getCorAttempts());
     values.put(MySQLiteHelper.COLUMN_ATTEMPTS, entry.getAttempts());
     
+    
+    
     long insertId = database.insert(MySQLiteHelper.TABLE_DATA, null,
         values);
-    Cursor cursor = database.query(MySQLiteHelper.TABLE_DATA,
-        allColumns, MySQLiteHelper.COLUMN_ID + " = " + insertId, null,
-        null, null, null);
-    cursor.moveToFirst();
-    dbEntry newEntry = cursorToEntry(cursor);
-    cursor.close();
+    
+    dbEntry newEntry = new dbEntry();
+    
     return newEntry;
   }
 
@@ -247,10 +153,16 @@ public class QuestionsDataSource {
 	  
     List<dbEntry> entries = new ArrayList<dbEntry>();
 
-    Cursor cursor = database.query(MySQLiteHelper.TABLE_DATA,
+    Cursor cursor = null;
+    
+    try {
+    cursor = database.query(MySQLiteHelper.TABLE_DATA,
         allColumns, null, null, null, null, null);
+    }
+    catch (Exception e) {
+    	Log.v("QuestionsDataSource", e.toString());
+    }
 
-    System.out.println("After Query");
     
     cursor.moveToFirst();
     while (!cursor.isAfterLast()) {
@@ -279,5 +191,17 @@ public class QuestionsDataSource {
     entry.corAttempts = cursor.getString(8);
     entry.attempts = cursor.getString(9);
     return entry;
+  }
+  
+  public String Name() {
+	 return dbHelper.getDatabaseName();
+  }
+  
+  public String Path() {
+	  return database.getPath();
+  }
+  
+  public void forceClear() {
+	  dbHelper.onUpgrade(database, 1, 1);
   }
 } 
