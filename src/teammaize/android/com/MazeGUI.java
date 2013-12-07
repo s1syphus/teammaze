@@ -55,6 +55,7 @@ import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.Toast;
 import ask.scanninglibrary.ASKActivity;
+import ask.scanninglibrary.views.ASKAlertDialog;
 
 
 public class MazeGUI extends ASKActivity {
@@ -418,10 +419,10 @@ public class MazeGUI extends ASKActivity {
 	public void finishedMaze() {
 		Log.v("MazeGui", "Game is finished - prompt user to continue");
 		
-		AlertDialog.Builder alert = new AlertDialog.Builder(MazeGUI.this);
+		ASKAlertDialog alert = new ASKAlertDialog(MazeGUI.this);
 		alert.setTitle("Game Won!");
 		alert.setMessage("Would you like to start a new game?");
-		alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+		alert.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface arg0, int arg1) {
 				Log.v("MazeComplete", "Start new game");
@@ -437,8 +438,7 @@ public class MazeGUI extends ASKActivity {
 				player.setCurLoc(new Pair<Integer, Integer>(0, 0));
 			}
 		});
-		alert.setNegativeButton("Cancel",
-				new DialogInterface.OnClickListener() {
+		alert.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel",	new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface arg0, int arg1) {
 						Log.v("MazeComplete", "Do not start new game");
@@ -447,6 +447,7 @@ public class MazeGUI extends ASKActivity {
 
 		alert.show();
 	}
+
 	
 	/**
 	 * Set up the {@link android.app.ActionBar}.
