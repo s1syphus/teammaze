@@ -82,9 +82,8 @@ public class MazeGUI extends ASKActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		try {
 			super.onCreate(savedInstanceState);
+			this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 			setContentView(R.layout.activity_maze_gui);
-			// Show the Up button in the action bar.
-			setupActionBar();
 
 			mazeObject = new MazeGeneration(x, y);
 			idArray = new int[x][y];
@@ -127,18 +126,6 @@ public class MazeGUI extends ASKActivity {
 			Log.v("MazeGUI", "Exception thrown in RequestTask " + e.toString());
 		}
 		
-		if(dataList.size() == 0) {
-			//Server couldn't be reached -> add default question
-            //TODO: Remove once off-line database works
-            dbEntry entry = new dbEntry();
-            entry.qestion = "What is the capital of the USA?";
-            entry.ansCorrect = "Washington D.C.";
-            entry.ans2 = "California";
-            entry.ans3 = "Michigan";
-            entry.ans4 = "Alabama";
-            dataList.add(entry);
-		}
-		
 		try {
 			
 			Vector<Button> buttons = new Vector<Button>();
@@ -177,8 +164,7 @@ public class MazeGUI extends ASKActivity {
 					}
 					else {
 						System.out.println("Invalid move");
-					}
-								
+					}		
 				}
 			});
 			
@@ -195,8 +181,7 @@ public class MazeGUI extends ASKActivity {
 					}
 					else {
 						System.out.println("Invalid move");
-					}
-									
+					}		
 				}
 			});
 			
@@ -330,11 +315,7 @@ public class MazeGUI extends ASKActivity {
 	public void roadBlockEnc (View view) {
     	//Initiating the roadblock intent
     	Intent intent = new Intent(MazeGUI.this, RoadBlock.class);
-    	String q = new String();
 
-
-    	// AVI TEST TO ACCESS DATABASE //
-    	
     	try {
     		
     		List<dbEntry> questions = new ArrayList<dbEntry>();
@@ -369,9 +350,6 @@ public class MazeGUI extends ASKActivity {
     		Log.v("MazeGUI", e.toString());
     		System.out.println("TROUBLE ACCESING DATABASE");
     	}
-    	
-    	// END AVI TEST TO ACCESS DATABASE //
-    		
  
     	//switch to the roadblock activity
     	startActivityForResult(intent, 10); //10 is arbitrary, can be anything
@@ -390,7 +368,6 @@ public class MazeGUI extends ASKActivity {
 			
 			//if correct ans = "correct"
 			if (ans.equals("correct")){
-						
 				//Replace space on board with P
 				mazeObject.maze[player.getCurLoc().first][player.getCurLoc().second] = DataStructures.MazeSpaces.PASSED.SpaceChar();
 				
@@ -401,17 +378,13 @@ public class MazeGUI extends ASKActivity {
 				Log.v("MazeGUI", "Player passed the Roadblock!");
 				
 			} else {
-				//Player was incorrect
-				
-				//update player loc graphic
+				//Player was incorrect, update player loc graphic
 				updatePlayerGraphic(player.getCurLoc(), player.getLastLoc());
 				Log.v("MazeGUI", "Player moved back from: " + player.getCurLoc().first + " " + player.getCurLoc().second
 						+ " to " + player.getLastLoc().first + " " + player.getLastLoc().second);
 				
 				//move player
-				Pair<Integer, Integer> prevLoc = player.getCurLoc();
 				player.setCurLoc(player.getLastLoc());
-				
 			}
 		}
 	}
@@ -446,15 +419,6 @@ public class MazeGUI extends ASKActivity {
 				});
 
 		alert.show();
-	}
-
-	
-	/**
-	 * Set up the {@link android.app.ActionBar}.
-	 */
-	private void setupActionBar() {
-
-		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 	
 	@Override

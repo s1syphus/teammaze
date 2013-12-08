@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.content.Context;
 import android.content.Intent;
 import android.widget.Button;
@@ -25,9 +26,8 @@ public class RoadBlock extends ASKActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_road_block);
-		// Show the Up button in the action bar.
-		setupActionBar();
 		
 		//get the passed in intent
 		Intent intent = getIntent();
@@ -82,14 +82,6 @@ public class RoadBlock extends ASKActivity {
 		/*example code
 		View.findViewById() or Activity.findViewById(). [reference]
 		*/		
-	}
-	
-	/**
-	 * Set up the {@link android.app.ActionBar}.
-	 */
-	private void setupActionBar() {
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-
 	}
 
 	@Override
