@@ -1,71 +1,153 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     tools:context=".MazeGUI">
+    
+<FrameLayout  
+	android:layout_width="fill_parent" 
+	android:layout_height="wrap_content">
+    
+<ImageView 
+	android:layout_width="fill_parent" 
+	android:layout_height="fill_parent"
+	android:src="@drawable/primary_bg" 
+	android:scaleType="fitXY" />
+
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical" >
 
-    <GridLayout
-        android:id="@+id/mazeImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center_horizontal"
-        android:padding="3dp"
-        android:background="@color/Michigan_Blue">
-    </GridLayout>
+    <LinearLayout  
+		android:layout_width="match_parent" 
+		android:layout_height="wrap_content"
+		android:paddingTop="15dp"
+		android:orientation="horizontal">
+		
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp" 
+            android:layout_gravity="left"
+            android:layout_weight=".10"/>
+
+	    <GridLayout
+	        android:id="@+id/mazeImage"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:background="@color/Michigan_Blue"
+	        android:padding="3dp">
+	    </GridLayout>
+	    
+	    <View
+            android:layout_width="0dp"
+            android:layout_height="0dp" 
+            android:layout_gravity="right"
+            android:layout_weight=".10"/>
+	    
+	</LinearLayout>
     
-    <GridLayout android:layout_height="fill_parent" 
-        android:layout_width="fill_parent" 
-        android:id="@+id/movementGridLayout" 
-        android:useDefaultMargins="false" 
-        android:rowCount="4" 
-        android:columnCount="3" 
-        android:clickable="false">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:orientation="horizontal"
+        android:paddingTop="10dp" 
+        android:layout_gravity="bottom">
         
-        <Button android:id="@+id/leftButton" 
-            android:text="@string/left" 
-            android:contentDescription="@string/left_button_des" 
-            android:layout_row="3" 
-            android:layout_gravity="left|top" 
-            android:layout_column="2"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp" 
+            android:layout_gravity="left"
+            android:layout_weight=".30"/>
         
-        <Button android:id="@+id/upButton" 
-            android:text="@string/up" 
-            android:contentDescription="@string/up_button_des" 
-            android:layout_row="0" 
-            android:layout_gravity="center_horizontal|top" 
-            android:layout_column="2"/>
+        <Button
+            android:id="@+id/upButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight=".30"
+            android:contentDescription="@string/up_button_des"
+            android:text="@string/up" />
         
-        <Button android:id="@+id/downButton" 
-            android:text="@string/down" 
-            android:contentDescription="@string/down_button_des" 
-            android:layout_row="3" 
-            android:layout_gravity="center" 
-            android:layout_column="2"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_gravity="right"
+            android:layout_weight=".30"/>
         
-        <Button android:id="@+id/rightButton" 
-            android:text="@string/right" 
-            android:contentDescription="@string/right_button_des" 
-            android:layout_row="3" 
-            android:layout_gravity="right|top" 
-            android:layout_column="2"/>
+        </LinearLayout>    
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:orientation="horizontal"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp" 
+        android:layout_gravity="bottom">
+        
+        <Button
+            android:id="@+id/leftButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_weight=".30"
+            android:contentDescription="@string/left_button_des"
+            android:text="@string/left" />
+        
+        <Button
+            android:id="@+id/downButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight=".30"
+            android:contentDescription="@string/down_button_des"
+            android:text="@string/down" />
+        
+        <Button
+            android:id="@+id/rightButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_weight=".30"
+            android:contentDescription="@string/right_button_des"
+            android:text="@string/right" />
+        
+        </LinearLayout>
             
-    	<Button
-        	android:layout_width="wrap_content"
-        	android:layout_height="wrap_content"
-        	android:onClick="closeActivity"
-        	android:text="@string/close" 
-        	android:layout_gravity="center_horizontal|bottom"/>
-    	
-    </GridLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:orientation="horizontal"
+        android:paddingTop="10dp" 
+        android:layout_gravity="bottom">
+        
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_gravity="left"
+            android:layout_weight=".20"/>
+        
+        <Button
+            android:id="@+id/closeButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight=".60"
+            android:text="@string/close"
+            android:onClick = "closeActivity" />
+        
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_gravity="right"
+            android:layout_weight=".20"/>
+        
+        </LinearLayout>
 
 </LinearLayout>
+</FrameLayout>
 </ScrollView>

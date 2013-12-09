@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Maize Game</string>
+    <string name="app_name">Maize Maze</string>
     <string name="action_settings">Settings</string>
     <string name="start">Start</string>
     <string name="team_maize">Team Maize</string>
@@ -17,6 +17,21 @@
     
     <string name="title_activity_maze">MazeActivity</string>
     <string name="title_activity_road_block">RoadBlock</string>
+    
+    <string name="subjectSpinner">Subject</string>
+    <string name="levelSpinner">Level</string>
+    
+    <string-array name="subjectsArray">
+        <!-- This list should be dynamically populated at some
+        	point in the future -Mike -->
+        <item>Math</item>
+        <item>Physics</item>
+        <item>Chemistry</item>
+        <item>Geography</item>
+        <item>Literature</item>
+    </string-array>
+    
+    
     
     <string name="choice_one">Choice One</string>
     <string name="choice_two">Choice Two</string>

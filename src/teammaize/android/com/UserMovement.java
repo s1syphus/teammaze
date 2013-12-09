@@ -91,9 +91,6 @@ public class UserMovement {
 			}
 			else if(nextSpace == MazeSpaces.GOAL.SpaceChar()) {
 				//update userCoords and congratulate player
-				Toast toast = Toast.makeText(mazeGui, "Congratulations!", Toast.LENGTH_LONG);
-				toast.show();
-				
 				prevLoc = loc;
 				loc = nextCoords;
 				

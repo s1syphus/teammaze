@@ -1,60 +1,29 @@
 package teammaize.android.com;
 
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.StatusLine;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-
-import android.net.Uri;
-import android.net.http.AndroidHttpClient;
 import android.os.Bundle;
 
-import java.io.InputStream;
 import java.util.Vector;
 
-
-
-
-
-
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.AssetManager;
-import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
-import android.support.v4.app.NavUtils;
-import android.content.Intent;
-import android.content.res.AssetManager;
-import android.content.res.XmlResourceParser;
-import android.database.SQLException;
 import android.view.*;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.GridLayout.Spec;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
-import android.widget.Toast;
 import ask.scanninglibrary.ASKActivity;
+import ask.scanninglibrary.views.ASKAlertDialog;
 
 
 public class MazeGUI extends ASKActivity {
@@ -81,9 +50,8 @@ public class MazeGUI extends ASKActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		try {
 			super.onCreate(savedInstanceState);
+			this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 			setContentView(R.layout.activity_maze_gui);
-			// Show the Up button in the action bar.
-			setupActionBar();
 
 			mazeObject = new MazeGeneration(x, y);
 			idArray = new int[x][y];
@@ -133,18 +101,6 @@ public class MazeGUI extends ASKActivity {
 			Log.v("MazeGUI", "Exception thrown in RequestTask " + e.toString());
 		}
 		
-		if(dataList.size() == 0) {
-			//Server couldn't be reached -> add default question
-            //TODO: Remove once off-line database works
-            dbEntry entry = new dbEntry();
-            entry.qestion = "What is the capital of the USA?";
-            entry.ansCorrect = "Washington D.C.";
-            entry.ans2 = "California";
-            entry.ans3 = "Michigan";
-            entry.ans4 = "Alabama";
-            dataList.add(entry);
-		}
-		
 		try {
 			
 			Vector<Button> buttons = new Vector<Button>();
@@ -152,6 +108,8 @@ public class MazeGUI extends ASKActivity {
 			buttons.add((Button) findViewById(R.id.rightButton));
 			buttons.add((Button) findViewById(R.id.downButton));
 			buttons.add((Button) findViewById(R.id.leftButton));
+			buttons.add((Button) findViewById(R.id.closeButton));
+			
 
 			//Initialize left button on click listener
 			buttons.elementAt(DataStructures.Directions.WEST.ordinal()).setOnClickListener(new OnClickListener() {
@@ -183,8 +141,7 @@ public class MazeGUI extends ASKActivity {
 					}
 					else {
 						System.out.println("Invalid move");
-					}
-								
+					}		
 				}
 			});
 			
@@ -201,8 +158,7 @@ public class MazeGUI extends ASKActivity {
 					}
 					else {
 						System.out.println("Invalid move");
-					}
-									
+					}		
 				}
 			});
 			
@@ -245,15 +201,11 @@ public class MazeGUI extends ASKActivity {
 	{	
 		int idCount = 0;
 		int finalDimen = 0;
-		LayoutParams dimensions;
-		
 		Display d = ((WindowManager)getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
 		@SuppressWarnings("deprecation")
 		int width = d.getWidth();
 		@SuppressWarnings("deprecation")
 		int height = d.getHeight();
-		
-		dimensions = new LayoutParams(finalDimen, finalDimen);
 		
 		//Set percentage of screen taken up by maze
 		if(width < height)
@@ -264,6 +216,8 @@ public class MazeGUI extends ASKActivity {
 		{
 			finalDimen = (int) (height/this.x * 0.60);
 		}
+		
+		LayoutParams dimensions = new LayoutParams(finalDimen, finalDimen);
 		
 		for (int i = 0; i < x; i++)
 		{
@@ -278,7 +232,7 @@ public class MazeGUI extends ASKActivity {
 					WallGraphic.setId(idCount);
 					WallGraphic.setScaleType(ScaleType.FIT_XY);
 					WallGraphic.setAdjustViewBounds(true);
-					WallGraphic.setLayoutParams(new LayoutParams(finalDimen, finalDimen));
+					WallGraphic.setLayoutParams(dimensions);
 					
 					mazeImage.addView(WallGraphic);
 				}
@@ -289,7 +243,7 @@ public class MazeGUI extends ASKActivity {
 					PathGraphic.setId(idCount);
 					PathGraphic.setScaleType(ScaleType.FIT_XY);
 					PathGraphic.setAdjustViewBounds(true);
-					PathGraphic.setLayoutParams(new LayoutParams(finalDimen, finalDimen));
+					PathGraphic.setLayoutParams(dimensions);
 					
 					mazeImage.addView(PathGraphic);
 				}
@@ -300,7 +254,7 @@ public class MazeGUI extends ASKActivity {
 					RoadblockGraphic.setId(idCount);
 					RoadblockGraphic.setScaleType(ScaleType.FIT_XY);
 					RoadblockGraphic.setAdjustViewBounds(true);
-					RoadblockGraphic.setLayoutParams(new LayoutParams(finalDimen, finalDimen));
+					RoadblockGraphic.setLayoutParams(dimensions);
 					
 					mazeImage.addView(RoadblockGraphic);
 				}
@@ -312,7 +266,7 @@ public class MazeGUI extends ASKActivity {
 					StartGraphic.setId(idCount);
 					StartGraphic.setScaleType(ScaleType.FIT_XY);
 					StartGraphic.setAdjustViewBounds(true);
-					StartGraphic.setLayoutParams(new LayoutParams(finalDimen, finalDimen));
+					StartGraphic.setLayoutParams(dimensions);
 					
 					mazeImage.addView(StartGraphic);
 				}
@@ -323,7 +277,7 @@ public class MazeGUI extends ASKActivity {
 					GoalGraphic.setId(idCount);
 					GoalGraphic.setScaleType(ScaleType.FIT_XY);
 					GoalGraphic.setAdjustViewBounds(true);
-					GoalGraphic.setLayoutParams(new LayoutParams(finalDimen, finalDimen));
+					GoalGraphic.setLayoutParams(dimensions);
 					
 					mazeImage.addView(GoalGraphic);
 				}
@@ -336,11 +290,7 @@ public class MazeGUI extends ASKActivity {
 	public void roadBlockEnc (View view) {
     	//Initiating the roadblock intent
     	Intent intent = new Intent(MazeGUI.this, RoadBlock.class);
-    	String q = new String();
 
-
-    	// AVI TEST TO ACCESS DATABASE //
-    	
     	try {
     		
     		List<dbEntry> questions = new ArrayList<dbEntry>();
@@ -371,9 +321,6 @@ public class MazeGUI extends ASKActivity {
     		Log.v("MazeGUI", e.toString());
     		System.out.println("TROUBLE ACCESING DATABASE");
     	}
-    	
-    	// END AVI TEST TO ACCESS DATABASE //
-    		
  
     	//switch to the roadblock activity
     	startActivityForResult(intent, 10); //10 is arbitrary, can be anything
@@ -392,7 +339,6 @@ public class MazeGUI extends ASKActivity {
 			
 			//if correct ans = "correct"
 			if (ans.equals("correct")){
-						
 				//Replace space on board with P
 				mazeObject.maze[player.getCurLoc().first][player.getCurLoc().second] = DataStructures.MazeSpaces.PASSED.SpaceChar();
 				
@@ -403,17 +349,13 @@ public class MazeGUI extends ASKActivity {
 				Log.v("MazeGUI", "Player passed the Roadblock!");
 				
 			} else {
-				//Player was incorrect
-				
-				//update player loc graphic
+				//Player was incorrect, update player loc graphic
 				updatePlayerGraphic(player.getCurLoc(), player.getLastLoc());
 				Log.v("MazeGUI", "Player moved back from: " + player.getCurLoc().first + " " + player.getCurLoc().second
 						+ " to " + player.getLastLoc().first + " " + player.getLastLoc().second);
 				
 				//move player
-				Pair<Integer, Integer> prevLoc = player.getCurLoc();
 				player.setCurLoc(player.getLastLoc());
-				
 			}
 		}
 	}
@@ -421,10 +363,10 @@ public class MazeGUI extends ASKActivity {
 	public void finishedMaze() {
 		Log.v("MazeGui", "Game is finished - prompt user to continue");
 		
-		AlertDialog.Builder alert = new AlertDialog.Builder(MazeGUI.this);
+		ASKAlertDialog alert = new ASKAlertDialog(MazeGUI.this);
 		alert.setTitle("Game Won!");
 		alert.setMessage("Would you like to start a new game?");
-		alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+		alert.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface arg0, int arg1) {
 				Log.v("MazeComplete", "Start new game");
@@ -440,8 +382,7 @@ public class MazeGUI extends ASKActivity {
 				player.setCurLoc(new Pair<Integer, Integer>(0, 0));
 			}
 		});
-		alert.setNegativeButton("Cancel",
-				new DialogInterface.OnClickListener() {
+		alert.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel",	new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface arg0, int arg1) {
 						Log.v("MazeComplete", "Do not start new game");
@@ -449,14 +390,6 @@ public class MazeGUI extends ASKActivity {
 				});
 
 		alert.show();
-	}
-	
-	/**
-	 * Set up the {@link android.app.ActionBar}.
-	 */
-	private void setupActionBar() {
-
-		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 	
 	@Override
