@@ -119,7 +119,14 @@ public class MazeGUI extends ASKActivity {
 		try {
 			connection = new ConnectionDetector(this);
 			if (connection.isConnectingToInternet()) {
-			new RequestTask(database, this, dataList, this).execute("http://35.0.125.52:8888/website_wip/getcsv.php");		
+			new RequestTask(database, this, dataList, this).execute("http://67.194.97.220:8888/website_wip/getcsv.php");		
+			}
+			else {
+				dataList = database.getAllEntries();
+				
+				if (dataList.isEmpty()) {
+					System.out.println("THERE ARE NO QUESTIONS PLEASE CONNECT TO ONLINE DATABASE");
+				}
 			}
 		}
 		catch (Exception e) {
@@ -338,11 +345,7 @@ public class MazeGUI extends ASKActivity {
     		
     		List<dbEntry> questions = new ArrayList<dbEntry>();
     		
-    		System.out.println("About to access Database");
-    		
-    		questions = database.getAllEntries();
-    		
-    		System.out.println("post Query: " + questions.size());
+    		questions = database.getSubLevEntries("test", 0);
     		
     		if (questions.isEmpty()) {
     			System.out.println("EMPTY DB");
@@ -359,7 +362,7 @@ public class MazeGUI extends ASKActivity {
     			intent.putExtra("wAns3", questions.get(index).ans4);
     			intent.putExtra("qId", questions.get(index).id);
     			
-    			System.out.println("Accesing DataBase");
+    			System.out.println("Accesing DataBase: " + questions.size());
     		}
     		
     		//database.close();

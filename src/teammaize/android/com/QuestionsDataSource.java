@@ -37,6 +37,8 @@ public class QuestionsDataSource {
       MySQLiteHelper.COLUMN_ANS2, MySQLiteHelper.COLUMN_ANS3, MySQLiteHelper.COLUMN_ANS4,
       MySQLiteHelper.COLUMN_SUBJECT, MySQLiteHelper.COLUMN_LEVEL, 
       MySQLiteHelper.COLUMN_CORATTEMPTS, MySQLiteHelper.COLUMN_ATTEMPTS};
+  private String subjectWhere;
+  private String levelWhere;
 
   public QuestionsDataSource(Context context) {
       
@@ -176,6 +178,36 @@ public class QuestionsDataSource {
     System.out.println("Entries: " + entries.size());
     
     return entries;
+  }
+  
+  public List<dbEntry> getSubLevEntries(String subject, int level) {
+	  System.out.println("In get Sub Lev Entries");
+	  
+	    List<dbEntry> entries = new ArrayList<dbEntry>();
+	    String whereClause;
+	    Cursor cursor = null;
+	    
+	    whereClause = "subject='" + subject + "' and level=" + level;
+	    
+	    try {
+	    cursor = database.query(MySQLiteHelper.TABLE_DATA,
+	        allColumns, whereClause, null, null, null, null);
+	    }
+	    catch (Exception e) {
+	    	Log.v("QuestionsDataSource", e.toString());
+	    }
+
+	    
+	    cursor.moveToFirst();
+	    while (!cursor.isAfterLast()) {
+	      dbEntry entry = cursorToEntry(cursor);
+	      entries.add(entry);
+	      cursor.moveToNext();
+	    }
+	    // make sure to close the cursor
+	    cursor.close();
+	    
+	    return entries;
   }
 
   private dbEntry cursorToEntry(Cursor cursor) {
