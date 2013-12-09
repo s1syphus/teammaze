@@ -20,12 +20,6 @@ public class MainActivity extends ASKActivity {
     		getActionBar().hide();
     		
     		Log.v("MainActivity", "Initialize start button click events");
-    		Button startButton = (Button) findViewById(R.id.upButton);
-    		startButton.setOnClickListener(new OnClickListener() {
-    			public void onClick(View v) {
-    				mazeStart(v);
-    			}
-    		});
     	}
     	catch (Exception e) {
     		Log.v("MainActivity", "Exception thown in onCreate: " + e.toString());
