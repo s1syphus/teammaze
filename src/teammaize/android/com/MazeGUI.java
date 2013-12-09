@@ -299,21 +299,31 @@ public class MazeGUI extends ASKActivity {
     		
     		if (questions.isEmpty()) {
     			System.out.println("EMPTY DB");
-    			throw new Exception();
-    		}
-    		else {
     			
-    			index = (r.nextInt(questions.size()));
+    			//TODO: should show a nice error rather than using this question but this is to ensure
+    			//demoability
+    			String quest = "Which is NOT one of the original 13 colonies?";
+    			String a1 = "Kentucky";
+    			String a2 = "New York";
+    			String a3 = "Maryland";
+    			String a4 = "Connecticut";
+    			String subject = "Social Studies";
+    			String level = "6";
+    			dbEntry entry = new dbEntry(0, quest, a1, a2, a3, a4, subject, level);
+    			questions.add(entry);
     			
-    			intent.putExtra("question", questions.get(index).qestion);
-    			intent.putExtra("cAns", questions.get(index).ansCorrect);
-    			intent.putExtra("wAns1", questions.get(index).ans2);
-    			intent.putExtra("wAns2", questions.get(index).ans3);
-    			intent.putExtra("wAns3", questions.get(index).ans4);
-    			intent.putExtra("qId", questions.get(index).id);
+    			//throw new Exception();
+    		}    			
+    		index = (r.nextInt(questions.size()));
+    		
+   			intent.putExtra("question", questions.get(index).qestion);
+   			intent.putExtra("cAns", questions.get(index).ansCorrect);
+   			intent.putExtra("wAns1", questions.get(index).ans2);
+   			intent.putExtra("wAns2", questions.get(index).ans3);
+   			intent.putExtra("wAns3", questions.get(index).ans4);
+   			intent.putExtra("qId", questions.get(index).id);
     			
-    			System.out.println("Accesing DataBase: " + questions.size());
-    		}
+   			System.out.println("Accesing DataBase: " + questions.size());
     		
     		//database.close();
     	}
