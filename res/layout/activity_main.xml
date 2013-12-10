@@ -202,16 +202,7 @@
         android:prompt="@string/subjectSpinner"
         android:text="@string/subjectHint" />
 
-    <Spinner
-        android:id="@+id/levelSpinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:paddingBottom="20dp"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:prompt="@string/levelSpinner"
-        android:text="@string/levelHint" />
+
 
     <Button
         android:id="@+id/startButton"

@@ -1,19 +1,14 @@
 package teammaize.android.com;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Display;
 import android.view.View;
-import android.view.WindowManager;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.Button;
-import android.widget.GridLayout;
-import android.widget.ImageView;
-import android.widget.ImageView.ScaleType;
-import android.widget.LinearLayout;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import ask.scanninglibrary.ASKActivity;
 
 public class MainActivity extends ASKActivity {
@@ -26,6 +21,15 @@ public class MainActivity extends ASKActivity {
     		
     		//Up button should not appear on the home page (cannot navigate 'up' to the home screen
     		getActionBar().hide();
+    		
+    		
+    		Spinner spinner = (Spinner) findViewById(R.id.subjectSpinner);
+    		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+    				R.array.subjectsArray, android.R.layout.simple_spinner_item);
+    		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    		spinner.setAdapter(adapter);
+   		
+    		
     		
     		Log.v("MainActivity", "Initialize start button click events");
     	}
@@ -49,6 +53,8 @@ public class MainActivity extends ASKActivity {
     	}
     }
     */
+
+    
     
     public void mazeStart (View view) {
     	try {
