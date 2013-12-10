@@ -21,6 +21,18 @@
     <string name="subjectSpinner">Subject</string>
     <string name="levelSpinner">Level</string>
     
+    <string name="subjectHint">Choose a subject for questions.</string>
+    <string name="levelHint">Choose a level of question difficulty.</string>
+    
+    <string name="instructionTitle">Instructions</string>
+    <string name="instructions">Test your knowledge and solve the maze!:</string>
+    
+    <string name="playerInstr">This maize colored player icon represents your place in the maze. Use the directional buttons to move it.</string>
+    <string name="pathWallInstr">You will be able to move through the light blue path spaces pictured left. Dark blue wall spaces cannot be crossed.</string>
+    <string name="startGoalInstr">When the game starts, your player icon will occupy the yellow start space. You must navigate to the green goal space.</string>
+    <string name="roadblockInstr">Red labeled spaces are roadblocks; crossing them triggers a question. Answer correctly to mark the roadblock as clear and move on.</string>
+    <string name="sendoff">Select your preferred question subject and difficulty level in the menus below and press Start to begin. Note that mazes and questions are randomly generated every time the program starts, so you\'ll always have a different experience. Good luck!</string>
+    
     <string-array name="subjectsArray">
         <!-- This list should be dynamically populated at some
         	point in the future -Mike -->

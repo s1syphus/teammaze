@@ -1,44 +1,63 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:orientation="vertical"
+    android:layout_width="fill_parent" 
+	android:layout_height="match_parent"
     tools:context=".RoadBlock" >
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/question_here"
-        android:id="@+id/question" />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/choice_one"
-        android:onClick="checkButton"
-        android:id="@+id/ans1" />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/choice_two"
-        android:onClick="checkButton"
-        android:id="@+id/ans2" />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/choice_three"
-        android:onClick="checkButton"
-        android:id="@+id/ans3" />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/choice_four"
-        android:onClick="checkButton"
-        android:id="@+id/ans4" />
-
     
+    <ImageView 
+		android:layout_width="fill_parent" 
+		android:layout_height="fill_parent"
+		android:src="@drawable/roadblock_bg" 
+		android:scaleType="fitXY" />
+
+<LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+        
+	    <TextView
+	        android:id="@+id/question"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_horizontal"
+	        android:paddingBottom="20dp"
+	        android:paddingLeft="20dp"
+	        android:paddingRight="20dp"
+	        android:paddingTop="20dp"
+	        android:text="@string/question_here" />
+	  
+    
+	    <Button
+	        android:id="@+id/ans1"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_horizontal"
+	        android:onClick="checkButton"
+	        android:text="@string/choice_one" />
+	    
+	    <Button
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/choice_two"
+	        android:onClick="checkButton"
+	        android:id="@+id/ans2" 
+	        android:layout_gravity="center_horizontal"/>
+	    
+	    <Button
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/choice_three"
+	        android:onClick="checkButton"
+	        android:id="@+id/ans3" 
+	        android:layout_gravity="center_horizontal"/>
+	    
+	    <Button
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/choice_four"
+	        android:onClick="checkButton"
+	        android:id="@+id/ans4" 
+	        android:layout_gravity="center_horizontal"/>
 
 </LinearLayout>
+</FrameLayout>

@@ -1,9 +1,9 @@
-Maize Game - Educational Maze Game Aplication
+﻿Maize Game - Educational Maze Game Aplication
 EECS 481: Software Engineering
 
 Team Members: Miguel Abreu, Chris Dyer, Erika Jansen, Avi King, Robert Micatka
 
-This repository holds the code for our maze game application. We have a dependency on ASK Scanning Library and
+This repository holds the code for our maze game application. We have a dependency on the ASK Scanning Library and
 a separate repository holding the code for a website our application requires access to.
  
 In order to set up our application:
@@ -54,7 +54,7 @@ In order to run this:
 7. Start the servers
 -the servers that should be running are appache and mysql
 
-8. To access the website, open a browser and type in http://localhost:port_number/website_wip/index.html
+8. To access the website, open a browser and type in http://localhost:port_number/website_wip/index.php
 
 Connecting the android app to the website
 

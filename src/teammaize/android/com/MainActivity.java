@@ -1,11 +1,19 @@
 package teammaize.android.com;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
+import android.widget.GridLayout;
+import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
+import android.widget.LinearLayout;
 import ask.scanninglibrary.ASKActivity;
 
 public class MainActivity extends ASKActivity {
@@ -24,6 +32,7 @@ public class MainActivity extends ASKActivity {
     	catch (Exception e) {
     		Log.v("MainActivity", "Exception thown in onCreate: " + e.toString());
     	}
+    	
     }
 
 /*

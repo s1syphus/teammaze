@@ -19,7 +19,6 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.*;
 import android.widget.Button;
 import android.widget.GridLayout;
-import android.widget.GridLayout.Spec;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import ask.scanninglibrary.ASKActivity;
@@ -87,7 +86,7 @@ public class MazeGUI extends ASKActivity {
 		try {
 			connection = new ConnectionDetector(this);
 			if (connection.isConnectingToInternet()) {
-			new RequestTask(database, this, dataList, this).execute("http://67.194.97.220:8888/website_wip/getcsv.php");		
+			new RequestTask(database, this, dataList, this).execute("http://172.22.81.169:8888/website_wip/getcsv.php");		
 			}
 			else {
 				dataList = database.getAllEntries();
