@@ -13,6 +13,8 @@ import ask.scanninglibrary.ASKActivity;
 
 public class MainActivity extends ASKActivity {
 
+	private String input_subject;
+	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
     	try {
@@ -28,15 +30,12 @@ public class MainActivity extends ASKActivity {
     				R.array.subjectsArray, android.R.layout.simple_spinner_item);
     		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     		spinner.setAdapter(adapter);
-   		
-    		
     		
     		Log.v("MainActivity", "Initialize start button click events");
     	}
     	catch (Exception e) {
     		Log.v("MainActivity", "Exception thown in onCreate: " + e.toString());
     	}
-    	
     }
 
 /*
@@ -53,21 +52,24 @@ public class MainActivity extends ASKActivity {
     	}
     }
     */
-
-    
     
     public void mazeStart (View view) {
     	try {
     		//Initiating the maze
     		Intent intent = new Intent(MainActivity.this, MazeGUI.class);
-    		//add extra to intent here
+    		
+    		if(input_subject.isEmpty()) {
+    			intent.putExtra("subject", "All");
+    		}
+    		else {
+    			intent.putExtra("subject", input_subject);
+    		}
+    		
     		startActivity(intent);
     	}
     	catch(Exception e) {
     		Log.v("MainActivity", "Exception thown in mazeStart: " + e.toString());
     	}
-    }
-    
-    
-    
+    }   
+
 }

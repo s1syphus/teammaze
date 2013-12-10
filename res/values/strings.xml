@@ -37,10 +37,11 @@
         <!-- This list should be dynamically populated at some
         	point in the future -Mike -->
         <item>Math</item>
-        <item>Physics</item>
-        <item>Chemistry</item>
-        <item>Geography</item>
-        <item>Literature</item>
+        <item>Science</item>
+        <item>Social Studies</item>
+        <item>English</item>
+        <item>Pop Culture</item>
+        <item>All</item>
     </string-array>
     
     

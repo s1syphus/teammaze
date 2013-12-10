@@ -40,6 +40,7 @@ public class MazeGUI extends ASKActivity {
 	private List<dbEntry> dataList;
 	private int index;
 	private Random r;
+	private String subject;
 
 	public void setDataList(List<dbEntry> list) {
 		dataList = list;
@@ -63,6 +64,10 @@ public class MazeGUI extends ASKActivity {
 			 
 			this.graphicsMapping(mazeObject.maze);
 			this.player = new UserMovement(new Pair<Integer, Integer>(0, 0));
+			
+			//get the passed in intent
+			Intent intent = getIntent();
+			subject = intent.getStringExtra("subject");
 		}
 		catch(Exception e) {
 			Log.v("MazeGUI", "Exception thown in onCreate: " + e.toString());
@@ -108,7 +113,6 @@ public class MazeGUI extends ASKActivity {
 			buttons.add((Button) findViewById(R.id.downButton));
 			buttons.add((Button) findViewById(R.id.leftButton));
 			buttons.add((Button) findViewById(R.id.closeButton));
-			
 
 			//Initialize left button on click listener
 			buttons.elementAt(DataStructures.Directions.WEST.ordinal()).setOnClickListener(new OnClickListener() {
@@ -294,7 +298,7 @@ public class MazeGUI extends ASKActivity {
     		
     		List<dbEntry> questions = new ArrayList<dbEntry>();
     		
-    		questions = database.getSubLevEntries("test", 0);
+    		questions = database.getSubLevEntries(subject, 0);
     		
     		if (questions.isEmpty()) {
     			System.out.println("EMPTY DB");
