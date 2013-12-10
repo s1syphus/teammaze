@@ -187,7 +187,7 @@ public class QuestionsDataSource {
 	    String whereClause;
 	    Cursor cursor = null;
 	    
-	    whereClause = "subject='" + subject + "' and level=" + level;
+	    whereClause = "subject='" + subject;
 	    
 	    try {
 	    cursor = database.query(MySQLiteHelper.TABLE_DATA,
