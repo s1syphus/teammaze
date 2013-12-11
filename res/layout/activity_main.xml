@@ -202,8 +202,6 @@
         android:prompt="@string/subjectSpinner"
         android:text="@string/subjectHint" />
 
-
-
     <Button
         android:id="@+id/startButton"
         android:layout_width="wrap_content"

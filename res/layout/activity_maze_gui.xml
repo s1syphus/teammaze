@@ -85,6 +85,7 @@
         android:orientation="horizontal"
         android:paddingLeft="5dp"
         android:paddingRight="5dp" 
+        android:layout_marginTop="15dip"
         android:layout_gravity="bottom">
         
         <Button
@@ -129,14 +130,14 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_gravity="left"
-            android:layout_weight=".20"/>
+            android:layout_weight=".30"/>
         
         <Button
             android:id="@+id/closeButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_weight=".60"
+            android:layout_weight=".30"
             android:text="@string/close"
             android:onClick = "closeActivity" />
         
@@ -144,7 +145,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_gravity="right"
-            android:layout_weight=".20"/>
+            android:layout_weight=".30"/>
         
         </LinearLayout>
 

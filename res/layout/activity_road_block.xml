@@ -25,7 +25,7 @@
 	        android:paddingRight="20dp"
 	        android:paddingTop="20dp"
 	        android:text="@string/question_here"
-	        android:textSize="20sp" />
+	        android:textSize="30sp" />
     
 	    <Button
 	        android:id="@+id/ans1"
@@ -33,31 +33,35 @@
 	        android:layout_height="wrap_content"
 	        android:layout_gravity="center_horizontal"
 	        android:onClick="checkButton"
-	        android:text="@string/choice_one" />
+	        android:text="@string/choice_one"
+	        android:textSize="20sp" />
 	    
 	    <Button
+	        android:id="@+id/ans2"
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_horizontal"
+	        android:onClick="checkButton"
 	        android:text="@string/choice_two"
-	        android:onClick="checkButton"
-	        android:id="@+id/ans2" 
-	        android:layout_gravity="center_horizontal"/>
+	        android:textSize="20sp" />
 	    
 	    <Button
+	        android:id="@+id/ans3"
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_horizontal"
+	        android:onClick="checkButton"
 	        android:text="@string/choice_three"
-	        android:onClick="checkButton"
-	        android:id="@+id/ans3" 
-	        android:layout_gravity="center_horizontal"/>
+	        android:textSize="20sp" />
 	    
 	    <Button
+	        android:id="@+id/ans4"
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
-	        android:text="@string/choice_four"
+	        android:layout_gravity="center_horizontal"
 	        android:onClick="checkButton"
-	        android:id="@+id/ans4" 
-	        android:layout_gravity="center_horizontal"/>
+	        android:text="@string/choice_four"
+	        android:textSize="20sp" />
 
 </LinearLayout>
 </FrameLayout>
