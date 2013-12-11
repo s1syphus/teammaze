@@ -91,7 +91,7 @@ public class MazeGUI extends ASKActivity {
 		try {
 			connection = new ConnectionDetector(this);
 			if (connection.isConnectingToInternet()) {
-			new RequestTask(database, this, dataList, this).execute("http://172.22.81.169:8888/website_wip/getcsv.php");		
+			new RequestTask(database, this, dataList, this).execute("http://aura.feralhosting.com/s1syphus1/website_wip/getCSV.php");		
 			}
 			else {
 				dataList = database.getAllEntries();
@@ -295,10 +295,16 @@ public class MazeGUI extends ASKActivity {
     	Intent intent = new Intent(MazeGUI.this, RoadBlock.class);
 
     	try {
-    		
     		List<dbEntry> questions = new ArrayList<dbEntry>();
     		
-    		questions = database.getSubLevEntries(subject, 0);
+    		if(subject.equals("All")) {
+    	    	questions = database.getAllEntries();
+    	    }
+    		else {
+    			questions = database.getSubLevEntries(subject, 0);
+    		}
+    		
+    		Log.v("MazeGUI: roadBlockEnc", "questions size: " + questions.size());
     		
     		if (questions.isEmpty()) {
     			System.out.println("EMPTY DB");

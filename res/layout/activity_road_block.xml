@@ -17,26 +17,26 @@
         
 	    <TextView
 	        android:id="@+id/question"
-	        android:layout_width="wrap_content"
+	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
 	        android:layout_gravity="center_horizontal"
 	        android:paddingBottom="20dp"
 	        android:paddingLeft="20dp"
 	        android:paddingRight="20dp"
 	        android:paddingTop="20dp"
-	        android:text="@string/question_here" />
-	  
+	        android:text="@string/question_here"
+	        android:textSize="20sp" />
     
 	    <Button
 	        android:id="@+id/ans1"
-	        android:layout_width="wrap_content"
+	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
 	        android:layout_gravity="center_horizontal"
 	        android:onClick="checkButton"
 	        android:text="@string/choice_one" />
 	    
 	    <Button
-	        android:layout_width="wrap_content"
+	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
 	        android:text="@string/choice_two"
 	        android:onClick="checkButton"
@@ -44,7 +44,7 @@
 	        android:layout_gravity="center_horizontal"/>
 	    
 	    <Button
-	        android:layout_width="wrap_content"
+	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
 	        android:text="@string/choice_three"
 	        android:onClick="checkButton"
@@ -52,7 +52,7 @@
 	        android:layout_gravity="center_horizontal"/>
 	    
 	    <Button
-	        android:layout_width="wrap_content"
+	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
 	        android:text="@string/choice_four"
 	        android:onClick="checkButton"

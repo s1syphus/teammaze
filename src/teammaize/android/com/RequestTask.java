@@ -54,9 +54,9 @@ class RequestTask extends AsyncTask<String, Void, String>{
                 throw new IOException(statusLine.getReasonPhrase());
             }
         } catch (ClientProtocolException e) {
-            System.out.println("ClientProtocolException");
+            System.out.println("ClientProtocolException " + e.toString());
         } catch (IOException e) {
-            System.out.println("IOException in AsyncTask");
+            System.out.println("IOException in AsyncTask " + e.toString());
         }
         
         return responseString;
@@ -77,7 +77,7 @@ class RequestTask extends AsyncTask<String, Void, String>{
     		}
     	}
         catch(NoSuchElementException e) {
-        	System.out.println("NoSuchElementException");
+        	System.out.println("NoSuchElementException " + e.toString());
         }
     	catch(Exception e) {
     		Log.v("RequestTask", "Exception thrown in onPostExecute: " + e.toString());

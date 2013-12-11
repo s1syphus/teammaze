@@ -187,7 +187,7 @@ public class QuestionsDataSource {
 	    String whereClause;
 	    Cursor cursor = null;
 	    
-	    whereClause = "subject='" + subject;
+	    whereClause = "subject='" + subject + "'";
 	    
 	    try {
 	    cursor = database.query(MySQLiteHelper.TABLE_DATA,
@@ -195,8 +195,8 @@ public class QuestionsDataSource {
 	    }
 	    catch (Exception e) {
 	    	Log.v("QuestionsDataSource", e.toString());
+	    	return null;
 	    }
-
 	    
 	    cursor.moveToFirst();
 	    while (!cursor.isAfterLast()) {
