@@ -1,0 +1,52 @@
+Ideas for the to do list (will be clarified after meeting):
+
+	Gameplay:
+		-	Intersection movement - Chris
+			-	Dynamically reset buttons at bottom
+		-	Music and sound effects	- Chris
+		-	Color themes - Chris
+		-	General color changes - Chris
+		-	Settings menu - Mike (talk to Chris M.)
+			-	ASK Settings
+			-	User account login
+			-	Admin?
+		-	Question levels - Mike
+		-	Spaced repetition of questions	- Mike
+		-	Minimum/maximum level of roadblocks
+			per maze generated (generation speed?)	- Mike
+		-	Bonus questions to go over walls (might be difficult)
+		-	Show solution path - Chris
+		-	Facebook connectivity?
+		-	Select multiple but not all categories	- Mike
+
+	Website: - Miguel/Chris
+		-	Make more user-friendly
+			-	Question input
+			-	Current question display
+			-	Graph output (dynamic)
+		-	User login (secure)
+
+	Database: - Mike
+		-	Question/user analytics
+			-	Subject
+			-	Difficulty
+			-	Fancy graphs
+		-	Multiple users
+		-	Redesign for speed
+		-	Change format (from csv to something better)
+
+	Questions:
+		-	Sample question database
+			-	User generated? 
+				(ie save/make available other user questions)
+
+To Do:
+	-	Get dedicated host
+
+
+
+
+
+
+
+
