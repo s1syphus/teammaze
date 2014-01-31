@@ -1,0 +1,39 @@
+Rough Calendar for Mike - Created January 31st, 2014
+
+	Date:				Task:
+
+	February 12			- Change maze generation - based on length of maze (number of roadblocks)
+						Will be altered later for "levels" after database is updated
+					- Add settings menu
+						- User account login (non-functional)
+						- ASK settings (talk to Chris M.)
+
+	February 26			- Re-make back-end database
+						- Re-design if needed and make sure all needed fields exist
+						- Add multiple users
+						- Add question levels
+					- Fix selection on android to be several but not all categories
+					
+	March 12			- Sync questions with database
+						- Log-in on android working with database
+						- Change sync "format" (csv)
+						- Make secure
+
+	March 26			- Analytics from database on the website
+						- Basic statistics (question-type and difficulty)
+						- Display a graph on website
+
+	April 9				- Implement maze-size difficulty changes (ie higher levels => more roadblocks/longer maze path)
+
+
+	April 22			- Spaced-repetition of questions
+						- Missed questions occur more frequently
+						- This is non-essential but would be beneficial and should be
+						  do-able after analytics can be created/pulled from database
+
+
+
+
+
+
+
