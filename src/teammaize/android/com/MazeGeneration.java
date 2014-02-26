@@ -71,12 +71,16 @@ public class MazeGeneration {
 		return neighbor;
 	}
 	
-	public MazeGeneration(int sizeX, int sizeY){
+	public MazeGeneration(int sizeX, int sizeY, int goalSize){
 		this.sizeX = sizeX;
 		this.sizeY = sizeY;
 		maze = new char[this.sizeX][this.sizeY];
-		generateMaze(startX,startY);
-		generateRoadblock();
+		int size = 0;
+		while(size < goalSize){
+			generateMaze(startX,startY);
+			size = generateRoadblock();	
+		}
+		
 	}
 	
 	private void generateMaze(int startX, int startY){
@@ -307,18 +311,21 @@ public class MazeGeneration {
 		return null;
 	}
 
-	private void generateRoadblock(){
+	private int generateRoadblock(){
 		/*
 		 * This calls the solveMaze method in order to get a solution path in which to place the road-blocks in
 		 */
 		Vector<Pair<Integer, Integer>> solution = solveMaze();	
 		Pair<Integer, Integer> curLoc = null;
+		int counter = 0;
 		for(int i = 0; i < solution.size(); i++){
 			curLoc = solution.get(i);
 			if((maze[curLoc.first][curLoc.second] == DataStructures.MazeSpaces.PATH.SpaceChar()) && (((i+3) % 4) == 0)){
 				maze[curLoc.first][curLoc.second] = DataStructures.MazeSpaces.ROADBLOCK.SpaceChar();
+				counter = counter + 1;
 			}
 		}
+		return counter;
 	}
 }
 

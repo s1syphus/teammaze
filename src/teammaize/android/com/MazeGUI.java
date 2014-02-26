@@ -53,7 +53,8 @@ public class MazeGUI extends ASKActivity {
 			this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 			setContentView(R.layout.activity_maze_gui);
 
-			mazeObject = new MazeGeneration(x, y);
+			int numRoadblocks = 5;		//this can and should be changed later, this decides the "length" of the maze
+			mazeObject = new MazeGeneration(x, y, numRoadblocks);
 			idArray = new int[x][y];
 		
 			mazeImage = (GridLayout)findViewById(R.id.mazeImage);
@@ -391,8 +392,8 @@ public class MazeGUI extends ASKActivity {
 				Log.v("MazeComplete", "Start new game");
 				
 				//generate a new maze
-				mazeObject = new MazeGeneration(x, y);
-				
+				int numRoadblocks = 5;		//this can and should be changed later, this decides the "length" of the maze
+				mazeObject = new MazeGeneration(x, y, numRoadblocks);
 				//delete the old maze image
 				mazeImage.removeAllViews();
 				
