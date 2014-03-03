@@ -24,8 +24,9 @@
     <string name="subjectHint">Choose a subject for questions.</string>
     <string name="levelHint">Choose a level of question difficulty.</string>
     
+    <string name="settingsText">Settings</string>
     <string name="instructionTitle">Instructions</string>
-    <string name="instructions">Test your knowledge and solve the maze!:</string>
+    <string name="instructions">Test your knowledge and solve the maze!</string>
     
     <string name="playerInstr">This maize colored player icon represents your place in the maze. Use the directional buttons to move it.</string>
     <string name="pathWallInstr">You will be able to move through the light blue path spaces pictured left. Dark blue wall spaces cannot be crossed.</string>
@@ -57,5 +58,16 @@
     <color name="Michigan_Blue">#1b335c</color>
     <color name="Michigan_Maize">#e9c017</color>
 	<color name="white">#ffffff</color>
+	
+	<!--  settings stuff-->
+	
+	<string name="title_activity_settings_menu">settingsMenu</string>
+	<string name="settingsInstructionText">This will explain how to use the settings</string>
+	<string name="pickCategoryInstructions">Select one or more categories</string>
+	
+	<string name="mathToggleText">Math</string>
+	<string name="scienceToggleText">Science</string>
+	<string name="geographyToggleText">Geo</string>
+	<string name="literatureToggleText">Lit</string>
 	
 </resources>

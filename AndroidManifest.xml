@@ -38,6 +38,13 @@
             android:parentActivityName="teammaize.android.com" 
             android:label="@string/title_activity_maze_gui">
         </activity>
+        
+        <activity
+            android:name="teammaize.android.com.settingsMenu"
+            android:parentActivityName="teammaize.android.com"
+            android:label="@string/title_activity_settings_menu">
+        </activity>
+        
     </application>
     
 

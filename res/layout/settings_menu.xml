@@ -1,0 +1,102 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent" 
+	android:layout_height="match_parent"
+    tools:context=".MainActivity" >
+    
+    <ImageView 
+		android:layout_width="fill_parent" 
+		android:layout_height="match_parent"
+		android:src="@drawable/primary_bg" 
+		android:scaleType="fitXY" />
+    
+  	<LinearLayout
+  	    android:layout_width="fill_parent" 
+		android:layout_height="match_parent"
+		android:orientation="vertical">
+		
+  	<ImageView
+  	    android:layout_width="300dp"
+  	    android:layout_height="100dp"
+  	    android:layout_gravity="center_horizontal"
+  	    android:scaleType="fitCenter"
+  	    android:src="@drawable/maize_maze_logo" />
+
+	<LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp" >
+        
+       
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/instructionTitle"
+        android:textSize="20sp" 
+        android:layout_gravity="center_horizontal" />
+
+    
+    
+    
+    <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/pickCategoryInstructions"
+        android:textSize="15sp" 
+        android:layout_gravity="center_horizontal"
+        />
+    
+    </LinearLayout>
+    
+    
+    <!--  Make toggle buttons for each category, add more in the future, might need multiple rows -->
+	
+	<LinearLayout
+	    android:layout_width="fill_parent" 
+		android:layout_height="match_parent"
+		android:orientation="horizontal" >
+
+		<ToggleButton
+		       android:id="@+id/scienceToggleButton"
+		       android:layout_width="wrap_content"
+		       android:layout_height="wrap_content"
+		       android:onClick="onToggleClicked"
+		       android:textOff="@string/scienceToggleText"
+		       android:textOn="@string/scienceToggleText" />
+		   
+		<ToggleButton
+		    android:id="@+id/mathToggleButton"
+		    android:layout_width="wrap_content"
+		   	android:layout_height="wrap_content"
+		   	android:textOff="@string/mathToggleText"
+		   	android:textOn="@string/mathToggleText"
+		    android:onClick="onToggleClicked"/>
+		   	
+		   <ToggleButton
+		    android:id="@+id/geographyToggleButton"
+		    android:layout_width="wrap_content"
+		   	android:layout_height="wrap_content"
+		   	android:textOff="@string/geographyToggleText"
+		   	android:textOn="@string/geographyToggleText"
+		    android:onClick="onToggleClicked"/>
+		   
+		    <ToggleButton
+		    android:id="@+id/literatureToggleButton"
+		    android:layout_width="wrap_content"
+		   	android:layout_height="wrap_content"
+		   	android:textOff="@string/literatureToggleText"
+		   	android:textOn="@string/literatureToggleText"
+		    android:onClick="onToggleClicked"/>
+		   
+	</LinearLayout>
+   
+				
+</LinearLayout>
+	
+   
+
+</FrameLayout>
+
+
+

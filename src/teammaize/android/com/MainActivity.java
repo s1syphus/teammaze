@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import ask.scanninglibrary.ASKActivity;
 
@@ -22,29 +23,15 @@ public class MainActivity extends ASKActivity {
     		//Up button should not appear on the home page (cannot navigate 'up' to the home screen
     		getActionBar().hide();
     		
-    		
-    		Spinner spinner = (Spinner) findViewById(R.id.subjectSpinner);
-    		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-    				R.array.subjectsArray, android.R.layout.simple_spinner_item);
-    		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-    		spinner.setAdapter(adapter);
-    		
-    		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-    		    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-    		        input_subject = parent.getItemAtPosition(pos).toString();
-    		    }
-    		    public void onNothingSelected(AdapterView<?> parent) {
-    		    }
-    		});
-    		/*
-    		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-    			public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-    	        // An item was selected. You can retrieve the selected item using
-    	        input_subject = parent.getItemAtPosition(pos);
-    			
+    		Button settingsButton = (Button) findViewById(R.id.settingsButton);
+    		settingsButton.setOnClickListener(new View.OnClickListener() {
+    			public void onClick (View v){
+    			Intent settingsIntent = new Intent(MainActivity.this, settingsMenu.class);
+    			startActivity(settingsIntent);
     			}
     		});
-    		*/
+    		  		  		
+    		
     		
     		Log.v("MainActivity", "Initialize start button click events");
     	}
@@ -53,20 +40,7 @@ public class MainActivity extends ASKActivity {
     	}
     }
 
-/*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-    	try {
-    		// Inflate the menu; this adds items to the action bar if it is present.
-    		getMenuInflater().inflate(R.menu.main, menu);
-    		return true;
-    	}
-    	catch(Exception e) {
-    		Log.v("MainActivity", "Exception thrown onCreateOptionsMenu: " + e.toString());
-    		return false;
-    	}
-    }
-    */
+
     
     public void mazeStart (View view) {
     	try {
