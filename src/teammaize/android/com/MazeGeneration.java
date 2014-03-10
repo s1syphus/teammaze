@@ -47,7 +47,7 @@ public class MazeGeneration {
 		 * 
 		 */
 		
-		Pair<Integer, Integer> neighbor = null;
+		Pair<Integer, Integer> neighbor = Pair.create(-1, -1);
 		if(dir == DataStructures.Directions.NORTH.ordinal()){
 			if((curLoc.second - 1) >= 0){
 				neighbor = Pair.create(curLoc.first, curLoc.second - 1);

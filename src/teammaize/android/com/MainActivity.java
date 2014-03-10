@@ -30,6 +30,27 @@ public class MainActivity extends ASKActivity {
     			startActivity(settingsIntent);
     			}
     		});
+    		
+    		Button startButton = (Button) findViewById(R.id.startButton);
+    		
+    		startButton.setOnClickListener(new View.OnClickListener() {
+    			public void onClick (View p){
+    			
+    				//Initiating the maze
+    	    		Intent intent = new Intent(MainActivity.this, MazeGUI.class);
+    	    		
+    	    		/*if(input_subject.isEmpty()) {
+    	    			intent.putExtra("subject", "All");
+    	    		}
+    	    		else {
+    	    			intent.putExtra("subject", input_subject);
+    	    		}*/
+    	    		
+    	    		intent.putExtra("subject", "All");
+    	    		
+    	    		startActivity(intent);
+    			}
+    		});
     		  		  		
     		
     		
@@ -39,26 +60,5 @@ public class MainActivity extends ASKActivity {
     		Log.v("MainActivity", "Exception thown in onCreate: " + e.toString());
     	}
     }
-
-
-    
-    public void mazeStart (View view) {
-    	try {
-    		//Initiating the maze
-    		Intent intent = new Intent(MainActivity.this, MazeGUI.class);
-    		
-    		if(input_subject.isEmpty()) {
-    			intent.putExtra("subject", "All");
-    		}
-    		else {
-    			intent.putExtra("subject", input_subject);
-    		}
-    		
-    		startActivity(intent);
-    	}
-    	catch(Exception e) {
-    		Log.v("MainActivity", "Exception thown in mazeStart: " + e.toString());
-    	}
-    }   
 
 }

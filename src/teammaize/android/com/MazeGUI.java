@@ -9,6 +9,7 @@ import android.os.Bundle;
 
 import java.util.Vector;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -30,9 +31,10 @@ public class MazeGUI extends ASKActivity {
 	//These are only sample values.
 	int x = 10, y = 10;
 	
-	private MazeGeneration mazeObject;
+	private MazeGeneration mazeObject; 
 	private int[][] idArray;
 	private GridLayout mazeImage;
+	private Vector<Button> buttons;
 	private UserMovement player;
 
 	private QuestionsDataSource database;
@@ -41,6 +43,11 @@ public class MazeGUI extends ASKActivity {
 	private int index;
 	private Random r;
 	private String subject;
+	
+	private ObjectAnimator leftHighlight = null;
+	private ObjectAnimator rightHighlight = null;
+	private ObjectAnimator downHighlight = null;
+	private ObjectAnimator upHighlight = null;
 
 	public void setDataList(List<dbEntry> list) {
 		dataList = list;
@@ -63,8 +70,7 @@ public class MazeGUI extends ASKActivity {
 			mazeImage.setColumnOrderPreserved(true);
 			mazeImage.setRowOrderPreserved(true);
 			 
-			this.graphicsMapping(mazeObject.maze);
-			this.player = new UserMovement(new Pair<Integer, Integer>(0, 0));
+			player = new UserMovement(this.graphicsMapping(mazeObject.maze));
 			
 			//get the passed in intent
 			Intent intent = getIntent();
@@ -108,7 +114,7 @@ public class MazeGUI extends ASKActivity {
 		
 		try {
 			
-			Vector<Button> buttons = new Vector<Button>();
+			buttons = new Vector<Button>();
 			buttons.add((Button) findViewById(R.id.upButton));
 			buttons.add((Button) findViewById(R.id.rightButton));
 			buttons.add((Button) findViewById(R.id.downButton));
@@ -182,6 +188,8 @@ public class MazeGUI extends ASKActivity {
 					}
 				}
 			});
+			
+			this.startHighlight(player.getCurLoc());
 		}
 		catch(Exception e) {
 			Log.v("MazeGUI", "Exception thown in onCreate onClickListeners: " + e.toString());
@@ -199,9 +207,103 @@ public class MazeGUI extends ASKActivity {
 		
 		ImageView currentCell = (ImageView) findViewById(idArray[nextLoc.first][nextLoc.second]);
 		currentCell.setImageResource(R.drawable.player_graphic);
+		
+		if(leftHighlight != null)
+		{
+			leftHighlight.end();
+		}
+		
+		if(rightHighlight != null)
+		{
+			rightHighlight.end();
+		}
+		
+		if(upHighlight != null)
+		{
+			upHighlight.end();
+		}
+		
+		if(downHighlight != null)
+		{
+			downHighlight.end();
+		}
+		
+		ObjectAnimator anim = ObjectAnimator.ofFloat(lastCell, "alpha", 0f, 1f);
+		anim.setDuration(1000);
+		anim.start();
+		
+		this.startHighlight(nextLoc);
 	}
 	
-	public void graphicsMapping(char[][] textArray)
+	private void startHighlight(Pair<Integer, Integer> currentLoc)
+	{
+		buttons.elementAt(DataStructures.Directions.WEST.ordinal()).setVisibility(View.INVISIBLE);
+		buttons.elementAt(DataStructures.Directions.EAST.ordinal()).setVisibility(View.INVISIBLE);
+		buttons.elementAt(DataStructures.Directions.NORTH.ordinal()).setVisibility(View.INVISIBLE);
+		buttons.elementAt(DataStructures.Directions.SOUTH.ordinal()).setVisibility(View.INVISIBLE);
+		
+		Log.v("MazeGUI", "Test1");
+		
+		if(player.tryMove(mazeObject, DataStructures.Directions.WEST))
+		{
+			buttons.elementAt(DataStructures.Directions.WEST.ordinal()).setVisibility(View.VISIBLE);
+			
+			ImageView leftCell = (ImageView) findViewById(idArray[currentLoc.first - 1][currentLoc.second]);
+			
+			leftHighlight = ObjectAnimator.ofFloat(leftCell, "alpha", 0f, 1f);
+			
+			leftHighlight = ObjectAnimator.ofFloat(leftCell, "alpha", 0f, 1f);
+			leftHighlight.setDuration(1000);
+			leftHighlight.setRepeatCount(ObjectAnimator.INFINITE);
+			leftHighlight.start();
+		}
+		
+		if(player.tryMove(mazeObject, DataStructures.Directions.EAST))
+		{
+			buttons.elementAt(DataStructures.Directions.EAST.ordinal()).setVisibility(View.VISIBLE);
+			
+			ImageView rightCell = (ImageView) findViewById(idArray[currentLoc.first + 1][currentLoc.second]);
+			
+			rightHighlight = ObjectAnimator.ofFloat(rightCell, "alpha", 0f, 1f);
+			
+			rightHighlight = ObjectAnimator.ofFloat(rightCell, "alpha", 0f, 1f);
+			rightHighlight.setDuration(1000);
+			rightHighlight.setRepeatCount(ObjectAnimator.INFINITE);
+			rightHighlight.start();
+		}
+		
+		if(player.tryMove(mazeObject, DataStructures.Directions.NORTH))
+		{
+			buttons.elementAt(DataStructures.Directions.NORTH.ordinal()).setVisibility(View.VISIBLE);
+			
+			ImageView upCell = (ImageView) findViewById(idArray[currentLoc.first][currentLoc.second - 1]);
+			
+			upHighlight = ObjectAnimator.ofFloat(upCell, "alpha", 0f, 1f);
+			
+			upHighlight = ObjectAnimator.ofFloat(upCell, "alpha", 0f, 1f);
+			upHighlight.setDuration(1000);
+			upHighlight.setRepeatCount(ObjectAnimator.INFINITE);
+			upHighlight.start();
+		}
+		
+		if(player.tryMove(mazeObject, DataStructures.Directions.SOUTH))
+		{
+			buttons.elementAt(DataStructures.Directions.SOUTH.ordinal()).setVisibility(View.VISIBLE);
+			
+			ImageView downCell = (ImageView) findViewById(idArray[currentLoc.first][currentLoc.second + 1]);
+			
+			downHighlight = ObjectAnimator.ofFloat(downCell, "alpha", 0f, 1f);
+			
+			downHighlight = ObjectAnimator.ofFloat(downCell, "alpha", 0f, 1f);
+			downHighlight.setDuration(1000);
+			downHighlight.setRepeatCount(ObjectAnimator.INFINITE);
+			downHighlight.start();
+		}
+		
+		Log.v("MazeGUI", "Test2");
+	}
+	
+	public Pair<Integer, Integer> graphicsMapping(char[][] textArray)
 	{	
 		int idCount = 0;
 		int finalDimen = 0;
@@ -210,6 +312,8 @@ public class MazeGUI extends ASKActivity {
 		int width = d.getWidth();
 		@SuppressWarnings("deprecation")
 		int height = d.getHeight();
+		
+		Pair<Integer, Integer> startLoc = null;
 		
 		//Set percentage of screen taken up by maze
 		if(width < height)
@@ -264,6 +368,8 @@ public class MazeGUI extends ASKActivity {
 				}
 				else if(textArray[j][i] == 'S')
 				{
+					startLoc = Pair.create(j, i);
+					
 					ImageView StartGraphic = new ImageView(this);
 					StartGraphic.setBackgroundResource(R.drawable.start_graphic);
 					StartGraphic.setImageResource(R.drawable.player_graphic);
@@ -289,6 +395,8 @@ public class MazeGUI extends ASKActivity {
 				idCount++;
 			}
 		}
+		
+		return startLoc;
 	}
 	
 	public void roadBlockEnc (View view) {
@@ -369,13 +477,17 @@ public class MazeGUI extends ASKActivity {
 				Log.v("MazeGUI", "Player passed the Roadblock!");
 				
 			} else {
-				//Player was incorrect, update player loc graphic
-				updatePlayerGraphic(player.getCurLoc(), player.getLastLoc());
-				Log.v("MazeGUI", "Player moved back from: " + player.getCurLoc().first + " " + player.getCurLoc().second
-						+ " to " + player.getLastLoc().first + " " + player.getLastLoc().second);
-				
 				//move player
-				player.setCurLoc(player.getLastLoc());
+				
+				Pair<Integer, Integer> curLoc = player.getCurLoc();
+				Pair<Integer, Integer> nextLoc = player.getLastLoc();
+				
+				player.setCurLoc(nextLoc);
+				
+				//Player was incorrect, update player loc graphic
+				updatePlayerGraphic(curLoc, nextLoc);
+				Log.v("MazeGUI", "Player moved back from: " + curLoc.first + " " + curLoc.second
+						+ " to " + nextLoc.first + " " + nextLoc.second);
 			}
 		}
 	}
@@ -398,8 +510,8 @@ public class MazeGUI extends ASKActivity {
 				mazeImage.removeAllViews();
 				
 				//make the new maze image
-				MazeGUI.this.graphicsMapping(mazeObject.maze);
-				player.setCurLoc(new Pair<Integer, Integer>(0, 0));
+				player.setCurLoc(graphicsMapping(mazeObject.maze));
+				startHighlight(player.getCurLoc());
 			}
 		});
 		alert.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel",	new DialogInterface.OnClickListener() {

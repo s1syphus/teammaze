@@ -57,7 +57,7 @@ public class UserMovement {
 		try {
 			Pair<Integer, Integer> nextCoords = mazeObj.returnNeighbor(loc, dir.ordinal());
 			char nextSpace = mazeObj.maze[nextCoords.first][nextCoords.second];
-			if(nextCoords == null || nextSpace == MazeSpaces.WALL.SpaceChar()) {
+			if(nextCoords == Pair.create(-1, -1) || nextSpace == MazeSpaces.WALL.SpaceChar()) {
 				validMove = false;
 			}
 		}
