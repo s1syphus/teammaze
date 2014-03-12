@@ -46,6 +46,8 @@ public class MainActivity extends ASKActivity {
     	    			intent.putExtra("subject", input_subject);
     	    		}*/
     	    		
+    	    		//need to send data from settings menu to here
+    	    		
     	    		intent.putExtra("subject", "All");
     	    		
     	    		startActivity(intent);

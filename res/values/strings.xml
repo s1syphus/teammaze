@@ -69,5 +69,9 @@
 	<string name="scienceToggleText">Science</string>
 	<string name="geographyToggleText">Geo</string>
 	<string name="literatureToggleText">Lit</string>
+	<string name="doneSubjectsButtonText">Done</string>
+	
+	<string name="ASKinstructionsText">Select the scan speed (in ms, or something)</string>
+	
 	
 </resources>
