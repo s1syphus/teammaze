@@ -45,6 +45,9 @@
             android:label="@string/title_activity_settings_menu">
         </activity>
         
+         
+        
+        
     </application>
     
 

@@ -4,15 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.Spinner;
 import ask.scanninglibrary.ASKActivity;
 
 public class MainActivity extends ASKActivity {
 
-	private String input_subject;
+//	private String input_subject;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,12 +21,24 @@ public class MainActivity extends ASKActivity {
     		getActionBar().hide();
     		
     		Button settingsButton = (Button) findViewById(R.id.settingsButton);
+    		
     		settingsButton.setOnClickListener(new View.OnClickListener() {
     			public void onClick (View v){
     			Intent settingsIntent = new Intent(MainActivity.this, settingsMenu.class);
-    			startActivity(settingsIntent);
+    			    			
+    			
+    			//startActivity(settingsIntent);
+    			startActivityForResult(settingsIntent,2);
     			}
     		});
+    		
+    
+    		
+    		
+    		
+    		
+    		
+    		
     		
     		Button startButton = (Button) findViewById(R.id.startButton);
     		
@@ -63,4 +72,19 @@ public class MainActivity extends ASKActivity {
     	}
     }
 
+    @Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data){
+    	if (resultCode == RESULT_OK && requestCode == 2) {
+            if (data.hasExtra("subjects")) {
+            	boolean[] subjects = data.getExtras().getBooleanArray("subjects");
+            	Log.v("MainActivity", "subjects selected = " + subjects[0] + subjects[1] + subjects[2] + subjects[3] );
+            }
+        }
+    	else{
+    		Log.v("MainActivity","subjects not returned correctly" );
+    	}
+	}
+    
+    
 }
+

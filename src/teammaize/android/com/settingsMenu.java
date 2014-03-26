@@ -1,6 +1,7 @@
 package teammaize.android.com;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,7 +12,7 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.ToggleButton;
-//import ask.scanninglibrary.ASKActivity;
+import ask.scanninglibrary.Settings;
 
 //public class settingsMenu extends ASKActivity{
 public class settingsMenu extends Activity{
@@ -30,20 +31,47 @@ public class settingsMenu extends Activity{
 	
 	int numSubjects = 4;
 	boolean[] subjects = new boolean[numSubjects];
-	
+	int speed;
 	protected void onCreate(Bundle savedInstanceState){
 	 	try {
     		super.onCreate(savedInstanceState);
     		setContentView(R.layout.settings_menu);
+    	
+    	
     		
-    		
-    		
+    		final Button mainButton = (Button) findViewById(R.id.doneSubjectButton);
+    		mainButton.setOnClickListener(new OnClickListener(){
+    			@Override
+    			public void onClick(View v){
+    				   				
+    				Log.v("settingsMenu", "subjects selected = " + subjects[0] + subjects[1] + subjects[2] + subjects[3] );
+    				Log.v("settingsMenu", "speed changed to: " + speed);
+    				//make this work, keeps crashing, ask chris mcmeeking
+    		//		Settings.setScanningSpeed(settingsMenu.this, speed);
+    				
+    				Intent data = new Intent();
+    				data.putExtra("subjects",subjects);
+    				setResult(RESULT_OK, data);
+    				finish();
+    			}
+    			
+    		});
+    	
     		subjectsSelectionListenerOnButton();
     		askScanSpeedSelection();
     		
-    	
     		
-     		
+    		
+    		/*
+    		subjectsSelectionListenerOnButton();
+    		askScanSpeedSelection();
+    		*/
+    		/*
+    		 * "Done Button"
+    		 * This will send the data to the subject selection (when implemented)
+    		 */
+
+    		
     		//send all data back...not sure how to do this yet
     		Log.v("settingsMenu", "Initialize toggle buttons for selection");
     	}
@@ -130,40 +158,24 @@ public class settingsMenu extends Activity{
 			}
 		});
 		
-		/*
-		 * "Done Button"
-		 * This will send the data to the subject selection (when implemented)
-		 */
-
-		Button mainButton = (Button) findViewById(R.id.doneSubjectButton);
-		mainButton.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v){
-				Log.v("settingsMenu", "subjects selected = " + subjects[0] + subjects[1] + subjects[2] + subjects[3] );
-			}
-			
-		});
+		
 		
 		
 	}
 	
 	public void askScanSpeedSelection(){
 		SeekBar scanSpeedSeekBar = (SeekBar) findViewById(R.id.scanSpeedSeekBar);
-		TextView seekBarText = (TextView) findViewById(R.id.scanSpeedSeekBarText);
-		/*
-		 * 
-		 * this needs to be fixed
-		scanSpeedSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
-
+		final TextView seekBarText = (TextView) findViewById(R.id.scanSpeedSeekBarText);
+		
+		scanSpeedSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener(){
 			@Override
-			public void onProgressChanged(SeekBar seekBar, int progress,
-					boolean fromUser) {
-				// TODO Auto-generated method stub
+			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
+				seekBarText.setText("Speed = "+progress+"ms (or something)");
 				
 			}
 
 			@Override
-			public void onStartTrackingTouch(SeekBar seekBar) {
+			public void onStartTrackingTouch(SeekBar seekBar ){
 				// TODO Auto-generated method stub
 				
 			}
@@ -171,12 +183,16 @@ public class settingsMenu extends Activity{
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {
 				// TODO Auto-generated method stub
-				
+				speed = seekBar.getProgress()+500;
 			}
-
-			)};
-		*/
+			
+		});
+		
 	}
+	
+
+	
+
 	
 	
 	
